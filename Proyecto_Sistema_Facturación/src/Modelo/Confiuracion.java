@@ -9,12 +9,12 @@ package Modelo;
  *
  * @author tmx
  */
-public class Usuarios extends javax.swing.JPanel {
+public class Confiuracion extends javax.swing.JPanel {
 
-    public void usuarios(){
-        pUsuarios.setVisible(true);
+    public void configuracion(){
+        pConfiguracion.setVisible(true);
     }
-    public Usuarios() {
+    public Confiuracion() {
         initComponents();
     }
 
@@ -27,13 +27,15 @@ public class Usuarios extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pUsuarios = new javax.swing.JPanel();
+        pConfiguracion = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
 
+        pConfiguracion.setBackground(new java.awt.Color(204, 204, 204));
+
         jTextField1.setEditable(false);
         jTextField1.setBackground(new java.awt.Color(204, 204, 255));
-        jTextField1.setText("Registrar Usuario");
+        jTextField1.setText("Configuración");
 
         jButton1.setBackground(new java.awt.Color(255, 0, 0));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
@@ -44,19 +46,19 @@ public class Usuarios extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout pUsuariosLayout = new javax.swing.GroupLayout(pUsuarios);
-        pUsuarios.setLayout(pUsuariosLayout);
-        pUsuariosLayout.setHorizontalGroup(
-            pUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pUsuariosLayout.createSequentialGroup()
+        javax.swing.GroupLayout pConfiguracionLayout = new javax.swing.GroupLayout(pConfiguracion);
+        pConfiguracion.setLayout(pConfiguracionLayout);
+        pConfiguracionLayout.setHorizontalGroup(
+            pConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pConfiguracionLayout.createSequentialGroup()
                 .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1))
         );
-        pUsuariosLayout.setVerticalGroup(
-            pUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pUsuariosLayout.createSequentialGroup()
-                .addGroup(pUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        pConfiguracionLayout.setVerticalGroup(
+            pConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pConfiguracionLayout.createSequentialGroup()
+                .addGroup(pConfiguracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addGap(0, 277, Short.MAX_VALUE))
@@ -66,11 +68,11 @@ public class Usuarios extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pConfiguracion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pConfiguracion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -82,6 +84,6 @@ public class Usuarios extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JPanel pUsuarios;
+    private javax.swing.JPanel pConfiguracion;
     // End of variables declaration//GEN-END:variables
 }
