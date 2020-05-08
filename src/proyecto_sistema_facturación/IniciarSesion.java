@@ -6,6 +6,7 @@
 package proyecto_sistema_facturación;
 
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 
 /**
@@ -14,6 +15,9 @@ import javax.swing.border.LineBorder;
  */
 public class IniciarSesion extends javax.swing.JFrame {
 
+    private String usuario;
+    private String contraseña;
+    Sistema sistm = new Sistema();
     /**
      * Creates new form IniciarSesio
      */
@@ -36,14 +40,14 @@ public class IniciarSesion extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txtUsuario = new javax.swing.JTextField();
         pIniciarSesion = new javax.swing.JPanel();
         jIniciarSesion = new javax.swing.JLabel();
         pSalir = new javax.swing.JPanel();
         jSalir = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
+        txtContraseña = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -62,14 +66,10 @@ public class IniciarSesion extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("CONTRASEÑA:");
 
-        jTextField1.setBackground(new java.awt.Color(0, 0, 0));
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField1.setToolTipText("");
-        jTextField1.setBorder(null);
-
-        jTextField2.setBackground(new java.awt.Color(0, 0, 0));
-        jTextField2.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField2.setBorder(null);
+        txtUsuario.setBackground(new java.awt.Color(0, 0, 0));
+        txtUsuario.setForeground(new java.awt.Color(255, 255, 255));
+        txtUsuario.setToolTipText("");
+        txtUsuario.setBorder(null);
 
         pIniciarSesion.setBackground(new java.awt.Color(0, 0, 0));
         pIniciarSesion.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
@@ -79,6 +79,9 @@ public class IniciarSesion extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 pIniciarSesionMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pIniciarSesionMousePressed(evt);
             }
         });
 
@@ -110,6 +113,12 @@ public class IniciarSesion extends javax.swing.JFrame {
         pSalir.setBackground(new java.awt.Color(0, 0, 0));
         pSalir.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         pSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pSalirMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pSalirMouseExited(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 pSalirMousePressed(evt);
             }
@@ -135,6 +144,10 @@ public class IniciarSesion extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        txtContraseña.setBackground(new java.awt.Color(0, 0, 0));
+        txtContraseña.setForeground(new java.awt.Color(255, 255, 255));
+        txtContraseña.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -155,8 +168,8 @@ public class IniciarSesion extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jSeparator3, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
                             .addComponent(jSeparator2)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2))))
+                            .addComponent(txtUsuario)
+                            .addComponent(txtContraseña))))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -165,13 +178,13 @@ public class IniciarSesion extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addGap(17, 17, 17)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
@@ -240,6 +253,34 @@ public class IniciarSesion extends javax.swing.JFrame {
         pIniciarSesion.setBorder(new LineBorder(Color.WHITE,1,true));
     }//GEN-LAST:event_pIniciarSesionMouseExited
 
+    private void pSalirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pSalirMouseEntered
+         jSalir.setForeground(Color.WHITE);
+        pSalir.setBackground(new Color(51,0,255));
+        pSalir.setBorder(new LineBorder(new Color(51,0,255),1,true));
+    }//GEN-LAST:event_pSalirMouseEntered
+
+    private void pSalirMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pSalirMouseExited
+        jSalir.setForeground(new Color(51,0,255));
+        pSalir.setBackground(Color.BLACK);
+        pSalir.setBorder(new LineBorder(Color.WHITE,1,true));
+    }//GEN-LAST:event_pSalirMouseExited
+
+    private void pIniciarSesionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pIniciarSesionMousePressed
+        usuario = txtUsuario.getText();
+        contraseña = txtContraseña.getText();
+        
+       
+        
+        if(usuario.equals("a") || contraseña.equals("123")){
+         //System.exit(0);  
+         
+            sistm.setVisible(true);
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecto");
+        }
+    }//GEN-LAST:event_pIniciarSesionMousePressed
+
     /**
      * @param args the command line arguments
      */
@@ -287,10 +328,10 @@ public class IniciarSesion extends javax.swing.JFrame {
     private javax.swing.JLabel jSalir;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel pIniciarSesion;
     private javax.swing.JPanel pPrincipal;
     private javax.swing.JPanel pSalir;
+    private javax.swing.JPasswordField txtContraseña;
+    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }
