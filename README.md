@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # README #
 
 This README would normally document whatever steps are necessary to get your application up and running.
@@ -32,6 +33,9 @@ This README would normally document whatever steps are necessary to get your app
 =======
 # Proyecto_Sistema_Facturaci-n
 >>>>>>> origin/Master
+=======
+# Proyecto_Sistema_Facturaci-n
+>>>>>>> origin/master
 =======
 # Proyecto_Sistema_Facturaci-n
 >>>>>>> origin/master
