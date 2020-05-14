@@ -5,10 +5,19 @@
  */
 package Controlador;
 
+import Conexion_BD.Conexion;
+import Modelo.Cliente;
+
 /**
  *
  * @author tmx
  */
 public class ClienteDAO {
-    
+    public boolean AgregarCliente(Cliente e) {
+		Conexion conexion = new Conexion();
+		
+		
+	
+		return conexion.ejecutarInstruccion(e);
+	}
 }
