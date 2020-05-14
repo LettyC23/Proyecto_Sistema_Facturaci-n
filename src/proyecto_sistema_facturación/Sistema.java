@@ -36,7 +36,6 @@ public class Sistema extends javax.swing.JFrame {
         NuevaFactura = new javax.swing.JLabel();
         AdministrarFacturas = new javax.swing.JLabel();
         Reportes = new javax.swing.JLabel();
-        Gráfica = new javax.swing.JLabel();
         Configuración = new javax.swing.JLabel();
         Salir = new javax.swing.JLabel();
         btnMenu = new javax.swing.JButton();
@@ -45,6 +44,7 @@ public class Sistema extends javax.swing.JFrame {
         jPanelVistas = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanelPrincipal.setBackground(new java.awt.Color(234, 234, 234));
 
@@ -120,16 +120,6 @@ public class Sistema extends javax.swing.JFrame {
             }
         });
 
-        Gráfica.setForeground(new java.awt.Color(51, 51, 51));
-        Gráfica.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Gráfica.png"))); // NOI18N
-        Gráfica.setText("    Gráfica");
-        Gráfica.setEnabled(false);
-        Gráfica.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                GráficaMouseClicked(evt);
-            }
-        });
-
         Configuración.setForeground(new java.awt.Color(51, 51, 51));
         Configuración.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/Configuración_1.png"))); // NOI18N
         Configuración.setText("    Configuración");
@@ -197,7 +187,6 @@ public class Sistema extends javax.swing.JFrame {
                     .addComponent(NuevaFactura)
                     .addComponent(AdministrarFacturas)
                     .addComponent(Reportes)
-                    .addComponent(Gráfica)
                     .addComponent(Configuración)
                     .addComponent(Salir)
                     .addComponent(Usuarios1)
@@ -225,12 +214,10 @@ public class Sistema extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Reportes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Gráfica)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Configuración)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Salir)
-                .addGap(0, 84, Short.MAX_VALUE))
+                .addGap(0, 122, Short.MAX_VALUE))
         );
 
         jPanelVistas.setLayout(new java.awt.CardLayout());
@@ -334,12 +321,6 @@ public class Sistema extends javax.swing.JFrame {
         vista.show(jPanelVistas, "");
     }//GEN-LAST:event_ReportesMouseClicked
 
-    private void GráficaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_GráficaMouseClicked
-       graficas.graficas();
-        jPanelVistas.add(graficas);
-        vista.show(jPanelVistas, "");
-    }//GEN-LAST:event_GráficaMouseClicked
-
     private void ConfiguraciónMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ConfiguraciónMouseClicked
        configuracion.configuracion();
         jPanelVistas.add(configuracion);
@@ -397,7 +378,6 @@ public class Sistema extends javax.swing.JFrame {
     private javax.swing.JLabel AdministrarFacturas;
     private javax.swing.JLabel Clientes;
     private javax.swing.JLabel Configuración;
-    private javax.swing.JLabel Gráfica;
     private javax.swing.JLabel Inicio;
     private javax.swing.JLabel NuevaFactura;
     private javax.swing.JLabel Productos;

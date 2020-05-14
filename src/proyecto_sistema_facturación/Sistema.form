@@ -3,6 +3,7 @@
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -86,7 +87,6 @@
                           <Component id="NuevaFactura" min="-2" max="-2" attributes="0"/>
                           <Component id="AdministrarFacturas" min="-2" max="-2" attributes="0"/>
                           <Component id="Reportes" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="Gráfica" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="Configuración" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="Salir" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="Usuarios1" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -117,12 +117,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="Reportes" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="Gráfica" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="Configuración" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="Salir" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="84" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="122" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -224,21 +222,6 @@
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="ReportesMouseClicked"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JLabel" name="Gr&#xe1;fica">
-              <Properties>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="33" green="33" red="33" type="rgb"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/Iconos/Gr&#xe1;fica.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="    Gr&#xe1;fica"/>
-                <Property name="enabled" type="boolean" value="false"/>
-              </Properties>
-              <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="Gr&#xe1;ficaMouseClicked"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="Configuraci&#xf3;n">
