@@ -5,6 +5,7 @@
  */
 package Conexion_BD;
 
+import Modelo.Cliente;
 import proyecto_sistema_facturación.Clientes;
 //import Modelo.Factura;
 import java.sql.Connection;
@@ -30,10 +31,10 @@ public class Conexion {
 	
 	public Conexion() {
 		try {
-			Class.forName("com.ibm.db2.jcc.DB2Driver");
+			Class.forName("oracle.jdbc.OracleDriver");
 									 //127.0.0.1 
-			String url = "jdbc:db2://localhost:50000/Fact";
-			conexion = DriverManager.getConnection(url, "db2adminL", "EStrell24");//(ruta, nombreUsuario, contraseña)
+			String url = "jdbc:oracle:thin:@localhost:1521:XE";
+			conexion = DriverManager.getConnection(url, "SYSTEM", "EStrell25");//(ruta, nombreUsuario, contraseña)
 			System.out.println("Conexion establecida");
 		} catch (ClassNotFoundException e) {
 			System.out.println("No se encontro el controlador");
@@ -58,17 +59,17 @@ public class Conexion {
         
         
        	
-	public boolean ejecutarInstruccion(Clientes e) {
+	public boolean ejecutarInstruccion(Cliente e) {
 		try {
 			
 	
-			String sql =  "INSERT INTO Clientes (Nombre,PrimerAP,SegundoAp,Dirección,FechaNac,Teléfono,Email)VALUES(?,?,?,?,?,?,?)";
+			String sql =  "INSERT INTO Clientes (NombreCliente,Direccion,Telefono,Correo)VALUES(?,?,?,?)";
 			PreparedStatement pstm = conexion.prepareStatement(sql);
 			
-                 //     pstm.setString(1, e.getNombre());
-		//	pstm.setString(2, e.getPrimerAp());
-		//	pstm.setString(3, e.getSegundoAp());
-		//	pstm.setString(4, e.getDireccion());
+                      pstm.setString(1, e.getNombre());
+			pstm.setString(2, e.getDireccion());
+			pstm.setString(3, e.getTelefono());
+			pstm.setString(4, e.getCorreo());
 		//	pstm.setString(5, e.getFechaNac());
 		//	pstm.setString(6, e.getTelefono());
 		//	pstm.setString(7, e.getEmail());
@@ -86,7 +87,7 @@ public class Conexion {
                         
 			
 		} catch (SQLException e1) {
-                    JOptionPane.showConfirmDialog(null, "Llena todos los campos!!", "Error al registrar", JOptionPane.ERROR_MESSAGE);
+                    //JOptionPane.showConfirmDialog(null, "Llena todos los campos!!", "Error al registrar", JOptionPane.ERROR_MESSAGE);
 		System.out.println("No se pudo ejecutar la instruccion SQL"+ e1);
 		return false;
 		}
