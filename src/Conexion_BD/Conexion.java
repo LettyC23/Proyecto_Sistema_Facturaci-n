@@ -6,6 +6,7 @@
 package Conexion_BD;
 
 import Modelo.Cliente;
+import java.awt.Component;
 import proyecto_sistema_facturación.Clientes;
 //import Modelo.Factura;
 import java.sql.Connection;
@@ -14,7 +15,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
+import oracle.security.o5logon.d;
 
 /**
  *
@@ -65,20 +74,23 @@ public class Conexion {
 	
 			String sql =  "INSERT INTO Clientes (NombreCliente,Direccion,Telefono,Correo)VALUES(?,?,?,?)";
 			PreparedStatement pstm = conexion.prepareStatement(sql);
-			
-                      pstm.setString(1, e.getNombre());
-			pstm.setString(2, e.getDireccion());
-			pstm.setString(3, e.getTelefono());
-			pstm.setString(4, e.getCorreo());
-		//	pstm.setString(5, e.getFechaNac());
-		//	pstm.setString(6, e.getTelefono());
-		//	pstm.setString(7, e.getEmail());
+                        JButton btn1 = new JButton();
+                        JButton btn2 = new JButton();                
+                       
+                        
+			pstm.setString(1, e.getDireccion());
+			pstm.setString(2, e.getTelefono());
+                        pstm.setString(3, e.getTelefono());
+                        pstm.setString(4, e.getTelefono());
 			
 		
 			String sql1= "SELECT * FROM Clientes WHERE Nombres = ?; ";
 			PreparedStatement pstm1 = conexion.prepareStatement(sql1);
 //			pstm1.setString(1, e.getNombre());
-                        
+
+
+
+
                       JOptionPane.showConfirmDialog(null, "Empleado registrado!!", "Error al registrar", JOptionPane.ERROR_MESSAGE);
 			int ejecucion;
                         
@@ -92,6 +104,40 @@ public class Conexion {
 		return false;
 		}
 	}
+        
+        
+        public ArrayList<Cliente> Listar_ProductoVO(){
+        ArrayList<Cliente> list = new ArrayList<Cliente>();
+        Conexion conec = new Conexion();
+        String sql = "SELECT * FROM Clientes;";
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        try{
+            ps = conexion.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                Cliente vo = new Cliente();
+                vo.setNombre(rs.getString(1));
+                vo.setDireccion(rs.getString(2));
+                vo.setTelefono(rs.getString(3));
+                vo.setCorreo(rs.getString(4));
+                list.add(vo);
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }finally{
+            try{
+                ps.close();
+                rs.close();
+                //conec.desconectar();
+            }catch(Exception ex){}
+        }
+            System.out.println(list);
+        return list;
+    }
+
 	/*public boolean ejecutarInstruccionFactura(Factura f) {
 		try {
 			
@@ -122,7 +168,8 @@ public class Conexion {
 		}
 	}*/
 	
-        
+     
+
          public boolean ejecutarInstruccionC (Clientes e, String s) {
 		try {
 			
