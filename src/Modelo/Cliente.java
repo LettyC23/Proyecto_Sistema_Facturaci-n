@@ -5,6 +5,8 @@
  */
 package Modelo;
 
+import java.awt.Button;
+
 /**
  *
  * @author tmx
@@ -14,7 +16,8 @@ public class Cliente {
 	private String direccion;
 	private String telefono;
 	private String correo;
-	
+	private Button btnModificar;
+        private Button btnEliminar;
 
 	public Cliente() {}
 
@@ -23,6 +26,8 @@ public class Cliente {
         this.direccion = direccion;
         this.telefono = telefono;
         this.correo = correo;
+        this.btnModificar = new Button("Modificar");
+        this.btnEliminar = new Button("Eliminar");
     }
 
     public String getNombre() {
@@ -56,6 +61,24 @@ public class Cliente {
     public void setCorreo(String correo) {
         this.correo = correo;
     }
+
+    public Button getBtnModificar() {
+        return btnModificar;
+    }
+
+    public void setBtnModificar(Button btnModificar) {
+        this.btnModificar = btnModificar;
+    }
+
+    public Button getBtnEliminar() {
+        return btnEliminar;
+    }
+
+    public void setBtnEliminar(Button btnEliminar) {
+        this.btnEliminar = btnEliminar;
+    }
+    
+    
 
     @Override
     public String toString() {
