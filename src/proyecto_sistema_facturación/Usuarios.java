@@ -5,12 +5,17 @@
  */
 package proyecto_sistema_facturación;
 
+import java.awt.Color;
+import javax.swing.border.LineBorder;
+
 /**
  *
  * @author tmx
  */
 public class Usuarios extends javax.swing.JPanel {
 
+    AgregarUsuario agregarUsuario = new AgregarUsuario();
+    
     public void usuarios(){
         pUsuarios.setVisible(true);
     }
@@ -27,39 +32,182 @@ public class Usuarios extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel5 = new javax.swing.JLabel();
         pUsuarios = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        pNuevoUsuario = new javax.swing.JPanel();
+        jNuevoUsuario = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        pCerrarUsuarios = new javax.swing.JPanel();
+        jCerrarUsuarios = new javax.swing.JLabel();
 
-        jTextField1.setEditable(false);
-        jTextField1.setBackground(new java.awt.Color(204, 204, 255));
-        jTextField1.setText("Registrar Usuario");
+        jLabel5.setText("jLabel5");
 
-        jButton1.setBackground(new java.awt.Color(255, 0, 0));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("x");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+
+        jLabel1.setText("Administrar Usuarios");
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel2.setText("Nombre:");
+
+        pNuevoUsuario.setBackground(new java.awt.Color(204, 204, 255));
+        pNuevoUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pNuevoUsuarioMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pNuevoUsuarioMouseExited(evt);
             }
         });
+
+        jNuevoUsuario.setText("Nuevo Usuario");
+        jNuevoUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jNuevoUsuarioMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jNuevoUsuarioMouseReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pNuevoUsuarioLayout = new javax.swing.GroupLayout(pNuevoUsuario);
+        pNuevoUsuario.setLayout(pNuevoUsuarioLayout);
+        pNuevoUsuarioLayout.setHorizontalGroup(
+            pNuevoUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pNuevoUsuarioLayout.createSequentialGroup()
+                .addComponent(jNuevoUsuario)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pNuevoUsuarioLayout.setVerticalGroup(
+            pNuevoUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pNuevoUsuarioLayout.createSequentialGroup()
+                .addComponent(jNuevoUsuario)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        jLabel4.setText("#           Nombre              Usuario           Correo                  Fecha ");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24))))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(pNuevoUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        pCerrarUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pCerrarUsuariosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pCerrarUsuariosMouseExited(evt);
+            }
+        });
+
+        jCerrarUsuarios.setText("x");
+
+        javax.swing.GroupLayout pCerrarUsuariosLayout = new javax.swing.GroupLayout(pCerrarUsuarios);
+        pCerrarUsuarios.setLayout(pCerrarUsuariosLayout);
+        pCerrarUsuariosLayout.setHorizontalGroup(
+            pCerrarUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pCerrarUsuariosLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jCerrarUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        pCerrarUsuariosLayout.setVerticalGroup(
+            pCerrarUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pCerrarUsuariosLayout.createSequentialGroup()
+                .addComponent(jCerrarUsuarios)
+                .addGap(0, 11, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout pUsuariosLayout = new javax.swing.GroupLayout(pUsuarios);
         pUsuarios.setLayout(pUsuariosLayout);
         pUsuariosLayout.setHorizontalGroup(
             pUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pUsuariosLayout.createSequentialGroup()
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pUsuariosLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(pCerrarUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         pUsuariosLayout.setVerticalGroup(
             pUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pUsuariosLayout.createSequentialGroup()
-                .addGroup(pUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addGap(0, 277, Short.MAX_VALUE))
+                .addComponent(pCerrarUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -74,14 +222,54 @@ public class Usuarios extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void pCerrarUsuariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pCerrarUsuariosMouseEntered
+        jCerrarUsuarios.setForeground(Color.WHITE);
+        pCerrarUsuarios.setBackground(new Color(255,0,51));
+        pCerrarUsuarios.setBorder(new LineBorder(new Color(255,0,51),1,true));
+    }//GEN-LAST:event_pCerrarUsuariosMouseEntered
+
+    private void pCerrarUsuariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pCerrarUsuariosMouseExited
+        jCerrarUsuarios.setForeground(Color.BLACK);
+        pCerrarUsuarios.setBackground(new Color(220,220,220));
+        pCerrarUsuarios.setBorder(new LineBorder(new Color(220,220,220),1,true));
+    }//GEN-LAST:event_pCerrarUsuariosMouseExited
+
+    private void pNuevoUsuarioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pNuevoUsuarioMouseEntered
+        jNuevoUsuario.setForeground(Color.WHITE);
+        pNuevoUsuario.setBackground(new Color(51,0,255));
+        pNuevoUsuario.setBorder(new LineBorder(new Color(51,0,255),1,true));
+    }//GEN-LAST:event_pNuevoUsuarioMouseEntered
+
+    private void pNuevoUsuarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pNuevoUsuarioMouseExited
+        jNuevoUsuario.setForeground(Color.BLACK);
+        pNuevoUsuario.setBackground(new Color(204,204,255));
+        pNuevoUsuario.setBorder(new LineBorder(new Color(204,204,255),1,true));
+    }//GEN-LAST:event_pNuevoUsuarioMouseExited
+
+    private void jNuevoUsuarioMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jNuevoUsuarioMouseReleased
+        
+        
+    }//GEN-LAST:event_jNuevoUsuarioMouseReleased
+
+    private void jNuevoUsuarioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jNuevoUsuarioMousePressed
+        
+    }//GEN-LAST:event_jNuevoUsuarioMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel jCerrarUsuarios;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jNuevoUsuario;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JPanel pCerrarUsuarios;
+    private javax.swing.JPanel pNuevoUsuario;
     private javax.swing.JPanel pUsuarios;
     // End of variables declaration//GEN-END:variables
 }
