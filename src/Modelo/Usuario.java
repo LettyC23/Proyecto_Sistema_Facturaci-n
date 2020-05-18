@@ -10,8 +10,9 @@ package Modelo;
  * @author tmx
  */
 public class Usuario {
-    private String usuario;
+        private String usuario;
 	private String contraseña;
+        
 	public Usuario(String usuario, String contraseña) {
 		super();
 		this.usuario = usuario;
@@ -29,8 +30,10 @@ public class Usuario {
 	public void setContraseña(String contraseña) {
 		this.contraseña = contraseña;
 	}
-	@Override
-	public String toString() {
-		return "Usuario [usuario=" + usuario + ", contraseña=" + contraseña + "]";
-	}
+
+    @Override
+    public String toString() {
+        return "Usuario{" + "usuario=" + usuario + ", contrase\u00f1a=" + contraseña + '}';
+    }
+	
 }
