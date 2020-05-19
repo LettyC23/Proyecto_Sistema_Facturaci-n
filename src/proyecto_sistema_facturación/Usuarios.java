@@ -6,6 +6,7 @@
 package proyecto_sistema_facturación;
 
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 
 /**
@@ -14,11 +15,13 @@ import javax.swing.border.LineBorder;
  */
 public class Usuarios extends javax.swing.JPanel {
 
-    AgregarUsuario agregarUsuario = new AgregarUsuario();
+    AgregarUsuario n = new AgregarUsuario();
     
     public void usuarios(){
         pUsuarios.setVisible(true);
     }
+    
+            
     public Usuarios() {
         initComponents();
     }
@@ -59,37 +62,37 @@ public class Usuarios extends javax.swing.JPanel {
 
         pNuevoUsuario.setBackground(new java.awt.Color(204, 204, 255));
         pNuevoUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pNuevoUsuarioMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 pNuevoUsuarioMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 pNuevoUsuarioMouseExited(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pNuevoUsuarioMousePressed(evt);
+            }
         });
 
-        jNuevoUsuario.setText("Nuevo Usuario");
-        jNuevoUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jNuevoUsuarioMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jNuevoUsuarioMouseReleased(evt);
-            }
-        });
+        jNuevoUsuario.setText("Nuevo usuario");
 
         javax.swing.GroupLayout pNuevoUsuarioLayout = new javax.swing.GroupLayout(pNuevoUsuario);
         pNuevoUsuario.setLayout(pNuevoUsuarioLayout);
         pNuevoUsuarioLayout.setHorizontalGroup(
             pNuevoUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pNuevoUsuarioLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pNuevoUsuarioLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jNuevoUsuario)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(26, 26, 26))
         );
         pNuevoUsuarioLayout.setVerticalGroup(
             pNuevoUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pNuevoUsuarioLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pNuevoUsuarioLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jNuevoUsuario)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jLabel4.setText("#           Nombre              Usuario           Correo                  Fecha ");
@@ -122,8 +125,8 @@ public class Usuarios extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(pNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24))))
+                        .addComponent(pNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36))))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -132,13 +135,13 @@ public class Usuarios extends javax.swing.JPanel {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(pNuevoUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(11, 11, 11)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -246,14 +249,14 @@ public class Usuarios extends javax.swing.JPanel {
         pNuevoUsuario.setBorder(new LineBorder(new Color(204,204,255),1,true));
     }//GEN-LAST:event_pNuevoUsuarioMouseExited
 
-    private void jNuevoUsuarioMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jNuevoUsuarioMouseReleased
+    private void pNuevoUsuarioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pNuevoUsuarioMousePressed
+        n.setVisible(true);
         
-        
-    }//GEN-LAST:event_jNuevoUsuarioMouseReleased
+    }//GEN-LAST:event_pNuevoUsuarioMousePressed
 
-    private void jNuevoUsuarioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jNuevoUsuarioMousePressed
-        
-    }//GEN-LAST:event_jNuevoUsuarioMousePressed
+    private void pNuevoUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pNuevoUsuarioMouseClicked
+      
+    }//GEN-LAST:event_pNuevoUsuarioMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
