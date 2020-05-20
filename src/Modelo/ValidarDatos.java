@@ -64,6 +64,17 @@ public class ValidarDatos {
 			});
 		}
                 
+                public void validarSoloNumerosLetras(JTextField c1) {
+			c1.addKeyListener(new KeyAdapter() {
+				public void keyTyped(KeyEvent e) {
+					char c = e.getKeyChar();
+					if(!(Character.isLetterOrDigit(c))) {
+						e.consume();
+					}
+				}
+			});
+		}
+                
                 public boolean correo( String email) {
 
         // Patrón para validar el email
