@@ -542,7 +542,7 @@ public class Clientes extends javax.swing.JPanel {
     }//GEN-LAST:event_txtTelefonoMouseReleased
 
     private void txtBuscarClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarClienteKeyReleased
-        ac.actualizarTablaFiltro("SELECT * FROM Clientes WHERE NombreCliente LIKE '%"+txtBuscarCliente.getText()+"'%", tablaClientes);
+        ac.actualizarTabla(tablaClientes, "SELECT * FROM Clientes WHERE NombreCliente LIKE '%" + txtBuscarCliente.getText()+"%'");
     }//GEN-LAST:event_txtBuscarClienteKeyReleased
 
 
