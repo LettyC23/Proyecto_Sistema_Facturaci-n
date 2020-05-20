@@ -38,6 +38,31 @@ public class ValidarDatos {
 			});
 		}
 		
+                public void validarSoloNumerosDecimales(JTextField cl) {
+			cl.addKeyListener(new KeyAdapter() {
+				public void keyTyped(KeyEvent e) {
+                                    int k = (int)e.getKeyChar();
+					
+                                    if(k>=46 && k<=57){
+                                        if(k==46){
+                                        String dato = cl.getText();
+                                        int tamaño = dato.length();
+                                        for(int i=0; i<=tamaño; i++){
+                                            if (dato.contains(".")){
+                                                e.setKeyChar((char)KeyEvent.VK_CLEAR);
+                                            }
+                                        }
+                                        }if(k==47){
+                                            e.consume();
+                                        }
+                                        
+                                    }else{
+                                        e.setKeyChar((char)KeyEvent.VK_CLEAR);
+                                        e.consume();
+                                    }
+				}
+			});
+		}
                 
                 public boolean correo( String email) {
 
