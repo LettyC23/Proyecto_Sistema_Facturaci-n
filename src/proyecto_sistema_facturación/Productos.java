@@ -6,6 +6,8 @@
 package proyecto_sistema_facturación;
 import Modelo.ActualizarTablas;
 import Modelo.ValidarDatos;
+import java.awt.Color;
+import javax.swing.border.LineBorder;
 /**
  *
  * @author tmx
@@ -24,6 +26,7 @@ public class Productos extends javax.swing.JPanel {
         initComponents();
         con.ComboBoxProveedores(cboxProveedores);
         con.ComboBoxTipoProducto(cboxTipoProducto);
+        ac.actualizarTabla(tablaProductos, "SELECT * FROM Productos");
     }
 
     /**
@@ -55,15 +58,17 @@ public class Productos extends javax.swing.JPanel {
         txtDescripcion = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtPrecio = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         txtExistencias = new javax.swing.JTextField();
         cboxTipoProducto = new javax.swing.JComboBox<>();
         cboxProveedores = new javax.swing.JComboBox<>();
+        pGuardarProductos = new javax.swing.JPanel();
+        jGuardarProductos = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
+        tablaProductos = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
+        pCerrarProductos = new javax.swing.JPanel();
+        jCerrarProductos = new javax.swing.JLabel();
 
         jButton1.setText("jButton1");
 
@@ -170,10 +175,6 @@ public class Productos extends javax.swing.JPanel {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(51, 102, 255));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Guardar");
-
         jLabel4.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel4.setText("Existencias");
 
@@ -182,6 +183,32 @@ public class Productos extends javax.swing.JPanel {
                 txtExistenciasMouseReleased(evt);
             }
         });
+
+        pGuardarProductos.setBackground(new java.awt.Color(204, 204, 255));
+        pGuardarProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pGuardarProductosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pGuardarProductosMouseExited(evt);
+            }
+        });
+
+        jGuardarProductos.setText("Guardar");
+
+        javax.swing.GroupLayout pGuardarProductosLayout = new javax.swing.GroupLayout(pGuardarProductos);
+        pGuardarProductos.setLayout(pGuardarProductosLayout);
+        pGuardarProductosLayout.setHorizontalGroup(
+            pGuardarProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pGuardarProductosLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jGuardarProductos)
+                .addGap(32, 32, 32))
+        );
+        pGuardarProductosLayout.setVerticalGroup(
+            pGuardarProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jGuardarProductos)
+        );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -212,8 +239,8 @@ public class Productos extends javax.swing.JPanel {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(cboxProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addGap(46, 46, 46))))
+                        .addComponent(pGuardarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,18 +258,17 @@ public class Productos extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cboxTipoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cboxProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton2)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(cboxProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pGuardarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         jScrollPane6.setBorder(null);
         jScrollPane6.setAutoscrolls(true);
         jScrollPane6.setWheelScrollingEnabled(false);
 
-        jTable3.setAutoCreateRowSorter(true);
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tablaProductos.setAutoCreateRowSorter(true);
+        tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"", "", "", "", "", ""},
                 {null, null, null, null, null, null},
@@ -253,36 +279,52 @@ public class Productos extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6"
             }
         ));
-        jTable3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tablaProductos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jButton3.setBackground(new java.awt.Color(255, 0, 0));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("x");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+        jLabel3.setText("  Código                   Descrpción           Precio                  Existencias                   Editar        Eliminar      ");
+
+        pCerrarProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pCerrarProductosMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pCerrarProductosMouseExited(evt);
             }
         });
 
-        jLabel3.setText("  Código                   Descrpción           Precio                  Existencias                   Editar        Eliminar      ");
+        jCerrarProductos.setText("X");
+
+        javax.swing.GroupLayout pCerrarProductosLayout = new javax.swing.GroupLayout(pCerrarProductos);
+        pCerrarProductos.setLayout(pCerrarProductosLayout);
+        pCerrarProductosLayout.setHorizontalGroup(
+            pCerrarProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pCerrarProductosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jCerrarProductos)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pCerrarProductosLayout.setVerticalGroup(
+            pCerrarProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jCerrarProductos)
+        );
 
         javax.swing.GroupLayout pProductosLayout = new javax.swing.GroupLayout(pProductos);
         pProductos.setLayout(pProductosLayout);
         pProductosLayout.setHorizontalGroup(
             pProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pProductosLayout.createSequentialGroup()
-                .addComponent(jTextField1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3))
-            .addGroup(pProductosLayout.createSequentialGroup()
                 .addGroup(pProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pProductosLayout.createSequentialGroup()
+                        .addComponent(jTextField1)
+                        .addGap(9, 9, 9)
+                        .addComponent(pCerrarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pProductosLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(pProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTable3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(pProductosLayout.createSequentialGroup()
+                        .addGroup(pProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tablaProductos, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pProductosLayout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -294,7 +336,7 @@ public class Productos extends javax.swing.JPanel {
             .addGroup(pProductosLayout.createSequentialGroup()
                 .addGroup(pProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(pCerrarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(pProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,7 +349,7 @@ public class Productos extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTable3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(tablaProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(325, Short.MAX_VALUE))
         );
 
@@ -329,10 +371,6 @@ public class Productos extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDescripcionActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        pProductos.setVisible(false);
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void txtDescripcionMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDescripcionMouseReleased
         validarDatos.validarSoloLetras(txtDescripcion);
     }//GEN-LAST:event_txtDescripcionMouseReleased
@@ -345,13 +383,37 @@ public class Productos extends javax.swing.JPanel {
         validarDatos.validarSoloNumeros(txtExistencias);
     }//GEN-LAST:event_txtExistenciasMouseReleased
 
+    private void pGuardarProductosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pGuardarProductosMouseEntered
+        jGuardarProductos.setForeground(Color.WHITE);
+        pGuardarProductos.setBackground(new Color(51,0,255));
+        pGuardarProductos.setBorder(new LineBorder(new Color(51,0,255),1,true));
+    }//GEN-LAST:event_pGuardarProductosMouseEntered
+
+    private void pGuardarProductosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pGuardarProductosMouseExited
+        jGuardarProductos.setForeground(Color.BLACK);
+        pGuardarProductos.setBackground(new Color(204,204,255));
+        pGuardarProductos.setBorder(new LineBorder(new Color(204,204,255),1,true));
+    }//GEN-LAST:event_pGuardarProductosMouseExited
+
+    private void pCerrarProductosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pCerrarProductosMouseEntered
+        jCerrarProductos.setForeground(Color.WHITE);
+        pCerrarProductos.setBackground(new Color(255,0,51));
+        pCerrarProductos.setBorder(new LineBorder(new Color(255,0,51),1,true));
+    }//GEN-LAST:event_pCerrarProductosMouseEntered
+
+    private void pCerrarProductosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pCerrarProductosMouseExited
+        jCerrarProductos.setForeground(Color.BLACK);
+        pCerrarProductos.setBackground(new Color(220,220,220));
+        pCerrarProductos.setBorder(new LineBorder(new Color(220,220,220),1,true));
+    }//GEN-LAST:event_pCerrarProductosMouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cboxProveedores;
     private javax.swing.JComboBox<String> cboxTipoProducto;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jCerrarProductos;
+    private javax.swing.JLabel jGuardarProductos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -367,12 +429,14 @@ public class Productos extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JPanel pCerrarProductos;
+    private javax.swing.JPanel pGuardarProductos;
     private javax.swing.JPanel pProductos;
+    private javax.swing.JTable tablaProductos;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtExistencias;
     private javax.swing.JTextField txtPrecio;

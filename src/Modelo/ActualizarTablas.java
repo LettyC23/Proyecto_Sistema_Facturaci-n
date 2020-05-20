@@ -14,10 +14,10 @@ import javax.swing.JTable;
  * @author tmx
  */
 public class ActualizarTablas {
-    public void actualizarTabla(JTable tabla) {
+    public void actualizarTabla(JTable tabla, String consulta) {
 			String controlador = "oracle.jdbc.OracleDriver";
 			String url = "jdbc:oracle:thin:@localhost:1521:XE";
-			String consulta = "SELECT * FROM Clientes ";
+			//String consulta = "SELECT * FROM Clientes ";
 			ResultSetTableModel modelDatos = null;
                         
 			try {

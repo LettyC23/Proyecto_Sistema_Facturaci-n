@@ -5,6 +5,8 @@
  */
 package proyecto_sistema_facturación;
 
+import Modelo.ActualizarTablas;
+import Modelo.ValidarDatos;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
@@ -16,6 +18,8 @@ import javax.swing.border.LineBorder;
 public class Usuarios extends javax.swing.JPanel {
 
     AgregarUsuario n = new AgregarUsuario();
+    ValidarDatos validarDatos = new ValidarDatos();
+    ActualizarTablas ac = new ActualizarTablas();
     
     public void usuarios(){
         pUsuarios.setVisible(true);
@@ -24,6 +28,7 @@ public class Usuarios extends javax.swing.JPanel {
             
     public Usuarios() {
         initComponents();
+        ac.actualizarTabla(tablaAdministrarUsuarios, "SELECT * FROM Usuarios");
     }
 
     /**
@@ -41,12 +46,12 @@ public class Usuarios extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtNombreUsuarios = new javax.swing.JTextField();
         pNuevoUsuario = new javax.swing.JPanel();
         jNuevoUsuario = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaAdministrarUsuarios = new javax.swing.JTable();
         pCerrarUsuarios = new javax.swing.JPanel();
         jCerrarUsuarios = new javax.swing.JLabel();
 
@@ -59,6 +64,12 @@ public class Usuarios extends javax.swing.JPanel {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel2.setText("Nombre:");
+
+        txtNombreUsuarios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNombreUsuariosKeyReleased(evt);
+            }
+        });
 
         pNuevoUsuario.setBackground(new java.awt.Color(204, 204, 255));
         pNuevoUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -97,7 +108,7 @@ public class Usuarios extends javax.swing.JPanel {
 
         jLabel4.setText("#           Nombre              Usuario           Correo                  Fecha ");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaAdministrarUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -108,7 +119,7 @@ public class Usuarios extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaAdministrarUsuarios);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -123,7 +134,7 @@ public class Usuarios extends javax.swing.JPanel {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtNombreUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(pNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36))))
@@ -139,7 +150,7 @@ public class Usuarios extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtNombreUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(pNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
@@ -258,6 +269,10 @@ public class Usuarios extends javax.swing.JPanel {
       
     }//GEN-LAST:event_pNuevoUsuarioMouseClicked
 
+    private void txtNombreUsuariosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreUsuariosKeyReleased
+        validarDatos.validarSoloLetras(txtNombreUsuarios);
+    }//GEN-LAST:event_txtNombreUsuariosKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jCerrarUsuarios;
@@ -269,10 +284,10 @@ public class Usuarios extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel pCerrarUsuarios;
     private javax.swing.JPanel pNuevoUsuario;
     private javax.swing.JPanel pUsuarios;
+    private javax.swing.JTable tablaAdministrarUsuarios;
+    private javax.swing.JTextField txtNombreUsuarios;
     // End of variables declaration//GEN-END:variables
 }

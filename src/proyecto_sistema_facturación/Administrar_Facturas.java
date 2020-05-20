@@ -5,6 +5,8 @@
  */
 package proyecto_sistema_facturación;
 
+import Modelo.ActualizarTablas;
+import Modelo.ValidarDatos;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 
@@ -14,11 +16,15 @@ import javax.swing.border.LineBorder;
  */
 public class Administrar_Facturas extends javax.swing.JPanel {
 
+    ActualizarTablas ac = new ActualizarTablas();
+    ValidarDatos validarDato = new ValidarDatos();
+    
     public void administrarFacturas(){
         pAdminFacturas.setVisible(true);
     }
     public Administrar_Facturas() {
         initComponents();
+        ac.actualizarTabla(tablaAdministrarFacturas, "SELECT * FROM Facturas");
     }
 
     /**
@@ -35,8 +41,8 @@ public class Administrar_Facturas extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jTextField2 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jTable1 = new javax.swing.JTable();
+        txtAdministrarFacturas = new javax.swing.JTextField();
+        tablaAdministrarFacturas = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         pCerrarAdmin = new javax.swing.JPanel();
         jCerrarAdmin = new javax.swing.JLabel();
@@ -56,7 +62,13 @@ public class Administrar_Facturas extends javax.swing.JPanel {
 
         jLabel1.setText("Número de factura o cliente");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        txtAdministrarFacturas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtAdministrarFacturasKeyReleased(evt);
+            }
+        });
+
+        tablaAdministrarFacturas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"", "", "", "", "", null, ""},
                 {null, null, null, null, null, null, null},
@@ -79,13 +91,12 @@ public class Administrar_Facturas extends javax.swing.JPanel {
                 .addGap(0, 30, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTable1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tablaAdministrarFacturas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(50, 50, 50)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(txtAdministrarFacturas, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addComponent(jTextField2)
         );
@@ -96,11 +107,11 @@ public class Administrar_Facturas extends javax.swing.JPanel {
                 .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtAdministrarFacturas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTable1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tablaAdministrarFacturas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(207, Short.MAX_VALUE))
         );
 
@@ -187,17 +198,21 @@ public class Administrar_Facturas extends javax.swing.JPanel {
         pAdminFacturas.setVisible(false);
     }//GEN-LAST:event_pCerrarAdminMousePressed
 
+    private void txtAdministrarFacturasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAdministrarFacturasKeyReleased
+         validarDato.validarSoloNumerosLetras(txtAdministrarFacturas);
+    }//GEN-LAST:event_txtAdministrarFacturasKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jCerrarAdmin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JPanel pAdminFacturas;
     private javax.swing.JPanel pCerrarAdmin;
+    private javax.swing.JTable tablaAdministrarFacturas;
+    private javax.swing.JTextField txtAdministrarFacturas;
     // End of variables declaration//GEN-END:variables
 }
