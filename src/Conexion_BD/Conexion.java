@@ -6,6 +6,8 @@
 package Conexion_BD;
 
 import Modelo.Cliente;
+import Modelo.Producto;
+import Modelo.Proveedor;
 import java.awt.Component;
 import proyecto_sistema_facturación.Clientes;
 //import Modelo.Factura;
@@ -16,8 +18,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -88,10 +93,7 @@ public class Conexion {
 			PreparedStatement pstm1 = conexion.prepareStatement(sql1);
 //			pstm1.setString(1, e.getNombre());
 
-
-
-
-                      JOptionPane.showConfirmDialog(null, "Empleado registrado!!", "Error al registrar", JOptionPane.ERROR_MESSAGE);
+                      JOptionPane.showConfirmDialog(null, "Empleado registrado!!", "Error al registrar", JOptionPane.WIDTH);
 			int ejecucion;
                         
 			ejecucion = pstm.executeUpdate();
@@ -105,6 +107,102 @@ public class Conexion {
 		}
 	}
         
+        
+        public boolean ejecutarInstruccionProductos(Producto p) {
+		try {
+			
+	
+			String sql =  "INSERT INTO Productos (Descripcion,Precio,Stock,id_TipoProducto,id_Proveedor)VALUES(?,?,?,?,?)";
+			PreparedStatement pstm = conexion.prepareStatement(sql);
+                        
+			pstm.setString(1, p.getDescripcionProducto());
+			pstm.setDouble(2, p.getPrecio());
+                        pstm.setInt(3, p.getStock());
+                        pstm.setInt(4, p.getId_Producto());
+                        pstm.setInt(5, p.getId_Proveedor());
+			
+		
+			String sql1= "SELECT * FROM Productos WHERE Descripcion = ?; ";
+			PreparedStatement pstm1 = conexion.prepareStatement(sql1);
+
+                      JOptionPane.showConfirmDialog(null, "Empleado registrado!!", "Error al registrar", JOptionPane.WIDTH);
+			int ejecucion;
+                        
+			ejecucion = pstm.executeUpdate();
+			return ejecucion==1?true:false;
+                        
+			
+		} catch (SQLException e1) {
+                    //JOptionPane.showConfirmDialog(null, "Llena todos los campos!!", "Error al registrar", JOptionPane.ERROR_MESSAGE);
+		System.out.println("No se pudo ejecutar la instruccion SQL"+ e1);
+		return false;
+		}
+	}
+        
+        public boolean ejecutarInstruccionProveedores(Proveedor proveedor) {
+		try {
+			
+	
+			String sql =  "INSERT INTO Proveedores (NombreProveedor,NombreEmpresa,Direccion,Telefono)VALUES(?,?,?,?)";
+			PreparedStatement pstm = conexion.prepareStatement(sql);
+                        
+			pstm.setString(1, proveedor.getNombreProveedor());
+			pstm.setString(2, proveedor.getNombreEmpresa());
+                        pstm.setString(3, proveedor.getDireccion());
+                        pstm.setString(4, proveedor.getTelefono());
+			
+		
+			String sql1= "SELECT * FROM Productos WHERE Descripcion = ?; ";
+			PreparedStatement pstm1 = conexion.prepareStatement(sql1);
+
+                      JOptionPane.showConfirmDialog(null, "Empleado registrado!!", "Error al registrar", JOptionPane.WIDTH);
+			int ejecucion;
+                        
+			ejecucion = pstm.executeUpdate();
+			return ejecucion==1?true:false;
+                        
+			
+		} catch (SQLException e1) {
+                    //JOptionPane.showConfirmDialog(null, "Llena todos los campos!!", "Error al registrar", JOptionPane.ERROR_MESSAGE);
+		System.out.println("No se pudo ejecutar la instruccion SQL"+ e1);
+		return false;
+		}
+	}
+        
+        
+        public void ComboBoxProveedores(JComboBox cBoxProveedor){
+            String consulta ="SELECT NombreProveedor FROM Proveedores ORDER BY NombreProveedor ASC";
+      try {
+          PreparedStatement pstm = conexion.prepareStatement(consulta);
+          
+          ResultSet result = pstm.executeQuery();
+          cBoxProveedor.addItem("Proveedor");
+          
+          while(result.next()){
+              cBoxProveedor.addItem(result.getString("NombreProveedor"));
+          }
+      } catch (SQLException ex) {
+          Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+      }
+            
+        }
+        
+        public void ComboBoxTipoProducto(JComboBox cBoxProveedor){
+            String consulta ="SELECT Descripcion FROM Tipo_Producto ORDER BY Descripcion ASC";
+      try {
+          PreparedStatement pstm = conexion.prepareStatement(consulta);
+          
+          ResultSet result = pstm.executeQuery();
+          cBoxProveedor.addItem("Tipo de producto");
+          
+          while(result.next()){
+              cBoxProveedor.addItem(result.getString("Descripcion"));
+          }
+      } catch (SQLException ex) {
+          Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+      }
+            
+        }
         
         public ArrayList<Cliente> Listar_ProductoVO(){
         ArrayList<Cliente> list = new ArrayList<Cliente>();
@@ -258,5 +356,7 @@ public class Conexion {
 
         
         }
+        
+        
       
 }
