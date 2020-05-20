@@ -52,7 +52,7 @@ public class Productos extends javax.swing.JPanel {
         pProductos = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        jTextField6 = new javax.swing.JTextField();
+        txtBuscarProducto = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtDescripcion = new javax.swing.JTextField();
@@ -129,9 +129,14 @@ public class Productos extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(235, 235, 235));
 
-        jTextField6.setForeground(new java.awt.Color(204, 204, 204));
-        jTextField6.setText("Buscar Producto");
-        jTextField6.setToolTipText("");
+        txtBuscarProducto.setForeground(new java.awt.Color(204, 204, 204));
+        txtBuscarProducto.setText("Buscar Producto");
+        txtBuscarProducto.setToolTipText("");
+        txtBuscarProducto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarProductoKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -139,14 +144,14 @@ public class Productos extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(61, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -407,6 +412,10 @@ public class Productos extends javax.swing.JPanel {
         pCerrarProductos.setBorder(new LineBorder(new Color(220,220,220),1,true));
     }//GEN-LAST:event_pCerrarProductosMouseExited
 
+    private void txtBuscarProductoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarProductoKeyReleased
+       ac.actualizarTabla(tablaProductos, "SELECT * FROM Productos WHERE DescripcionProducto LIKE '%" + txtBuscarProducto.getText()+"%'");
+    }//GEN-LAST:event_txtBuscarProductoKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cboxProveedores;
@@ -432,11 +441,11 @@ public class Productos extends javax.swing.JPanel {
     private javax.swing.JTable jTable4;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JPanel pCerrarProductos;
     private javax.swing.JPanel pGuardarProductos;
     private javax.swing.JPanel pProductos;
     private javax.swing.JTable tablaProductos;
+    private javax.swing.JTextField txtBuscarProducto;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtExistencias;
     private javax.swing.JTextField txtPrecio;
