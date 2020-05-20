@@ -5,6 +5,7 @@
  */
 package proyecto_sistema_facturación;
 import Modelo.ActualizarTablas;
+import Modelo.ValidarDatos;
 /**
  *
  * @author tmx
@@ -14,6 +15,7 @@ public class Productos extends javax.swing.JPanel {
     ActualizarTablas ac = new ActualizarTablas();
     
     Conexion_BD.Conexion con = new Conexion_BD.Conexion();
+    ValidarDatos validarDatos = new ValidarDatos();
     
     public void productos(){
         pProductos.setVisible(true);
@@ -50,12 +52,12 @@ public class Productos extends javax.swing.JPanel {
         jTextField6 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtDescripcion = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtPrecio = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        txtExistencias = new javax.swing.JTextField();
         cboxTipoProducto = new javax.swing.JComboBox<>();
         cboxProveedores = new javax.swing.JComboBox<>();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -148,14 +150,25 @@ public class Productos extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel1.setText("Descripción");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txtDescripcion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                txtDescripcionMouseReleased(evt);
+            }
+        });
+        txtDescripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txtDescripcionActionPerformed(evt);
             }
         });
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel2.setText("Precio");
+
+        txtPrecio.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                txtPrecioMouseReleased(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(51, 102, 255));
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
@@ -163,6 +176,12 @@ public class Productos extends javax.swing.JPanel {
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel4.setText("Existencias");
+
+        txtExistencias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                txtExistenciasMouseReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -175,7 +194,7 @@ public class Productos extends javax.swing.JPanel {
                         .addComponent(jLabel1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jTextField2))
+                        .addComponent(txtDescripcion))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(cboxTipoProducto, 0, 155, Short.MAX_VALUE)))
@@ -183,12 +202,12 @@ public class Productos extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addGap(37, 37, 37)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField5))
+                            .addComponent(txtExistencias))
                         .addContainerGap(199, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(cboxProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -205,10 +224,10 @@ public class Productos extends javax.swing.JPanel {
                     .addComponent(jLabel4))
                 .addGap(7, 7, 7)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtExistencias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cboxTipoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -306,13 +325,25 @@ public class Productos extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txtDescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescripcionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_txtDescripcionActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         pProductos.setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void txtDescripcionMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtDescripcionMouseReleased
+        validarDatos.validarSoloLetras(txtDescripcion);
+    }//GEN-LAST:event_txtDescripcionMouseReleased
+
+    private void txtPrecioMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPrecioMouseReleased
+        validarDatos.validarSoloNumerosDecimales(txtPrecio);
+    }//GEN-LAST:event_txtPrecioMouseReleased
+
+    private void txtExistenciasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtExistenciasMouseReleased
+        validarDatos.validarSoloNumeros(txtExistencias);
+    }//GEN-LAST:event_txtExistenciasMouseReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -339,11 +370,11 @@ public class Productos extends javax.swing.JPanel {
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JPanel pProductos;
+    private javax.swing.JTextField txtDescripcion;
+    private javax.swing.JTextField txtExistencias;
+    private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
 }
