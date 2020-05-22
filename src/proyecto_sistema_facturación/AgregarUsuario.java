@@ -5,18 +5,22 @@
  */
 package proyecto_sistema_facturación;
 
+import Modelo.ValidarDatos;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 
 /**
  *
  * @author tmx
  */
-public class AgregarUsuario extends javax.swing.JPanel {
+public class AgregarUsuario extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AgregarUsuario
-     */
+    ValidarDatos validarDatos = new ValidarDatos();
+    
+    public void ventanaEmergente(){
+        JOptionPane.showConfirmDialog(pAgregarUsuario, this);
+    }
     public AgregarUsuario() {
         initComponents();
     }
@@ -30,14 +34,13 @@ public class AgregarUsuario extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel3 = new javax.swing.JPanel();
         pAgregarUsuario = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtNombreNuevoUsuario = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtNombreUsuario = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtCorreoNuevoUsuario = new javax.swing.JTextField();
         pRegistrarUsuario = new javax.swing.JPanel();
         jAgregar = new javax.swing.JLabel();
         pCancelarRegistro = new javax.swing.JPanel();
@@ -46,24 +49,15 @@ public class AgregarUsuario extends javax.swing.JPanel {
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
         jLabel6 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        txtContraseña = new javax.swing.JPasswordField();
         jSeparator4 = new javax.swing.JSeparator();
         jLabel7 = new javax.swing.JLabel();
-        jPasswordField2 = new javax.swing.JPasswordField();
+        txtConfirmarContraseña = new javax.swing.JPasswordField();
         jSeparator5 = new javax.swing.JSeparator();
         jPanel4 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         pAgregarUsuario.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -71,19 +65,31 @@ public class AgregarUsuario extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nombre completo");
 
-        jTextField1.setBackground(new java.awt.Color(0, 0, 0));
-        jTextField1.setText(" ");
-        jTextField1.setBorder(null);
+        txtNombreNuevoUsuario.setBackground(new java.awt.Color(0, 0, 0));
+        txtNombreNuevoUsuario.setForeground(new java.awt.Color(255, 255, 255));
+        txtNombreNuevoUsuario.setText(" ");
+        txtNombreNuevoUsuario.setBorder(null);
+        txtNombreNuevoUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNombreNuevoUsuarioKeyReleased(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Nombre de usuario");
 
-        jTextField2.setBackground(new java.awt.Color(0, 0, 0));
-        jTextField2.setBorder(null);
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txtNombreUsuario.setBackground(new java.awt.Color(0, 0, 0));
+        txtNombreUsuario.setForeground(new java.awt.Color(255, 255, 255));
+        txtNombreUsuario.setBorder(null);
+        txtNombreUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txtNombreUsuarioActionPerformed(evt);
+            }
+        });
+        txtNombreUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNombreUsuarioKeyReleased(evt);
             }
         });
 
@@ -91,8 +97,9 @@ public class AgregarUsuario extends javax.swing.JPanel {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Correo electónico");
 
-        jTextField3.setBackground(new java.awt.Color(0, 0, 0));
-        jTextField3.setBorder(null);
+        txtCorreoNuevoUsuario.setBackground(new java.awt.Color(0, 0, 0));
+        txtCorreoNuevoUsuario.setForeground(new java.awt.Color(255, 255, 255));
+        txtCorreoNuevoUsuario.setBorder(null);
 
         pRegistrarUsuario.setBackground(new java.awt.Color(0, 0, 0));
         pRegistrarUsuario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
@@ -104,8 +111,12 @@ public class AgregarUsuario extends javax.swing.JPanel {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 pRegistrarUsuarioMouseExited(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pRegistrarUsuarioMousePressed(evt);
+            }
         });
 
+        jAgregar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jAgregar.setForeground(new java.awt.Color(0, 153, 0));
         jAgregar.setText("Agregar");
 
@@ -120,10 +131,7 @@ public class AgregarUsuario extends javax.swing.JPanel {
         );
         pRegistrarUsuarioLayout.setVerticalGroup(
             pRegistrarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pRegistrarUsuarioLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jAgregar)
-                .addContainerGap())
+            .addComponent(jAgregar)
         );
 
         pCancelarRegistro.setBackground(new java.awt.Color(0, 0, 0));
@@ -135,8 +143,12 @@ public class AgregarUsuario extends javax.swing.JPanel {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 pCancelarRegistroMouseExited(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pCancelarRegistroMousePressed(evt);
+            }
         });
 
+        jCancelar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jCancelar.setForeground(new java.awt.Color(0, 153, 0));
         jCancelar.setText("Cancelar");
 
@@ -145,36 +157,38 @@ public class AgregarUsuario extends javax.swing.JPanel {
         pCancelarRegistroLayout.setHorizontalGroup(
             pCancelarRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pCancelarRegistroLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(19, 19, 19)
                 .addComponent(jCancelar)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         pCancelarRegistroLayout.setVerticalGroup(
             pCancelarRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pCancelarRegistroLayout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
-                .addComponent(jCancelar)
-                .addContainerGap())
+            .addComponent(jCancelar)
         );
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Contraseña");
 
-        jPasswordField1.setBackground(new java.awt.Color(0, 0, 0));
-        jPasswordField1.setForeground(new java.awt.Color(255, 255, 255));
-        jPasswordField1.setBorder(null);
+        txtContraseña.setBackground(new java.awt.Color(0, 0, 0));
+        txtContraseña.setForeground(new java.awt.Color(255, 255, 255));
+        txtContraseña.setBorder(null);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Confirmar contraseña");
 
-        jPasswordField2.setBackground(new java.awt.Color(0, 0, 0));
-        jPasswordField2.setForeground(new java.awt.Color(255, 255, 255));
-        jPasswordField2.setBorder(null);
-        jPasswordField2.addActionListener(new java.awt.event.ActionListener() {
+        txtConfirmarContraseña.setBackground(new java.awt.Color(0, 0, 0));
+        txtConfirmarContraseña.setForeground(new java.awt.Color(255, 255, 255));
+        txtConfirmarContraseña.setBorder(null);
+        txtConfirmarContraseña.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField2ActionPerformed(evt);
+                txtConfirmarContraseñaActionPerformed(evt);
+            }
+        });
+        txtConfirmarContraseña.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtConfirmarContraseñaKeyReleased(evt);
             }
         });
 
@@ -188,17 +202,14 @@ public class AgregarUsuario extends javax.swing.JPanel {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(70, 70, 70)
-                .addComponent(jLabel8)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel8)
-                .addContainerGap())
+                .addGap(63, 63, 63))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel8)
         );
 
         javax.swing.GroupLayout pAgregarUsuarioLayout = new javax.swing.GroupLayout(pAgregarUsuario);
@@ -215,8 +226,8 @@ public class AgregarUsuario extends javax.swing.JPanel {
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
                     .addGroup(pAgregarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jPasswordField2, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtConfirmarContraseña, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtContraseña, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jSeparator4, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,55 +236,55 @@ public class AgregarUsuario extends javax.swing.JPanel {
                         .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)))
-                .addContainerGap(52, Short.MAX_VALUE))
+                        .addComponent(txtNombreNuevoUsuario, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                        .addComponent(txtNombreUsuario, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtCorreoNuevoUsuario, javax.swing.GroupLayout.Alignment.LEADING)))
+                .addContainerGap(29, Short.MAX_VALUE))
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pAgregarUsuarioLayout.setVerticalGroup(
             pAgregarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pAgregarUsuarioLayout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtNombreNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCorreoNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtConfirmarContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pAgregarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pRegistrarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pCancelarRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pAgregarUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pCancelarRegistro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pRegistrarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -284,26 +295,24 @@ public class AgregarUsuario extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pAgregarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txtNombreUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreUsuarioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jPasswordField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField2ActionPerformed
+    }//GEN-LAST:event_txtNombreUsuarioActionPerformed
 
     private void pRegistrarUsuarioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pRegistrarUsuarioMouseEntered
         jAgregar.setForeground(Color.WHITE);
-        pAgregarUsuario.setBackground(new Color(51,153,0));
-        pAgregarUsuario.setBorder(new LineBorder(new Color(51,153,0),1,true));
+        pRegistrarUsuario.setBackground(new Color(51,153,0));
+        pRegistrarUsuario.setBorder(new LineBorder(new Color(51,153,0),1,true));
     }//GEN-LAST:event_pRegistrarUsuarioMouseEntered
 
     private void pRegistrarUsuarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pRegistrarUsuarioMouseExited
         jAgregar.setForeground(new Color(51,153,0));
-        pAgregarUsuario.setBackground(Color.BLACK);
-        pAgregarUsuario.setBorder(new LineBorder(Color.WHITE,1,true));
+        pRegistrarUsuario.setBackground(Color.BLACK);
+        pRegistrarUsuario.setBorder(new LineBorder(Color.WHITE,1,true));
     }//GEN-LAST:event_pRegistrarUsuarioMouseExited
 
     private void pCancelarRegistroMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pCancelarRegistroMouseEntered
@@ -313,11 +322,77 @@ public class AgregarUsuario extends javax.swing.JPanel {
     }//GEN-LAST:event_pCancelarRegistroMouseEntered
 
     private void pCancelarRegistroMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pCancelarRegistroMouseExited
-       jCancelar.setForeground(new Color(51,153,0));
+        jCancelar.setForeground(new Color(51,153,0));
         pCancelarRegistro.setBackground(Color.BLACK);
-        pCancelarRegistro.setBorder(new LineBorder(Color.WHITE,1,true)); 
+        pCancelarRegistro.setBorder(new LineBorder(Color.WHITE,1,true));
     }//GEN-LAST:event_pCancelarRegistroMouseExited
 
+    private void txtConfirmarContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConfirmarContraseñaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtConfirmarContraseñaActionPerformed
+
+    private void pCancelarRegistroMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pCancelarRegistroMousePressed
+        System.exit(0);
+    }//GEN-LAST:event_pCancelarRegistroMousePressed
+
+    private void txtNombreNuevoUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreNuevoUsuarioKeyReleased
+        validarDatos.validarSoloLetras(txtNombreNuevoUsuario);
+    }//GEN-LAST:event_txtNombreNuevoUsuarioKeyReleased
+
+    private void txtNombreUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreUsuarioKeyReleased
+        validarDatos.validarSoloLetras(txtNombreUsuario);
+    }//GEN-LAST:event_txtNombreUsuarioKeyReleased
+
+    private void txtConfirmarContraseñaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConfirmarContraseñaKeyReleased
+       
+            
+    }//GEN-LAST:event_txtConfirmarContraseñaKeyReleased
+
+    private void pRegistrarUsuarioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pRegistrarUsuarioMousePressed
+      String pass = new String(txtContraseña.getPassword());
+      String passConf = new String(txtConfirmarContraseña.getPassword());
+        if(pass.equals(passConf)){
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "La contrasña no coincide");
+        }
+    }//GEN-LAST:event_pRegistrarUsuarioMousePressed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(AgregarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(AgregarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(AgregarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(AgregarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new AgregarUsuario().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jAgregar;
@@ -328,20 +403,19 @@ public class AgregarUsuario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JPanel pAgregarUsuario;
     private javax.swing.JPanel pCancelarRegistro;
     private javax.swing.JPanel pRegistrarUsuario;
+    private javax.swing.JPasswordField txtConfirmarContraseña;
+    private javax.swing.JPasswordField txtContraseña;
+    private javax.swing.JTextField txtCorreoNuevoUsuario;
+    private javax.swing.JTextField txtNombreNuevoUsuario;
+    private javax.swing.JTextField txtNombreUsuario;
     // End of variables declaration//GEN-END:variables
 }
