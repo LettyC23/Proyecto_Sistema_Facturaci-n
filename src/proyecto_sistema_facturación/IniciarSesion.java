@@ -5,6 +5,8 @@
  */
 package proyecto_sistema_facturación;
 
+import Controlador.UsuarioDAO;
+import Modelo.Usuario;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
@@ -15,12 +17,11 @@ import javax.swing.border.LineBorder;
  */
 public class IniciarSesion extends javax.swing.JFrame {
 
-    private String usuario;
+    private String us;
     private String contraseña;
     Sistema sistm = new Sistema();
-    /**
-     * Creates new form IniciarSesio
-     */
+    AgregarUsuario agregar = new AgregarUsuario();
+    
     public IniciarSesion() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -48,6 +49,8 @@ public class IniciarSesion extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
         txtContraseña = new javax.swing.JPasswordField();
+        jLabel4 = new javax.swing.JLabel();
+        jRegistrate = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -148,6 +151,23 @@ public class IniciarSesion extends javax.swing.JFrame {
         txtContraseña.setForeground(new java.awt.Color(255, 255, 255));
         txtContraseña.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("No tienes cuenta?");
+
+        jRegistrate.setForeground(new java.awt.Color(204, 204, 255));
+        jRegistrate.setText("Registrate");
+        jRegistrate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jRegistrateMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jRegistrateMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jRegistrateMousePressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -155,9 +175,9 @@ public class IniciarSesion extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(80, 80, 80)
+                        .addGap(73, 73, 73)
                         .addComponent(pIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
+                        .addGap(63, 63, 63)
                         .addComponent(pSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(61, 61, 61)
@@ -169,7 +189,12 @@ public class IniciarSesion extends javax.swing.JFrame {
                             .addComponent(jSeparator3, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
                             .addComponent(jSeparator2)
                             .addComponent(txtUsuario)
-                            .addComponent(txtContraseña))))
+                            .addComponent(txtContraseña)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(85, 85, 85)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRegistrate)))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -187,11 +212,15 @@ public class IniciarSesion extends javax.swing.JFrame {
                     .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pSalir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pIniciarSesion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pSalir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jRegistrate))
+                .addContainerGap())
         );
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/iniciarSesion.png"))); // NOI18N
@@ -227,7 +256,9 @@ public class IniciarSesion extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -266,12 +297,13 @@ public class IniciarSesion extends javax.swing.JFrame {
     }//GEN-LAST:event_pSalirMouseExited
 
     private void pIniciarSesionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pIniciarSesionMousePressed
-        usuario = txtUsuario.getText();
-        contraseña = txtContraseña.getText();
+        us = txtUsuario.getText().toString();
+        contraseña = txtContraseña.getText().toString();
         
-       
+       Usuario usuario = new Usuario(us, contraseña);
+       new UsuarioDAO().login(usuario);
         
-        if(usuario.equals("a") || contraseña.equals("123")){
+        if(new UsuarioDAO().login(usuario)==true){
          //System.exit(0);  
          
             sistm.setVisible(true);
@@ -280,6 +312,18 @@ public class IniciarSesion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecto");
         }
     }//GEN-LAST:event_pIniciarSesionMousePressed
+
+    private void jRegistrateMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRegistrateMousePressed
+        agregar.setVisible(true);
+    }//GEN-LAST:event_jRegistrateMousePressed
+
+    private void jRegistrateMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRegistrateMouseEntered
+        jRegistrate.setForeground(new Color(51,0,255));
+    }//GEN-LAST:event_jRegistrateMouseEntered
+
+    private void jRegistrateMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRegistrateMouseExited
+        jRegistrate.setForeground(new Color(204,204,255));
+    }//GEN-LAST:event_jRegistrateMouseExited
 
     /**
      * @param args the command line arguments
@@ -324,7 +368,9 @@ public class IniciarSesion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel jRegistrate;
     private javax.swing.JLabel jSalir;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;

@@ -41,8 +41,7 @@ public class Conexion {
 	private PreparedStatement pstm ; 
 	
 	ResultSet rs=null;
-        
-	
+    
 	public Conexion() {
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
@@ -72,7 +71,104 @@ public class Conexion {
         }
         
         
-       	
+        public DefaultTableModel mostrarClientes(){
+            JButton btnEditar = new JButton();
+            btnEditar.setName("Editar");
+            
+            JButton btnEliminar = new JButton();
+            btnEliminar.setName("Eliminar");
+            btnEliminar.setBackground(new java.awt.Color(204, 204, 255));
+        Object []  nombresColumnas = {"id_Cliente","NombreCliente","Direccion","Telefono","Correo","Editar","Eliminar"};
+        Object [] registros = {"","","","","",btnEditar,btnEliminar};
+        
+        DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);
+        
+        String sql = "SELECT * FROM clientes";
+        
+        try
+        {
+            
+            pstm = conexion.prepareStatement(sql);                        
+            
+            rs = pstm.executeQuery();
+            
+            while(rs.next())
+            {
+                registros[0] = rs.getString("id_Cliente");
+                
+                registros[1] = rs.getString("NombreCliente");
+                
+                registros[2] = rs.getString("Direccion");
+                
+                registros[3] = rs.getString("Telefono");
+                
+                registros[4] = rs.getString("Correo");
+               
+                registros[5] = btnEditar.getName();
+                registros[6] =btnEliminar.getName(); 
+                
+                modelo.addRow(registros);
+                
+            }   
+        }
+        catch(SQLException e){
+            
+            JOptionPane.showMessageDialog(null,"Error al conectar");
+            
+        }
+        finally{
+            
+        }
+         return modelo;
+    }
+    
+    public boolean eliminarRegistro(int id)
+    {
+        String sql = "DELETE FROM cliente WHERE id = ?";
+        
+        Connection cn;
+        
+        PreparedStatement pst;
+        
+        try
+        {
+            cn = conexion;
+            
+            pst = cn.prepareStatement(sql);
+            
+            pst.setInt(1, id);
+            
+            int i = pst.executeUpdate();
+            
+            return i != 0;
+            
+        }
+        catch(SQLException e )
+        {
+            System.out.println("Errero al eliminar registro "+e.getMessage());
+            
+            return false;
+        }
+    }
+        
+       	public boolean ejecutarInstruccionLogin(String sql) {
+		try{
+			stm = conexion.prepareStatement(sql);
+		rs = stm.executeQuery(sql);
+		if( rs.next() ) { 
+            return true;      
+		}else {
+			JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecto");
+            return false;        
+		}       
+    } catch (Exception e){
+        e.printStackTrace();
+        return false;
+    }
+
+		
+	}
+	
 	public boolean ejecutarInstruccion(Cliente e) {
 		try {
 			
@@ -338,24 +434,7 @@ public class Conexion {
 		return rs;
 	}
 	
-	public boolean ejecutarInstruccionLogin(String sql) {
-		try{
-			stm = conexion.prepareStatement(sql);
-		rs = stm.executeQuery(sql);
-		if( rs.first() ) { 
-            return true;      
-		}else {
-			JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecto");
-            return false;        
-		}       
-    } catch (Exception e)
-    {
-        e.printStackTrace();
-        return false;
-    }
-
-        
-        }
+	
         
         
       
