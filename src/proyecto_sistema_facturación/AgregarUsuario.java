@@ -5,8 +5,12 @@
  */
 package proyecto_sistema_facturación;
 
+import Controlador.UsuarioDAO;
+import Modelo.NuevoUsuario;
 import Modelo.ValidarDatos;
 import java.awt.Color;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 
@@ -16,6 +20,12 @@ import javax.swing.border.LineBorder;
  */
 public class AgregarUsuario extends javax.swing.JFrame {
 
+    String nombre;
+    String usuario;
+    String correo;
+    String contraseña;
+    String fecha;
+    
     ValidarDatos validarDatos = new ValidarDatos();
     
     public void ventanaEmergente(){
@@ -57,7 +67,7 @@ public class AgregarUsuario extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         pAgregarUsuario.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -332,7 +342,9 @@ public class AgregarUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtConfirmarContraseñaActionPerformed
 
     private void pCancelarRegistroMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pCancelarRegistroMousePressed
-        System.exit(0);
+    
+        this.setVisible(false);
+        
     }//GEN-LAST:event_pCancelarRegistroMousePressed
 
     private void txtNombreNuevoUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreNuevoUsuarioKeyReleased
@@ -351,11 +363,45 @@ public class AgregarUsuario extends javax.swing.JFrame {
     private void pRegistrarUsuarioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pRegistrarUsuarioMousePressed
       String pass = new String(txtContraseña.getPassword());
       String passConf = new String(txtConfirmarContraseña.getPassword());
-        if(pass.equals(passConf)){
+      
+      nombre = txtNombreNuevoUsuario.getText();
+      usuario = txtNombreUsuario.getText();
+      correo = txtCorreoNuevoUsuario.getText();
+      contraseña = txtConfirmarContraseña.getText().toString();
+      fecha = "";
+      
+      if(!nombre.isEmpty() && !usuario.isEmpty() && !correo.isEmpty() && !contraseña.isEmpty()){
+          if(pass.equals(passConf)){
+              
+                Pattern pattern = Pattern
+                        .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+                        Matcher mather = pattern.matcher(correo);
+                        
+                if(mather.find()==true){
+                         NuevoUsuario agregarU = new NuevoUsuario(nombre, usuario, correo, contraseña, fecha);
+                         new UsuarioDAO().AgregarUsuario(agregarU);
+                         JOptionPane.showMessageDialog(null, "Registro exitoso", "Error al registrar", JOptionPane.WIDTH);
+                         
+                         txtNombreNuevoUsuario.setText("");
+                         txtNombreUsuario.setText("");
+                         txtContraseña.setText("");
+                         txtConfirmarContraseña.setText("");
+                         txtCorreoNuevoUsuario.setText("");
+                         
+                }else{
+                    JOptionPane.showMessageDialog(null, "Correo ingresado no válido", "Error al registrar", JOptionPane.ERROR_MESSAGE); 
+                }
             
-        }else{
-            JOptionPane.showMessageDialog(null, "La contrasña no coincide");
-        }
+                }else{
+                    JOptionPane.showMessageDialog(null, "La contraseña no coincide", "Error", JOptionPane.ERROR_MESSAGE);
+           
+                }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Debes llenar todos los campos", "Error al registrar", JOptionPane.ERROR_MESSAGE);
+           
+      }
+        
     }//GEN-LAST:event_pRegistrarUsuarioMousePressed
 
     /**
