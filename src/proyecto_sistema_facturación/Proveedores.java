@@ -10,6 +10,9 @@ import Controlador.ProveedorDAO;
 import Modelo.ActualizarTablas;
 import Modelo.Proveedor;
 import Modelo.ValidarDatos;
+import java.awt.Color;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,8 +25,7 @@ public class Proveedores extends javax.swing.JPanel {
     String direccion;
     String telefono;
     
-    
-    ActualizarTablas ac = new ActualizarTablas();
+    Conexion_BD.Conexion c = new Conexion_BD.Conexion();
     ValidarDatos validarDatos = new ValidarDatos();
     
 
@@ -32,7 +34,9 @@ public class Proveedores extends javax.swing.JPanel {
     }
     public Proveedores() {
         initComponents();
-        ac.actualizarTabla(tablaProveedores, "SELECT * FROM Proveedores");
+        
+        DefaultTableModel modelo = c.proveedores("SELECT * FROM Proveedores");
+        tablaProveedores.setModel(modelo); 
     }
 
     /**
@@ -56,12 +60,12 @@ public class Proveedores extends javax.swing.JPanel {
         txtNombreProveedor = new javax.swing.JTextField();
         txtNombreEmpresa = new javax.swing.JTextField();
         txtDireccion = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
+        pGuardarProveedores = new javax.swing.JPanel();
+        jGuardarProveedores = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtTelefono = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        pCerrarProveedores = new javax.swing.JPanel();
+        jCerrarProveedores = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         txtBuscarProveedor = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
@@ -111,27 +115,33 @@ public class Proveedores extends javax.swing.JPanel {
             }
         });
 
-        jPanel4.setBackground(new java.awt.Color(204, 204, 255));
-        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
+        pGuardarProveedores.setBackground(new java.awt.Color(204, 204, 255));
+        pGuardarProveedores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pGuardarProveedoresMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pGuardarProveedoresMouseExited(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                jPanel4MousePressed(evt);
+                pGuardarProveedoresMousePressed(evt);
             }
         });
 
-        jLabel6.setText("Guardar");
+        jGuardarProveedores.setText("Guardar");
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout pGuardarProveedoresLayout = new javax.swing.GroupLayout(pGuardarProveedores);
+        pGuardarProveedores.setLayout(pGuardarProveedoresLayout);
+        pGuardarProveedoresLayout.setHorizontalGroup(
+            pGuardarProveedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pGuardarProveedoresLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel6)
+                .addComponent(jGuardarProveedores)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+        pGuardarProveedoresLayout.setVerticalGroup(
+            pGuardarProveedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jGuardarProveedores, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
         );
 
         jLabel8.setText("Teléfono");
@@ -163,7 +173,7 @@ public class Proveedores extends javax.swing.JPanel {
                                     .addComponent(jLabel8)
                                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(49, 49, 49)
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(pGuardarProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtNombreEmpresa, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -192,7 +202,7 @@ public class Proveedores extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pGuardarProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -214,21 +224,30 @@ public class Proveedores extends javax.swing.JPanel {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jLabel1.setText("x");
+        pCerrarProveedores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pCerrarProveedoresMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pCerrarProveedoresMouseExited(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jCerrarProveedores.setText("x");
+
+        javax.swing.GroupLayout pCerrarProveedoresLayout = new javax.swing.GroupLayout(pCerrarProveedores);
+        pCerrarProveedores.setLayout(pCerrarProveedoresLayout);
+        pCerrarProveedoresLayout.setHorizontalGroup(
+            pCerrarProveedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pCerrarProveedoresLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(jCerrarProveedores)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel1)
+        pCerrarProveedoresLayout.setVerticalGroup(
+            pCerrarProveedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pCerrarProveedoresLayout.createSequentialGroup()
+                .addComponent(jCerrarProveedores)
                 .addGap(0, 10, Short.MAX_VALUE))
         );
 
@@ -299,7 +318,7 @@ public class Proveedores extends javax.swing.JPanel {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pProveedoresLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(pCerrarProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(pProveedoresLayout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -311,14 +330,14 @@ public class Proveedores extends javax.swing.JPanel {
         pProveedoresLayout.setVerticalGroup(
             pProveedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pProveedoresLayout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pCerrarProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(148, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -339,7 +358,7 @@ public class Proveedores extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreProveedorActionPerformed
 
-    private void jPanel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MousePressed
+    private void pGuardarProveedoresMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pGuardarProveedoresMousePressed
         
         nombreProveedor = txtNombreProveedor.getText();
         nombreEmpresa = txtNombreEmpresa.getText();
@@ -348,9 +367,8 @@ public class Proveedores extends javax.swing.JPanel {
         
         Proveedor agregarProveedor = new Proveedor(nombreProveedor,nombreEmpresa, direccion, telefono);
         new ProveedorDAO().AgregarProveedor(agregarProveedor);
-        ac.actualizarTabla(tablaProveedores, "SELECT * FROM Proveedores");
         
-    }//GEN-LAST:event_jPanel4MousePressed
+    }//GEN-LAST:event_pGuardarProveedoresMousePressed
 
     private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
         // TODO add your handling code here:
@@ -370,28 +388,54 @@ public class Proveedores extends javax.swing.JPanel {
 
     private void txtBuscarProveedorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarProveedorKeyReleased
         validarDatos.validarSoloNumerosLetras(txtBuscarProveedor);
-        ac.actualizarTabla(tablaProveedores, "SELECT * FROM Proveedores WHERE id_Proveedor LIKE '%" + txtBuscarProveedor.getText()+"%' and NombreProveedor LIKE '%"+txtBuscarProveedor.getText()+"%'");
+        DefaultTableModel modelo = c.proveedores("SELECT * FROM Proveedores WHERE id_Proveedor LIKE '%" + txtBuscarProveedor.getText()+"%' or NombreProveedor LIKE '%"+txtBuscarProveedor.getText()+"%'");
+        tablaProveedores.setModel(modelo);
+      
     }//GEN-LAST:event_txtBuscarProveedorKeyReleased
+
+    private void pCerrarProveedoresMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pCerrarProveedoresMouseEntered
+        jCerrarProveedores.setForeground(Color.WHITE);
+        pCerrarProveedores.setBackground(new Color(255,0,51));
+        pCerrarProveedores.setBorder(new LineBorder(new Color(255,0,51),1,true));
+    }//GEN-LAST:event_pCerrarProveedoresMouseEntered
+
+    private void pCerrarProveedoresMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pCerrarProveedoresMouseExited
+        jCerrarProveedores.setForeground(Color.BLACK);
+        pCerrarProveedores.setBackground(new Color(220,220,220));
+        pCerrarProveedores.setBorder(new LineBorder(new Color(220,220,220),1,true));
+    }//GEN-LAST:event_pCerrarProveedoresMouseExited
+
+    private void pGuardarProveedoresMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pGuardarProveedoresMouseEntered
+        jGuardarProveedores.setForeground(Color.WHITE);
+        pGuardarProveedores.setBackground(new Color(51,0,255));
+        pGuardarProveedores.setBorder(new LineBorder(new Color(51,0,255),1,true));
+    }//GEN-LAST:event_pGuardarProveedoresMouseEntered
+
+    private void pGuardarProveedoresMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pGuardarProveedoresMouseExited
+        jGuardarProveedores.setForeground(Color.BLACK);
+        pGuardarProveedores.setBackground(new Color(204,204,255));
+        pGuardarProveedores.setBorder(new LineBorder(new Color(204,204,255),1,true));
+    }//GEN-LAST:event_pGuardarProveedoresMouseExited
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jCerrarProveedores;
+    private javax.swing.JLabel jGuardarProveedores;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JPanel pCerrarProveedores;
+    private javax.swing.JPanel pGuardarProveedores;
     private javax.swing.JPanel pProveedores;
     private javax.swing.JTable tablaProveedores;
     private javax.swing.JTextField txtBuscarProveedor;
