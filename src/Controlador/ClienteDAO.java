@@ -16,11 +16,11 @@ import java.util.ArrayList;
 public class ClienteDAO {
     public boolean AgregarCliente(Cliente e) {
 		Conexion conexion = new Conexion();
-		
-		
-	
-		return conexion.ejecutarInstruccion(e);
+        	return conexion.ejecutarInstruccion(e);
 	}
     
-   
+   public boolean ActualizarEmpleado(Cliente me, String s) {
+		Conexion conexion = new Conexion();
+		return conexion.ejecutarInstruccionModificarCliente(me, s);
+	}
 }
