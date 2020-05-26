@@ -438,8 +438,7 @@ public class Conexion {
 	}
                 
     public boolean ejecutarInstruccionModificarCliente(Cliente e, String s) {
-	try {
-			
+	try {	
         	String sql2="UPDATE Clientes SET NombreCliente=?, Direccion=?, Telefono=?, Correo=? WHERE id_Cliente='"+s+"'"; 
                                
 			PreparedStatement pstm = conexion.prepareStatement(sql2);
@@ -448,6 +447,32 @@ public class Conexion {
 			String b = e.getDireccion();
 			String c = e.getTelefono();
 			String d = e.getCorreo();
+			
+			pstm.setString(1, a);
+			pstm.setString(2, b);
+			pstm.setString(3, c);
+			pstm.setString(4, d);
+			
+		int ejecucion;
+		ejecucion = pstm.executeUpdate();
+		return ejecucion==1?true:false;
+	} catch (SQLException e1) {
+	System.out.println("No se pudo ejecutar la instruccion SQL" + e1);
+	return false;
+	}
+	}
+    
+    
+     public boolean ejecutarInstruccionModificarProveedor(Proveedor p, String s) {
+	try {	
+        	String sql2="UPDATE Proveedores SET NombreProveedor=?, NombreEmpresa=?, Direccion=?, Telefono=? WHERE id_Proveedor='"+s+"'"; 
+                               
+			PreparedStatement pstm = conexion.prepareStatement(sql2);
+                        
+                        String a = p.getNombreProveedor();
+			String b = p.getNombreEmpresa();
+			String c = p.getDireccion();
+			String d = p.getTelefono();
 			
 			pstm.setString(1, a);
 			pstm.setString(2, b);

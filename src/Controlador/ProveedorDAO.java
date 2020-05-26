@@ -17,8 +17,12 @@ public class ProveedorDAO {
     public boolean AgregarProveedor(Proveedor proveedor) {
 		Conexion conexion = new Conexion();
 		
-		
-	
 		return conexion.ejecutarInstruccionProveedores(proveedor);
+	}
+    
+    public boolean ActualizarProveedor(Proveedor proveedor, String s) {
+		Conexion conexion = new Conexion();
+		
+		return conexion.ejecutarInstruccionModificarProveedor(proveedor, s);
 	}
 }
