@@ -19,8 +19,13 @@ public class ClienteDAO {
         	return conexion.ejecutarInstruccion(e);
 	}
     
-   public boolean ActualizarEmpleado(Cliente me, String s) {
+   public boolean ActualizarCliente(Cliente e, String s) {
 		Conexion conexion = new Conexion();
-		return conexion.ejecutarInstruccionModificarCliente(me, s);
+		return conexion.ejecutarInstruccionModificarCliente(e, s);
+	}
+   
+   public boolean EliminarCliente (Cliente e, String s) {
+		Conexion conexion = new Conexion();
+		return conexion.ejecutarInstruccionEliminar(e, s);
 	}
 }

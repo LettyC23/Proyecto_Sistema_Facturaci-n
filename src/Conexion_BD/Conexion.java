@@ -6,6 +6,7 @@
 package Conexion_BD;
 
 import Modelo.Cliente;
+import Modelo.NuevoUsuario;
 import Modelo.Producto;
 import Modelo.Proveedor;
 import java.awt.Component;
@@ -47,7 +48,7 @@ public class Conexion {
 			Class.forName("oracle.jdbc.OracleDriver");
 									 //127.0.0.1 
 			String url = "jdbc:oracle:thin:@localhost:1521:XE";
-			conexion = DriverManager.getConnection(url, "SYSTEM", "EStrell25");//(ruta, nombreUsuario, contraseña)
+			conexion = DriverManager.getConnection(url, "SYSTEM", "EStrell25");
 			System.out.println("Conexion establecida");
 		} catch (ClassNotFoundException e) {
 			System.out.println("No se encontro el controlador");
@@ -56,10 +57,9 @@ public class Conexion {
 			System.out.println("No se pudo conectar al servidor");
 			
 		}finally {
-			//Codigo que SIEMPRE SE EJECUTA 
-			//Cierre de la conexion de la BD
+			
 		}
-	}//Cnstructor
+	}
 	
 	public void cerrarConexion() {
 		try {
@@ -71,50 +71,34 @@ public class Conexion {
         }
         
         
-        public DefaultTableModel mostrarClientes(){
+        public DefaultTableModel clientes(String sql){
             JButton btnEditar = new JButton();
             btnEditar.setName("Editar");
             
             JButton btnEliminar = new JButton();
             btnEliminar.setName("Eliminar");
-            btnEliminar.setBackground(new java.awt.Color(204, 204, 255));
+            
         Object []  nombresColumnas = {"id_Cliente","NombreCliente","Direccion","Telefono","Correo","Editar","Eliminar"};
         Object [] registros = {"","","","","",btnEditar,btnEliminar};
-        
         DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);
         
-        String sql = "SELECT * FROM clientes";
-        
-        try
-        {
-            
-            pstm = conexion.prepareStatement(sql);                        
-            
+        try { 
+            pstm = conexion.prepareStatement(sql);                         
             rs = pstm.executeQuery();
-            
             while(rs.next())
             {
                 registros[0] = rs.getString("id_Cliente");
-                
                 registros[1] = rs.getString("NombreCliente");
-                
                 registros[2] = rs.getString("Direccion");
-                
                 registros[3] = rs.getString("Telefono");
-                
                 registros[4] = rs.getString("Correo");
-               
                 registros[5] = btnEditar.getName();
                 registros[6] =btnEliminar.getName(); 
                 
-                modelo.addRow(registros);
-                
+                modelo.addRow(registros);             
             }   
-        }
-        catch(SQLException e){
-            
-            JOptionPane.showMessageDialog(null,"Error al conectar");
-            
+        } catch(SQLException e){    
+            JOptionPane.showMessageDialog(null,"Error al conectar");    
         }
         finally{
             
@@ -150,64 +134,146 @@ public class Conexion {
             return false;
         }
     }
+     
+    
+    
+    public DefaultTableModel usuarios(String sql){
+            JButton btnEditar = new JButton();
+            btnEditar.setName("Editar");
+            JButton btnEliminar = new JButton();
+            btnEliminar.setName("Eliminar");
+            
+        Object []  nombresColumnas = {"ID","Nombres","Usuario","Correo","Fecha","Editar","Eliminar"};
+        Object [] registros = {"","","","","",btnEditar,btnEliminar};
         
-       	public boolean ejecutarInstruccionLogin(String sql) {
+        DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);
+        
+        try {        
+            pstm = conexion.prepareStatement(sql);                         
+            rs = pstm.executeQuery();
+            
+            while(rs.next())
+            {
+                registros[0] = rs.getString("id_Usuario");
+                registros[1] = rs.getString("Nombre");
+                registros[2] = rs.getString("Usuario");
+                registros[3] = rs.getString("Correo");
+                registros[4] = rs.getString("Fecha");
+                registros[5] = btnEditar.getName();
+                registros[6] =btnEliminar.getName(); 
+                modelo.addRow(registros);        
+            }   
+        }
+        catch(SQLException e){
+            JOptionPane.showMessageDialog(null,"Error al conectar");    
+        }
+        finally{   
+        }
+         return modelo;
+    }
+    
+   
+     
+    public DefaultTableModel proveedores(String sql){
+            JButton btnEditar = new JButton();
+            btnEditar.setName("Editar"); 
+            JButton btnEliminar = new JButton();
+            btnEliminar.setName("Eliminar");
+            
+        Object []  nombresColumnas = {"ID","Nombre","Empresa","Dirección","Teléfono","Editar","Eliminar"};
+        Object [] registros = {"","","","","",btnEditar,btnEliminar};
+        
+        DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);
+        
+        try {        
+            pstm = conexion.prepareStatement(sql);                         
+            rs = pstm.executeQuery();
+            
+            while(rs.next())
+            {
+                registros[0] = rs.getString("id_Proveedor");
+                registros[1] = rs.getString("NombreProveedor");
+                registros[2] = rs.getString("NombreEmpresa");
+                registros[3] = rs.getString("Direccion");
+                registros[4] = rs.getString("Telefono");
+                registros[5] = btnEditar.getName();
+                registros[6] =btnEliminar.getName(); 
+                modelo.addRow(registros);        
+            }   
+        }
+        catch(SQLException e){
+            JOptionPane.showMessageDialog(null,"Error al conectar");    
+        }
+        finally{   
+        }
+         return modelo;
+    }
+ 
+    public boolean ejecutarInstruccionLogin(String sql) {
 		try{
-			stm = conexion.prepareStatement(sql);
+                stm = conexion.prepareStatement(sql);
 		rs = stm.executeQuery(sql);
-		if( rs.next() ) { 
-            return true;      
+                if( rs.next() ) { 
+                    return true;      
 		}else {
-			JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecto");
+                    JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecto");
             return false;        
 		}       
     } catch (Exception e){
         e.printStackTrace();
         return false;
-    }
-
-		
+    }	
 	}
-	
-	public boolean ejecutarInstruccion(Cliente e) {
+        
+    public boolean ejecutarInstruccionAgregarUsuario(NuevoUsuario u) {
 		try {
-			
-	
-			String sql =  "INSERT INTO Clientes (NombreCliente,Direccion,Telefono,Correo)VALUES(?,?,?,?)";
+			String sql =  "INSERT INTO RegistroDeUsuarios (Nombre,Usuario,Correo,Contrasenia,Fecha)VALUES(?,?,?,?,SYSDATE)";
 			PreparedStatement pstm = conexion.prepareStatement(sql);
-                        JButton btn1 = new JButton();
-                        JButton btn2 = new JButton();                
-                       
                         
-			pstm.setString(1, e.getDireccion());
-			pstm.setString(2, e.getTelefono());
-                        pstm.setString(3, e.getTelefono());
-                        pstm.setString(4, e.getTelefono());
-			
+			pstm.setString(1, u.getNombre());
+			pstm.setString(2, u.getUsuario());
+                        pstm.setString(3, u.getCorreo());
+                        pstm.setString(4, u.getContraseña());
 		
-			String sql1= "SELECT * FROM Clientes WHERE Nombres = ?; ";
+			String sql1= "SELECT * FROM RegistroDeUsuarios WHERE Nombre = ?; ";
 			PreparedStatement pstm1 = conexion.prepareStatement(sql1);
-//			pstm1.setString(1, e.getNombre());
-
-                      JOptionPane.showConfirmDialog(null, "Empleado registrado!!", "Error al registrar", JOptionPane.WIDTH);
 			int ejecucion;
                         
 			ejecucion = pstm.executeUpdate();
 			return ejecucion==1?true:false;
-                        
-			
+  	
 		} catch (SQLException e1) {
-                    //JOptionPane.showConfirmDialog(null, "Llena todos los campos!!", "Error al registrar", JOptionPane.ERROR_MESSAGE);
-		System.out.println("No se pudo ejecutar la instruccion SQL"+ e1);
+                System.out.println("No se pudo ejecutar la instruccion SQL"+ e1);
 		return false;
 		}
 	}
-        
-        
-        public boolean ejecutarInstruccionProductos(Producto p) {
-		try {
-			
 	
+    public boolean ejecutarInstruccion(Cliente e) {
+		try {
+			String sql =  "INSERT INTO Clientes (NombreCliente,Direccion,Telefono,Correo)VALUES(?,?,?,?)";
+			PreparedStatement pstm = conexion.prepareStatement(sql);
+                         
+			pstm.setString(1, e.getNombre());
+			pstm.setString(2, e.getDireccion());
+                        pstm.setString(3, e.getTelefono());
+                        pstm.setString(4, e.getCorreo());
+
+			String sql1= "SELECT * FROM Clientes WHERE Nombres = ?; ";
+			PreparedStatement pstm1 = conexion.prepareStatement(sql1);
+                        
+			int ejecucion;
+                        
+			ejecucion = pstm.executeUpdate();
+			return ejecucion==1?true:false;
+	
+		} catch (SQLException e1) {
+               System.out.println("No se pudo ejecutar la instruccion SQL"+ e1);
+		return false;
+		}
+	}
+    
+    public boolean ejecutarInstruccionProductos(Producto p) {
+		try {
 			String sql =  "INSERT INTO Productos (Descripcion,Precio,Stock,id_TipoProducto,id_Proveedor)VALUES(?,?,?,?,?)";
 			PreparedStatement pstm = conexion.prepareStatement(sql);
                         
@@ -217,28 +283,22 @@ public class Conexion {
                         pstm.setInt(4, p.getId_Producto());
                         pstm.setInt(5, p.getId_Proveedor());
 			
-		
 			String sql1= "SELECT * FROM Productos WHERE Descripcion = ?; ";
 			PreparedStatement pstm1 = conexion.prepareStatement(sql1);
 
-                      JOptionPane.showConfirmDialog(null, "Empleado registrado!!", "Error al registrar", JOptionPane.WIDTH);
 			int ejecucion;
                         
 			ejecucion = pstm.executeUpdate();
 			return ejecucion==1?true:false;
                         
-			
 		} catch (SQLException e1) {
-                    //JOptionPane.showConfirmDialog(null, "Llena todos los campos!!", "Error al registrar", JOptionPane.ERROR_MESSAGE);
-		System.out.println("No se pudo ejecutar la instruccion SQL"+ e1);
-		return false;
+                    System.out.println("No se pudo ejecutar la instruccion SQL"+ e1);
+                    return false;
 		}
 	}
         
-        public boolean ejecutarInstruccionProveedores(Proveedor proveedor) {
+    public boolean ejecutarInstruccionProveedores(Proveedor proveedor) {
 		try {
-			
-	
 			String sql =  "INSERT INTO Proveedores (NombreProveedor,NombreEmpresa,Direccion,Telefono)VALUES(?,?,?,?)";
 			PreparedStatement pstm = conexion.prepareStatement(sql);
                         
@@ -251,26 +311,21 @@ public class Conexion {
 			String sql1= "SELECT * FROM Productos WHERE Descripcion = ?; ";
 			PreparedStatement pstm1 = conexion.prepareStatement(sql1);
 
-                      JOptionPane.showConfirmDialog(null, "Empleado registrado!!", "Error al registrar", JOptionPane.WIDTH);
 			int ejecucion;
                         
 			ejecucion = pstm.executeUpdate();
 			return ejecucion==1?true:false;
                         
-			
 		} catch (SQLException e1) {
-                    //JOptionPane.showConfirmDialog(null, "Llena todos los campos!!", "Error al registrar", JOptionPane.ERROR_MESSAGE);
-		System.out.println("No se pudo ejecutar la instruccion SQL"+ e1);
-		return false;
+                    System.out.println("No se pudo ejecutar la instruccion SQL"+ e1);
+                    return false;
 		}
 	}
-        
-        
-        public void ComboBoxProveedores(JComboBox cBoxProveedor){
-            String consulta ="SELECT NombreProveedor FROM Proveedores ORDER BY NombreProveedor ASC";
-      try {
-          PreparedStatement pstm = conexion.prepareStatement(consulta);
-          
+     
+    public void ComboBoxProveedores(JComboBox cBoxProveedor){
+        String consulta ="SELECT NombreProveedor FROM Proveedores ORDER BY NombreProveedor ASC";
+        try {
+          PreparedStatement pstm = conexion.prepareStatement(consulta); 
           ResultSet result = pstm.executeQuery();
           cBoxProveedor.addItem("Proveedor");
           
@@ -279,15 +334,14 @@ public class Conexion {
           }
       } catch (SQLException ex) {
           Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-      }
-            
         }
+            
+    }
         
-        public void ComboBoxTipoProducto(JComboBox cBoxProveedor){
-            String consulta ="SELECT Descripcion FROM Tipo_Producto ORDER BY Descripcion ASC";
+    public void ComboBoxTipoProducto(JComboBox cBoxProveedor){
+        String consulta ="SELECT Descripcion FROM Tipo_Producto ORDER BY Descripcion ASC";
       try {
-          PreparedStatement pstm = conexion.prepareStatement(consulta);
-          
+          PreparedStatement pstm = conexion.prepareStatement(consulta); 
           ResultSet result = pstm.executeQuery();
           cBoxProveedor.addItem("Tipo de producto");
           
@@ -296,42 +350,10 @@ public class Conexion {
           }
       } catch (SQLException ex) {
           Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
-      }
-            
-        }
-        
-        public ArrayList<Cliente> Listar_ProductoVO(){
-        ArrayList<Cliente> list = new ArrayList<Cliente>();
-        Conexion conec = new Conexion();
-        String sql = "SELECT * FROM Clientes;";
-        ResultSet rs = null;
-        PreparedStatement ps = null;
-        try{
-            ps = conexion.prepareStatement(sql);
-            rs = ps.executeQuery();
-            while(rs.next()){
-                Cliente vo = new Cliente();
-                vo.setNombre(rs.getString(1));
-                vo.setDireccion(rs.getString(2));
-                vo.setTelefono(rs.getString(3));
-                vo.setCorreo(rs.getString(4));
-                list.add(vo);
-            }
-        }catch(SQLException ex){
-            System.out.println(ex.getMessage());
-        }catch(Exception ex){
-            System.out.println(ex.getMessage());
-        }finally{
-            try{
-                ps.close();
-                rs.close();
-                //conec.desconectar();
-            }catch(Exception ex){}
-        }
-            System.out.println(list);
-        return list;
+        }        
     }
-
+        
+       
 	/*public boolean ejecutarInstruccionFactura(Factura f) {
 		try {
 			
@@ -364,16 +386,10 @@ public class Conexion {
 	
      
 
-         public boolean ejecutarInstruccionC (Clientes e, String s) {
+         public boolean ejecutarInstruccionEliminar (Cliente e, String sql3) {
 		try {
-			
-			String sql3 = "DELETE FROM Clientes WHERE Nombre='"+s+"' LIMIT 1";
 			PreparedStatement pstm1 = conexion.prepareStatement(sql3);
-			//pstm1.setString(1, "");
-		
-			
-			
-                        
+			 
 		int ejecucion;
 		//ejecucion = pstm.executeUpdate();
 		ejecucion =pstm1.executeUpdate();
@@ -411,6 +427,32 @@ public class Conexion {
 			pstm.setString(7, h);
 			pstm.setString(8, s);
                   */      
+			
+		int ejecucion;
+		ejecucion = pstm.executeUpdate();
+		return ejecucion==1?true:false;
+	} catch (SQLException e1) {
+	System.out.println("No se pudo ejecutar la instruccion SQL" + e1);
+	return false;
+	}
+	}
+                
+    public boolean ejecutarInstruccionModificarCliente(Cliente e, String s) {
+	try {
+			
+        	String sql2="UPDATE Clientes SET NombreCliente=?, Direccion=?, Telefono=?, Correo=? WHERE id_Cliente='"+s+"'"; 
+                               
+			PreparedStatement pstm = conexion.prepareStatement(sql2);
+                        
+                        String a = e.getNombre();
+			String b = e.getDireccion();
+			String c = e.getTelefono();
+			String d = e.getCorreo();
+			
+			pstm.setString(1, a);
+			pstm.setString(2, b);
+			pstm.setString(3, c);
+			pstm.setString(4, d);
 			
 		int ejecucion;
 		ejecucion = pstm.executeUpdate();

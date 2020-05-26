@@ -34,7 +34,7 @@ public class EditarClientes extends javax.swing.JFrame {
     
     public EditarClientes() {
         initComponents();
-        
+        this.setLocationRelativeTo(null);
       
        
     }
@@ -246,7 +246,7 @@ public class EditarClientes extends javax.swing.JFrame {
                         
                 if(mather.find()==true){
                     Cliente editarCliente = new Cliente(nombre, direccion, telefono, correo);
-                    new ClienteDAO().ActualizarEmpleado(editarCliente, txtId.getText());
+                    new ClienteDAO().ActualizarCliente(editarCliente, txtId.getText());
                     
                     DefaultTableModel modelo = c.clientes("SELECT * FROM Clientes"); 
                     tablaClientes.setModel(modelo); 

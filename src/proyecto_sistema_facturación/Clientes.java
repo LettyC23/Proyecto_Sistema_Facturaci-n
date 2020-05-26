@@ -19,10 +19,13 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 import java.util.ArrayList;
 import Modelo.ValidarDatos;
+import java.awt.Component;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.UIManager;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -36,20 +39,19 @@ public class Clientes extends javax.swing.JPanel {
     String correo;
     
     
-    ActualizarTablas ac = new ActualizarTablas();
+    Conexion_BD.Conexion c = new Conexion_BD.Conexion();
     ValidarDatos validarDatos = new ValidarDatos();
     
-     public void pb(){
-       
-        pClientes.setVisible(true);
-        
-    }
+    
     public void clientes(){
         pClientes.setVisible(true);
     }
     public Clientes() {
         initComponents();
-        ac.actualizarTabla(tablaClientes, "SELECT * FROM Clientes");
+        DefaultTableModel modelo = c.clientes("SELECT * FROM Clientes"); 
+        tablaClientes.setModel(modelo); 
+        
+
     }
 
 
@@ -57,11 +59,6 @@ public class Clientes extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jPanel3 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
         pClientes = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
@@ -80,41 +77,10 @@ public class Clientes extends javax.swing.JPanel {
         txtBuscarCliente = new javax.swing.JTextField();
         pBuscarCliente = new javax.swing.JPanel();
         jBuscarCliente = new javax.swing.JLabel();
-        tablaClientes = new javax.swing.JTable();
         pcerrarClientes = new javax.swing.JPanel();
         jCerrarClientes = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(jList1);
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tablaClientes = new javax.swing.JTable();
 
         pClientes.setDebugGraphicsOptions(javax.swing.DebugGraphics.LOG_OPTION);
 
@@ -327,19 +293,6 @@ public class Clientes extends javax.swing.JPanel {
 
         txtBuscarCliente.getAccessibleContext().setAccessibleName("");
 
-        tablaClientes.setAutoCreateRowSorter(true);
-        tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"", "", "", "", ""},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
-            }
-        ));
-
         pcerrarClientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 pcerrarClientesMouseEntered(evt);
@@ -367,7 +320,35 @@ public class Clientes extends javax.swing.JPanel {
                 .addGap(0, 11, Short.MAX_VALUE))
         );
 
-        jLabel5.setText("Identificación         Nombres                    Dirección                    Teléfono                Correo                   ");
+        tablaClientes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        tablaClientes.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tablaClientes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, "", null},
+                {null, null, null, null, "", null},
+                {null, null, null, null, "", null},
+                {null, null, null, null, "", null}
+            },
+            new String [] {
+                "", "", "", "", "", ""
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tablaClientes.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
+        tablaClientes.setShowVerticalLines(false);
+        tablaClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tablaClientesMousePressed(evt);
+            }
+        });
+        jScrollPane5.setViewportView(tablaClientes);
 
         javax.swing.GroupLayout pClientesLayout = new javax.swing.GroupLayout(pClientes);
         pClientes.setLayout(pClientesLayout);
@@ -382,16 +363,13 @@ public class Clientes extends javax.swing.JPanel {
                 .addGroup(pClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pClientesLayout.createSequentialGroup()
-                        .addGroup(pClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pClientesLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(tablaClientes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 502, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(pClientesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pClientesLayout.setVerticalGroup(
@@ -404,14 +382,10 @@ public class Clientes extends javax.swing.JPanel {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tablaClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
-
-        tablaClientes.getAccessibleContext().setAccessibleParent(this);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -423,7 +397,7 @@ public class Clientes extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 11, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -503,8 +477,7 @@ public class Clientes extends javax.swing.JPanel {
                 if(mather.find()==true){
                     Cliente agregarCliente = new Cliente(nombreCliente, direccion,telefono,correo);
                     new ClienteDAO().AgregarCliente(agregarCliente);
-                    ac.actualizarTabla(tablaClientes, "SELECT * FROM Clientes"); 
-                    
+                   
                     txtNombreCliente.setText("");
                     txtDireccion.setText("");
                     txtTelefono.setText("");
@@ -522,13 +495,14 @@ public class Clientes extends javax.swing.JPanel {
            
         }
         
-        
-        
-        
-    
-      
+  
     }//GEN-LAST:event_pGuardarClienteMousePressed
-
+    
+   
+    
+    
+ 
+    
     private void txtNombreClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreClienteActionPerformed
         
     }//GEN-LAST:event_txtNombreClienteActionPerformed
@@ -542,9 +516,48 @@ public class Clientes extends javax.swing.JPanel {
     }//GEN-LAST:event_txtTelefonoMouseReleased
 
     private void txtBuscarClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarClienteKeyReleased
-        ac.actualizarTabla(tablaClientes, "SELECT * FROM Clientes WHERE NombreCliente LIKE '%" + txtBuscarCliente.getText()+"%'");
+        DefaultTableModel modelo = c.clientes("SELECT * FROM Clientes WHERE NombreCliente LIKE '%" + txtBuscarCliente.getText()+"%'"); 
+        tablaClientes.setModel(modelo); 
+       
     }//GEN-LAST:event_txtBuscarClienteKeyReleased
 
+    private void tablaClientesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClientesMousePressed
+        if(tablaClientes.getSelectedColumn()==5){
+            EditarClientes ec = new EditarClientes();
+            int fila = tablaClientes.getSelectedRow();
+            ec.txtId.setText(tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString());
+            ec.txtEditarNombreCliente.setText(tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 1).toString());
+            ec.txtEditarDireccionCliente.setText(tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 2).toString());
+            ec.txtEditarTelefonoCliente.setText(tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 3).toString());
+            ec.txtEditarCorreoCliente.setText(tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 4).toString());
+            ec.setVisible(true);
+        }else if(tablaClientes.getSelectedColumn()==6){
+            
+              String botones [] ={"Si","No"};
+        int eleccion=JOptionPane.showOptionDialog(this, "¿Estas seguro de eliminar el registro "+tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString()+" ?", "Eliminar cliente", 0, 0, null, botones, this);
+        
+        if(eleccion==JOptionPane.YES_OPTION){
+            String sql3 = "DELETE FROM Clientes WHERE id_Cliente="+tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString()+"";
+        
+            Cliente eliminarCliente = new Cliente();
+            new ClienteDAO().EliminarCliente(eliminarCliente, sql3);
+        
+                 DefaultTableModel modelo = c.clientes("SELECT * FROM Clientes"); 
+                 tablaClientes.setModel(modelo); 
+                  
+        }else if(eleccion==JOptionPane.NO_OPTION){
+            
+        }
+            
+        }
+        
+    }//GEN-LAST:event_tablaClientesMousePressed
+
+    public void eliminar(){
+      
+    }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jBuscarCliente;
@@ -554,21 +567,16 @@ public class Clientes extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel pBuscarCliente;
     private javax.swing.JPanel pClientes;
     private javax.swing.JPanel pGuardarCliente;
     private javax.swing.JPanel pcerrarClientes;
-    private javax.swing.JTable tablaClientes;
+    public static javax.swing.JTable tablaClientes;
     private javax.swing.JTextField txtBuscarCliente;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtDireccion;
