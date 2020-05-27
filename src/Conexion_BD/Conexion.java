@@ -255,6 +255,22 @@ public class Conexion {
         return "";
     }	
 	}
+      
+      public String buscarContraseña(String sql) {
+		try{
+                stm = conexion.prepareStatement(sql);
+		rs = stm.executeQuery(sql);
+                if( rs.next() ) { 
+                    return rs.getString("Contrasenia");      
+		}else {
+            return "";        
+		}       
+    } catch (Exception e){
+        e.printStackTrace();
+        System.out.println("No se pudo ejecutar la instruccion SQL"+ e);
+        return "";
+    }	
+	}
         
     public boolean ejecutarInstruccionAgregarUsuario(NuevoUsuario u) {
 		try {
@@ -417,7 +433,7 @@ public class Conexion {
 	
      
 
-         public boolean ejecutarInstruccionEliminar (Cliente e, String sql3) {
+         public boolean ejecutarInstruccionEliminar ( String sql3) {
 		try {
 			PreparedStatement pstm1 = conexion.prepareStatement(sql3);
 			 
@@ -478,6 +494,31 @@ public class Conexion {
 			String b = e.getDireccion();
 			String c = e.getTelefono();
 			String d = e.getCorreo();
+			
+			pstm.setString(1, a);
+			pstm.setString(2, b);
+			pstm.setString(3, c);
+			pstm.setString(4, d);
+			
+		int ejecucion;
+		ejecucion = pstm.executeUpdate();
+		return ejecucion==1?true:false;
+	} catch (SQLException e1) {
+	System.out.println("No se pudo ejecutar la instruccion SQL" + e1);
+	return false;
+	}
+	}
+    
+    public boolean ejecutarInstruccionModificarUsuario(NuevoUsuario nu, String s) {
+	try {	
+        	String sql2="UPDATE RegistroDeUsuarios SET Nombre=?, Usuario=?, Correo=?, Contrasenia=?, Fecha=SYSDATE WHERE id_Usuario='"+s+"'"; 
+                               
+			PreparedStatement pstm = conexion.prepareStatement(sql2);
+                        
+                        String a = nu.getNombre();
+			String b = nu.getUsuario();
+			String c = nu.getCorreo();
+			String d = nu.getContraseña();
 			
 			pstm.setString(1, a);
 			pstm.setString(2, b);

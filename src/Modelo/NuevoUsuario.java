@@ -10,12 +10,17 @@ package Modelo;
  * @author tmx
  */
 public class NuevoUsuario {
-            private String nombre;
+        private String nombre;
         private String usuario;
         private String correo;
 	private String contraseña;
         private String fecha;
 
+    public NuevoUsuario() {
+    }
+
+        
+        
     public NuevoUsuario(String nombre, String usuario, String correo, String contraseña, String fecha) {
         this.nombre = nombre;
         this.usuario = usuario;
