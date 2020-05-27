@@ -71,6 +71,38 @@ public class Conexion {
         }
         
         
+        public DefaultTableModel Productos(String sql){
+            
+        Object []  nombresColumnas = {"ID","Descripcion","Precio","Existencias","Editar","Eliminar"};
+        Object [] registros = {"","","","","",""};
+        
+        DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);
+        
+        try {        
+            pstm = conexion.prepareStatement(sql);                         
+            rs = pstm.executeQuery();
+            
+            while(rs.next())
+            {
+                registros[0] = rs.getString("id_Producto");
+                registros[1] = rs.getString("DescripcionProducto");
+                registros[2] = rs.getString("Precio");
+                registros[3] = rs.getString("Stock");
+                registros[4] = "Editar";
+                registros[5] = "Eliminar"; 
+                modelo.addRow(registros);        
+            }   
+        }
+        catch(SQLException e){
+            JOptionPane.showMessageDialog(null,"Error al conectar");    
+        }
+        finally{   
+        }
+         return modelo;
+    }
+        
+        
+        
         public DefaultTableModel clientes(String sql){
             JButton btnEditar = new JButton();
             btnEditar.setName("Editar");
@@ -106,45 +138,13 @@ public class Conexion {
          return modelo;
     }
     
-    public boolean eliminarRegistro(int id)
-    {
-        String sql = "DELETE FROM cliente WHERE id = ?";
         
-        Connection cn;
         
-        PreparedStatement pst;
         
-        try
-        {
-            cn = conexion;
-            
-            pst = cn.prepareStatement(sql);
-            
-            pst.setInt(1, id);
-            
-            int i = pst.executeUpdate();
-            
-            return i != 0;
-            
-        }
-        catch(SQLException e )
-        {
-            System.out.println("Errero al eliminar registro "+e.getMessage());
-            
-            return false;
-        }
-    }
-     
-    
-    
     public DefaultTableModel usuarios(String sql){
-            JButton btnEditar = new JButton();
-            btnEditar.setName("Editar");
-            JButton btnEliminar = new JButton();
-            btnEliminar.setName("Eliminar");
             
         Object []  nombresColumnas = {"ID","Nombres","Usuario","Correo","Fecha","Editar","Eliminar"};
-        Object [] registros = {"","","","","",btnEditar,btnEliminar};
+        Object [] registros = {"","","","","","",""};
         
         DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);
         
@@ -159,8 +159,8 @@ public class Conexion {
                 registros[2] = rs.getString("Usuario");
                 registros[3] = rs.getString("Correo");
                 registros[4] = rs.getString("Fecha");
-                registros[5] = btnEditar.getName();
-                registros[6] =btnEliminar.getName(); 
+                registros[5] = "Editar";
+                registros[6] = "Eliminar"; 
                 modelo.addRow(registros);        
             }   
         }
@@ -209,6 +209,7 @@ public class Conexion {
          return modelo;
     }
  
+    
     public boolean ejecutarInstruccionLogin(String sql) {
 		try{
                 stm = conexion.prepareStatement(sql);
@@ -222,6 +223,36 @@ public class Conexion {
     } catch (Exception e){
         e.printStackTrace();
         return false;
+    }	
+	}
+    
+     public String buscarIdExistenteProveedor(String sql) {
+		try{
+                stm = conexion.prepareStatement(sql);
+		rs = stm.executeQuery(sql);
+                if( rs.next() ) { 
+                    return rs.getString("id_Proveedor");      
+		}else {
+            return "";        
+		}       
+    } catch (Exception e){
+        e.printStackTrace();
+        return "";
+    }	
+	}
+     
+      public String buscarIdExistenteTipoProducto(String sql) {
+		try{
+                stm = conexion.prepareStatement(sql);
+		rs = stm.executeQuery(sql);
+                if( rs.next() ) { 
+                    return rs.getString("id_TipoProducto");      
+		}else {
+            return "";        
+		}       
+    } catch (Exception e){
+        e.printStackTrace();
+        return "";
     }	
 	}
         
@@ -274,14 +305,14 @@ public class Conexion {
     
     public boolean ejecutarInstruccionProductos(Producto p) {
 		try {
-			String sql =  "INSERT INTO Productos (Descripcion,Precio,Stock,id_TipoProducto,id_Proveedor)VALUES(?,?,?,?,?)";
+			String sql =  "INSERT INTO Productos (DescripcionProducto,Precio,Stock,FK_TipoProducto,FK_Proveedor)VALUES(?,?,?,?,?)";
 			PreparedStatement pstm = conexion.prepareStatement(sql);
                         
 			pstm.setString(1, p.getDescripcionProducto());
 			pstm.setDouble(2, p.getPrecio());
                         pstm.setInt(3, p.getStock());
-                        pstm.setInt(4, p.getId_Producto());
-                        pstm.setInt(5, p.getId_Proveedor());
+                        pstm.setString(4, p.getId_Producto());
+                        pstm.setString(5, p.getId_Proveedor());
 			
 			String sql1= "SELECT * FROM Productos WHERE Descripcion = ?; ";
 			PreparedStatement pstm1 = conexion.prepareStatement(sql1);
@@ -478,6 +509,35 @@ public class Conexion {
 			pstm.setString(2, b);
 			pstm.setString(3, c);
 			pstm.setString(4, d);
+			
+		int ejecucion;
+		ejecucion = pstm.executeUpdate();
+		return ejecucion==1?true:false;
+	} catch (SQLException e1) {
+	System.out.println("No se pudo ejecutar la instruccion SQL" + e1);
+	return false;
+	}
+	}
+     
+     
+     
+        public boolean ejecutarInstruccionModificarProducto(Producto p, String s) {
+	try {	
+        	String sql2="UPDATE Productos SET DescripcionProducto=?, Precio=?, Stock=?, FK_TipoProducto=?, FK_Proveedor=? WHERE id_Producto='"+s+"'"; 
+                               
+			PreparedStatement pstm = conexion.prepareStatement(sql2);
+                        
+                        String a = p.getDescripcionProducto();
+			Double b = p.getPrecio();
+			int c = p.getStock();
+			String d = p.getId_Producto();
+                        String e = p.getId_Proveedor();
+			
+			pstm.setString(1, a);
+			pstm.setDouble(2, b);
+			pstm.setInt(3, c);
+			pstm.setString(4, d);
+                        pstm.setString(5, e);
 			
 		int ejecucion;
 		ejecucion = pstm.executeUpdate();

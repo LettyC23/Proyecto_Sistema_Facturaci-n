@@ -13,18 +13,18 @@ public class Producto {
     private String descripcionProducto;
     private double precio;
     private int stock;
-    private String tipo_Producto;
     private String id_Producto;
+    private String id_Proveedor;
 
     public Producto() {
     }
 
-    public Producto(String descripcionProducto, double precio, int stock, String tipo_Producto, String id_Producto) {
+    public Producto(String descripcionProducto, double precio, int stock, String id_Producto, String id_Proveedor) {
         this.descripcionProducto = descripcionProducto;
         this.precio = precio;
         this.stock = stock;
-        this.tipo_Producto = tipo_Producto;
         this.id_Producto = id_Producto;
+        this.id_Proveedor = id_Proveedor;
     }
 
     public String getDescripcionProducto() {
@@ -51,14 +51,6 @@ public class Producto {
         this.stock = stock;
     }
 
-    public String getTipo_Producto() {
-        return tipo_Producto;
-    }
-
-    public void setTipo_Producto(String tipo_Producto) {
-        this.tipo_Producto = tipo_Producto;
-    }
-
     public String getId_Producto() {
         return id_Producto;
     }
@@ -67,13 +59,20 @@ public class Producto {
         this.id_Producto = id_Producto;
     }
 
+    public String getId_Proveedor() {
+        return id_Proveedor;
+    }
+
+    public void setId_Proveedor(String id_Proveedor) {
+        this.id_Proveedor = id_Proveedor;
+    }
+
     @Override
     public String toString() {
-        return "Producto{" + "descripcionProducto=" + descripcionProducto + ", precio=" + precio + ", stock=" + stock + ", tipo_Producto=" + tipo_Producto + ", id_Producto=" + id_Producto + '}';
+        return "Producto{" + "descripcionProducto=" + descripcionProducto + ", precio=" + precio + ", stock=" + stock + ", id_Producto=" + id_Producto + ", id_Proveedor=" + id_Proveedor + '}';
     }
     
     
-    
-    
-    
+   
+
 }
