@@ -6,6 +6,8 @@
 package Conexion_BD;
 
 import Modelo.Cliente;
+import Modelo.DetalleFactura;
+import Modelo.Factura;
 import Modelo.NuevoUsuario;
 import Modelo.Producto;
 import Modelo.Proveedor;
@@ -210,6 +212,97 @@ public class Conexion {
     }
  
     
+    
+    public DefaultTableModel adicionarProductos(String sql){
+            
+        Object []  nombresColumnas = {"Producto","Cantidad","Precio"," "};
+        Object [] registros = {"","","",""};
+        
+        DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);
+        
+        try {        
+            pstm = conexion.prepareStatement(sql);                         
+            rs = pstm.executeQuery();
+            
+            while(rs.next())
+            {
+                registros[0] = rs.getString("DescripcionProducto");
+                registros[1] ="0";
+                registros[2] = rs.getString("Precio");
+                registros[3] = " Agregar";
+                modelo.addRow(registros);        
+            }   
+        }
+        catch(SQLException e){
+            JOptionPane.showMessageDialog(null,"Error al conectar");    
+        }
+        finally{   
+        }
+         return modelo;
+    }
+    
+    public DefaultTableModel detalleFactura(String sql){
+            
+        Object []  nombresColumnas = {"id_Producto","Cantidad","Descripcion","Precio Unit.", "Precio Total"};
+        Object [] registros = {"","","","",""};
+        
+        DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);
+        
+        try {        
+            pstm = conexion.prepareStatement(sql);                         
+            rs = pstm.executeQuery();
+            
+            while(rs.next())
+            {
+                registros[0] = rs.getString("x");
+                registros[1] = rs.getString("x");
+                registros[2] = rs.getString("x");
+                registros[3] = rs.getString("x");
+                registros[4] = rs.getString("x");
+                modelo.addRow(registros);        
+               
+         }   
+        }
+        catch(SQLException e){   
+        }
+        finally{   
+        }
+         return modelo;
+    }
+    
+    
+    public DefaultTableModel administrarFacturas(String sql){
+            
+        Object []  nombresColumnas = {"No","Vendedor","Estado de Factura","Total","Cliente","Fecha","Editar","Imprimir","Eliminar"};
+        Object [] registros = {"","","","","","","","",""};
+        DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);
+        
+        try { 
+            pstm = conexion.prepareStatement(sql);                         
+            rs = pstm.executeQuery();
+            while(rs.next())
+            {
+                registros[0] = rs.getString("id_Factura");
+                registros[1] = rs.getString("NombreEmpleado");
+                registros[2] = rs.getString("EstadoFactura");
+                registros[3] = rs.getString("Total");
+                registros[4] = rs.getString("NombreCliente");
+                registros[5] = rs.getString("Fecha");
+                registros[6] = "Editar";
+                registros[7] = "Imprimir";
+                registros[8] ="Eliminar"; 
+                
+                modelo.addRow(registros);             
+            }   
+        } catch(SQLException e){    
+            JOptionPane.showMessageDialog(null,"Error al conectar");    
+        }
+        finally{
+            
+        }
+         return modelo;
+    }
+    
     public boolean ejecutarInstruccionLogin(String sql) {
 		try{
                 stm = conexion.prepareStatement(sql);
@@ -256,6 +349,37 @@ public class Conexion {
     }	
 	}
       
+     public String buscarIdExistente(String sql, String columna) {
+		try{
+                stm = conexion.prepareStatement(sql);
+		rs = stm.executeQuery(sql);
+                if( rs.next() ) { 
+                    return rs.getString(columna);      
+		}else {
+            return "";        
+		}       
+    } catch (Exception e){
+        e.printStackTrace();
+        return "";
+    }	
+	}
+      
+      
+    public String contadorRegistros(String sql) {
+		try{
+                stm = conexion.prepareStatement(sql);
+		rs = stm.executeQuery(sql);
+                if( rs.next() ) { 
+                    return rs.getString("Contador");      
+		}else {
+            return "";        
+		}       
+    } catch (Exception e){
+        e.printStackTrace();
+        return "";
+    }	
+	}
+    
       public String buscarContraseña(String sql) {
 		try{
                 stm = conexion.prepareStatement(sql);
@@ -369,6 +493,77 @@ public class Conexion {
 		}
 	}
      
+    
+    public boolean ejecutarInstruccionFactura(Factura f) {
+		try {
+			String sql =  "insert into facturas (nombreempleado, estadofactura,total,nombrecliente,id_formapago, fecha) values (?,?,?,?,?,SYSDATE)";
+			PreparedStatement pstm = conexion.prepareStatement(sql);
+                         
+			pstm.setString(1, f.getVendedor());
+                        pstm.setString(2, f.getEstadoFactura());
+                        pstm.setDouble(3, f.getTotalFactura());
+                        pstm.setString(4, f.getCliente());
+                        pstm.setInt(5, f.getFormaPago());
+
+			String sql1= "SELECT * FROM Facturas WHERE NombreEmpleado = ?; ";
+			PreparedStatement pstm1 = conexion.prepareStatement(sql1);
+                        
+			int ejecucion;
+                        
+			ejecucion = pstm.executeUpdate();
+			return ejecucion==1?true:false;
+	
+		} catch (SQLException e1) {
+               System.out.println("No se pudo ejecutar la instruccion SQL"+ e1);
+		return false;
+		}
+	}
+    
+    
+        public boolean ejecutarInstruccionDetalleFactura(DetalleFactura df) {
+		try {
+			String sql =  "insert into Detalle_Factura (FK_IdFactura, FK_IdProducto,Cantidad,Descripcion,PrecioUnitario,PrecioTotal) values (?,?,?,?,?,?)";
+			PreparedStatement pstm = conexion.prepareStatement(sql);
+                         
+			pstm.setInt(1, df.getFk_Factura());
+                        pstm.setInt(2, df.getFk_idProducto());
+                        pstm.setInt(3, df.getCantiddad());
+                        pstm.setString(4, df.getDescripcion());
+                        pstm.setDouble(5, df.getPrecioUnitario());
+                        pstm.setDouble(6, df.getPrecioTotal());
+
+			String sql1= "SELECT * FROM Detalle_Factura WHERE FK_IdFactura = ?; ";
+			PreparedStatement pstm1 = conexion.prepareStatement(sql1);
+                        
+			int ejecucion;
+                        
+			ejecucion = pstm.executeUpdate();
+			return ejecucion==1?true:false;
+	
+		} catch (SQLException e1) {
+               System.out.println("No se pudo ejecutar la instruccion SQL"+ e1);
+		return false;
+		}
+	}
+        
+        
+    public void llenarComboBox(JComboBox cBoxProveedor, String columna, String item, String consulta){
+        
+        try {
+          PreparedStatement pstm = conexion.prepareStatement(consulta); 
+          ResultSet result = pstm.executeQuery();
+          cBoxProveedor.addItem(item);
+          
+          while(result.next()){
+              cBoxProveedor.addItem(result.getString(columna));
+          }
+      } catch (SQLException ex) {
+          Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+    }
+    
+    
     public void ComboBoxProveedores(JComboBox cBoxProveedor){
         String consulta ="SELECT NombreProveedor FROM Proveedores ORDER BY NombreProveedor ASC";
         try {

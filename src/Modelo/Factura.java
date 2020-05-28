@@ -11,80 +11,69 @@ package Modelo;
  */
 public class Factura {
     
-    private String nombreEmpleado;
-    private String date;
-    private double totalNeto;
-    private double total;
-    private String id_nombre_cliente;
-    private int id_Forma_Pago;
+    String vendedor;
+    String estadoFactura;
+    double totalFactura;
+    String cliente;
+    int formaPago;
     
 
     public Factura() {
     }
 
-    public Factura(String nombreEmpleado, String date, double totalNeto, double total, String id_nombre_cliente, int id_Forma_Pago) {
-        this.nombreEmpleado = nombreEmpleado;
-        this.date = date;
-        this.totalNeto = totalNeto;
-        this.total = total;
-        this.id_nombre_cliente = id_nombre_cliente;
-        this.id_Forma_Pago = id_Forma_Pago;
+    public Factura(String vendedor, String estadoFactura, double totalFactura, String cliente, int formaPago) {
+        this.vendedor = vendedor;
+        this.estadoFactura = estadoFactura;
+        this.totalFactura = totalFactura;
+        this.cliente = cliente;
+        this.formaPago = formaPago;
     }
 
-    public String getNombreEmpleado() {
-        return nombreEmpleado;
+    public String getVendedor() {
+        return vendedor;
     }
 
-    public void setNombreEmpleado(String nombreEmpleado) {
-        this.nombreEmpleado = nombreEmpleado;
+    public void setVendedor(String vendedor) {
+        this.vendedor = vendedor;
     }
 
-    public String getDate() {
-        return date;
+    public String getEstadoFactura() {
+        return estadoFactura;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setEstadoFactura(String estadoFactura) {
+        this.estadoFactura = estadoFactura;
     }
 
-    public double getTotalNeto() {
-        return totalNeto;
+    public double getTotalFactura() {
+        return totalFactura;
     }
 
-    public void setTotalNeto(double totalNeto) {
-        this.totalNeto = totalNeto;
+    public void setTotalFactura(double totalFactura) {
+        this.totalFactura = totalFactura;
     }
 
-    public double getTotal() {
-        return total;
+    public String getCliente() {
+        return cliente;
     }
 
-    public void setTotal(double total) {
-        this.total = total;
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
     }
 
-    public String getId_nombre_cliente() {
-        return id_nombre_cliente;
+    public int getFormaPago() {
+        return formaPago;
     }
 
-    public void setId_nombre_cliente(String id_nombre_cliente) {
-        this.id_nombre_cliente = id_nombre_cliente;
-    }
-
-    public int getId_Forma_Pago() {
-        return id_Forma_Pago;
-    }
-
-    public void setId_Forma_Pago(int id_Forma_Pago) {
-        this.id_Forma_Pago = id_Forma_Pago;
+    public void setFormaPago(int formaPago) {
+        this.formaPago = formaPago;
     }
 
     @Override
     public String toString() {
-        return "Factura{" + "nombreEmpleado=" + nombreEmpleado + ", date=" + date + ", totalNeto=" + totalNeto + ", total=" + total + ", id_nombre_cliente=" + id_nombre_cliente + ", id_Forma_Pago=" + id_Forma_Pago + '}';
+        return "Factura{" + "vendedor=" + vendedor + ", estadoFactura=" + estadoFactura + ", totalFactura=" + totalFactura + ", cliente=" + cliente + ", formaPago=" + formaPago + '}';
     }
 
-    
     
     
 }
