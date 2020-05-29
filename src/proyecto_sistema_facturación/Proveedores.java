@@ -6,13 +6,35 @@
 package proyecto_sistema_facturación;
 
 import Conexion_BD.Conexion;
+import Controlador.ClienteDAO;
+import Controlador.ProductoDAO;
 import Controlador.ProveedorDAO;
+import Controlador.UsuarioDAO;
 import Modelo.ActualizarTablas;
+import Modelo.Cliente;
 import Modelo.Proveedor;
 import Modelo.ValidarDatos;
 import java.awt.Color;
+import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import static proyecto_sistema_facturación.Clientes.tablaClientes;
+import static proyecto_sistema_facturación.Inicio.txtContadorClientes;
+import static proyecto_sistema_facturación.Inicio.txtContadorProductos;
+import static proyecto_sistema_facturación.Inicio.txtContadorProveedores;
+import static proyecto_sistema_facturación.Inicio.txtContadorUsuarios;
 
 /**
  *
@@ -34,7 +56,7 @@ public class Proveedores extends javax.swing.JPanel {
     }
     public Proveedores() {
         initComponents();
-        
+        txtBuscarProveedor.setText("Igresa el ID o nombre");
         DefaultTableModel modelo = c.proveedores("SELECT * FROM Proveedores");
         tablaProveedores.setModel(modelo); 
     }
@@ -72,6 +94,10 @@ public class Proveedores extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaProveedores = new javax.swing.JTable();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -231,6 +257,9 @@ public class Proveedores extends javax.swing.JPanel {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 pCerrarProveedoresMouseExited(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pCerrarProveedoresMousePressed(evt);
+            }
         });
 
         jCerrarProveedores.setText("x");
@@ -253,6 +282,11 @@ public class Proveedores extends javax.swing.JPanel {
 
         jPanel5.setBackground(new java.awt.Color(230, 230, 230));
 
+        txtBuscarProveedor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                txtBuscarProveedorMousePressed(evt);
+            }
+        });
         txtBuscarProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBuscarProveedorKeyReleased(evt);
@@ -309,7 +343,40 @@ public class Proveedores extends javax.swing.JPanel {
                 "ID", "Nombre", "Empresa", "Dirección ", "Teléfono", " E"
             }
         ));
+        tablaProveedores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tablaProveedoresMousePressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablaProveedores);
+
+        jPanel7.setBackground(new java.awt.Color(51, 102, 255));
+        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel7MousePressed(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Generar Reporte");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel9)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout pProveedoresLayout = new javax.swing.GroupLayout(pProveedores);
         pProveedores.setLayout(pProveedoresLayout);
@@ -326,6 +393,10 @@ public class Proveedores extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jScrollPane2)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pProveedoresLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
         );
         pProveedoresLayout.setVerticalGroup(
             pProveedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -337,7 +408,37 @@ public class Proveedores extends javax.swing.JPanel {
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel4.setBackground(new java.awt.Color(51, 102, 255));
+        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel4MousePressed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Generar Reporte");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -345,12 +446,22 @@ public class Proveedores extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pProveedores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(244, 244, 244)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(244, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(233, 233, 233)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(262, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -365,8 +476,25 @@ public class Proveedores extends javax.swing.JPanel {
         direccion = txtDireccion.getText();
         telefono = txtTelefono.getText();
         
-        Proveedor agregarProveedor = new Proveedor(nombreProveedor,nombreEmpresa, direccion, telefono);
-        new ProveedorDAO().AgregarProveedor(agregarProveedor);
+        if(!nombreProveedor.isEmpty() && !nombreEmpresa.isEmpty() && !direccion.isEmpty() && !telefono.isEmpty()){
+            if(telefono.length()==10){
+                Proveedor agregarProveedor = new Proveedor(nombreProveedor,nombreEmpresa, direccion, telefono);
+                new ProveedorDAO().AgregarProveedor(agregarProveedor);
+                DefaultTableModel modelo = c.proveedores("SELECT * FROM Proveedores");
+                tablaProveedores.setModel(modelo);
+                txtNombreProveedor.setText("");
+                txtNombreEmpresa.setText("");
+                txtDireccion.setText("");
+                txtTelefono.setText("");
+            }else{
+                JOptionPane.showMessageDialog(null, "El numéro de teléfono ingresado es incorrecto", "Error al registrar", JOptionPane.ERROR_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Debes llenar todos los campos", "Error al registrar", JOptionPane.ERROR_MESSAGE);
+           
+        }
+        
+        
         
     }//GEN-LAST:event_pGuardarProveedoresMousePressed
 
@@ -417,6 +545,78 @@ public class Proveedores extends javax.swing.JPanel {
         pGuardarProveedores.setBorder(new LineBorder(new Color(204,204,255),1,true));
     }//GEN-LAST:event_pGuardarProveedoresMouseExited
 
+    private void tablaProveedoresMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProveedoresMousePressed
+        if(tablaProveedores.getSelectedColumn()==5){
+            int fila = tablaProveedores.getSelectedRow();
+            EditarProveedor ep = new EditarProveedor();
+            ep.txtId.setText(tablaProveedores.getValueAt(fila, 0).toString());
+            ep.txtEditarNombreProveedor.setText(tablaProveedores.getValueAt(fila, 1).toString());
+            ep.txtEditarEmpresProveedor.setText(tablaProveedores.getValueAt(fila, 2).toString());
+            ep.txtEditarDireccionProveedor.setText(tablaProveedores.getValueAt(fila, 3).toString());
+            ep.txtEditarTelefonoProveedor.setText(tablaProveedores.getValueAt(fila, 4).toString());
+            ep.setVisible(true);
+            
+                }else if(tablaProveedores.getSelectedColumn()==6){
+                    
+
+                    String botones [] ={"Si","No"};
+                    int eleccion=JOptionPane.showOptionDialog(this, "¿Estas seguro de eliminar el registro "+tablaProveedores.getValueAt(tablaProveedores.getSelectedRow(), 0)+" ?", "Eliminar cliente", 0, 0, null, botones, this);
+
+                    if(eleccion==JOptionPane.YES_OPTION){
+                         String sql3 = "DELETE FROM Proveedores WHERE id_Proveedor="+tablaProveedores.getValueAt(tablaProveedores.getSelectedRow(), 0).toString()+"";
+                         
+                         new ProveedorDAO().EliminarProveedor(sql3);
+
+                         DefaultTableModel modelo = c.proveedores("SELECT * FROM Proveedores"); 
+                         tablaProveedores.setModel(modelo); 
+                }
+        }
+    }//GEN-LAST:event_tablaProveedoresMousePressed
+
+    private void txtBuscarProveedorMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarProveedorMousePressed
+        txtBuscarProveedor.setText("");
+    }//GEN-LAST:event_txtBuscarProveedorMousePressed
+
+    private void pCerrarProveedoresMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pCerrarProveedoresMousePressed
+        this.setVisible(false);
+        txtContadorClientes.setText(new ClienteDAO().ContadorCliente());
+        txtContadorProveedores.setText(new ProveedorDAO().ContadorProveedor());
+        txtContadorProductos.setText(new ProductoDAO().ContadorProducto());
+        txtContadorUsuarios.setText(new UsuarioDAO().ContadorUsuarios());
+
+    }//GEN-LAST:event_pCerrarProveedoresMousePressed
+
+    private void jPanel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MousePressed
+     try {
+            Conexion con = new Conexion();
+            Connection conn = con.conexion;
+
+            JasperReport reporte = null;
+            String path = "src\\Reporte\\ReporteProveedores.jasper";
+
+            Map parametro = new HashMap();
+            //parametro.put("id_cliente", 1);
+
+            reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, conn);
+
+            JasperViewer view = new JasperViewer(jprint,false);
+
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+            view.setVisible(true);
+
+        } catch (JRException ex) {
+            Logger.getLogger(Administrar_Facturas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }//GEN-LAST:event_jPanel4MousePressed
+
+    private void jPanel7MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel7MousePressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jCerrarProveedores;
@@ -425,19 +625,23 @@ public class Proveedores extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JPanel pCerrarProveedores;
     private javax.swing.JPanel pGuardarProveedores;
     private javax.swing.JPanel pProveedores;
-    private javax.swing.JTable tablaProveedores;
+    public static javax.swing.JTable tablaProveedores;
     private javax.swing.JTextField txtBuscarProveedor;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtNombreEmpresa;
