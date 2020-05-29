@@ -5,10 +5,14 @@
  */
 package proyecto_sistema_facturación;
 
+import Conexion_BD.Conexion;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 import Modelo.Cliente;
 import Controlador.ClienteDAO;
+import Controlador.ProductoDAO;
+import Controlador.ProveedorDAO;
+import Controlador.UsuarioDAO;
 import Modelo.ActualizarTablas;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -20,12 +24,30 @@ import javax.swing.table.TableColumn;
 import java.util.ArrayList;
 import Modelo.ValidarDatos;
 import java.awt.Component;
+import java.sql.Connection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.table.TableCellRenderer;
+import static proyecto_sistema_facturación.Inicio.txtContadorClientes;
+import static proyecto_sistema_facturación.Inicio.txtContadorProductos;
+import static proyecto_sistema_facturación.Inicio.txtContadorProveedores;
+import static proyecto_sistema_facturación.Inicio.txtContadorUsuarios;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import net.sf.jasperreports.compilers.JavaScriptClassLoader;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -48,6 +70,7 @@ public class Clientes extends javax.swing.JPanel {
     }
     public Clientes() {
         initComponents();
+        txtBuscarCliente.setText("Ingresa el nombre del cliente");
         DefaultTableModel modelo = c.clientes("SELECT * FROM Clientes"); 
         tablaClientes.setModel(modelo); 
         
@@ -81,6 +104,8 @@ public class Clientes extends javax.swing.JPanel {
         jCerrarClientes = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tablaClientes = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
 
         pClientes.setDebugGraphicsOptions(javax.swing.DebugGraphics.LOG_OPTION);
 
@@ -233,6 +258,11 @@ public class Clientes extends javax.swing.JPanel {
 
         txtBuscarCliente.setToolTipText("");
         txtBuscarCliente.setName(""); // NOI18N
+        txtBuscarCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                txtBuscarClienteMousePressed(evt);
+            }
+        });
         txtBuscarCliente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBuscarClienteKeyReleased(evt);
@@ -300,6 +330,9 @@ public class Clientes extends javax.swing.JPanel {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 pcerrarClientesMouseExited(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pcerrarClientesMousePressed(evt);
+            }
         });
 
         jCerrarClientes.setText("x");
@@ -350,6 +383,34 @@ public class Clientes extends javax.swing.JPanel {
         });
         jScrollPane5.setViewportView(tablaClientes);
 
+        jPanel4.setBackground(new java.awt.Color(51, 102, 255));
+        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel4MousePressed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Generar Reporte");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout pClientesLayout = new javax.swing.GroupLayout(pClientes);
         pClientes.setLayout(pClientesLayout);
         pClientesLayout.setHorizontalGroup(
@@ -369,8 +430,12 @@ public class Clientes extends javax.swing.JPanel {
                 .addContainerGap())
             .addGroup(pClientesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane5)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pClientesLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         pClientesLayout.setVerticalGroup(
             pClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -384,7 +449,9 @@ public class Clientes extends javax.swing.JPanel {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -397,7 +464,7 @@ public class Clientes extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 19, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -426,15 +493,11 @@ public class Clientes extends javax.swing.JPanel {
     }//GEN-LAST:event_pGuardarClienteMouseExited
 
     private void pBuscarClienteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pBuscarClienteMouseEntered
-        jBuscarCliente.setForeground(Color.WHITE);
-        pBuscarCliente.setBackground(new Color(51,0,255));
-        pBuscarCliente.setBorder(new LineBorder(new Color(51,0,255),1,true));
+        
     }//GEN-LAST:event_pBuscarClienteMouseEntered
 
     private void pBuscarClienteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pBuscarClienteMouseExited
-        jBuscarCliente.setForeground(Color.BLACK);
-        pBuscarCliente.setBackground(new Color(204,204,255));
-        pBuscarCliente.setBorder(new LineBorder(new Color(204,204,255),1,true));
+        
     }//GEN-LAST:event_pBuscarClienteMouseExited
 
     private void pcerrarClientesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pcerrarClientesMouseEntered
@@ -539,8 +602,8 @@ public class Clientes extends javax.swing.JPanel {
         if(eleccion==JOptionPane.YES_OPTION){
             String sql3 = "DELETE FROM Clientes WHERE id_Cliente="+tablaClientes.getValueAt(tablaClientes.getSelectedRow(), 0).toString()+"";
         
-            Cliente eliminarCliente = new Cliente();
-            new ClienteDAO().EliminarCliente(eliminarCliente, sql3);
+            
+            new ClienteDAO().EliminarCliente(sql3);
         
                  DefaultTableModel modelo = c.clientes("SELECT * FROM Clientes"); 
                  tablaClientes.setModel(modelo); 
@@ -552,6 +615,44 @@ public class Clientes extends javax.swing.JPanel {
         }
         
     }//GEN-LAST:event_tablaClientesMousePressed
+
+    private void txtBuscarClienteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarClienteMousePressed
+        txtBuscarCliente.setText("");
+    }//GEN-LAST:event_txtBuscarClienteMousePressed
+
+    private void pcerrarClientesMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pcerrarClientesMousePressed
+        this.setVisible(false);
+        txtContadorClientes.setText(new ClienteDAO().ContadorCliente());
+        txtContadorProveedores.setText(new ProveedorDAO().ContadorProveedor());
+        txtContadorProductos.setText(new ProductoDAO().ContadorProducto());
+        txtContadorUsuarios.setText(new UsuarioDAO().ContadorUsuarios());
+    }//GEN-LAST:event_pcerrarClientesMousePressed
+
+    private void jPanel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MousePressed
+        try {
+            Conexion con = new Conexion();
+            Connection conn = con.conexion;
+
+            JasperReport reporte = null;
+            String path = "src\\Reporte\\report3.jasper";
+
+            Map parametro = new HashMap();
+            //parametro.put("id_cliente", 1);
+
+            reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, conn);
+
+            JasperViewer view = new JasperViewer(jprint,false);
+
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+            view.setVisible(true);
+
+        } catch (JRException ex) {
+            Logger.getLogger(Administrar_Facturas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jPanel4MousePressed
 
     public void eliminar(){
       
@@ -567,8 +668,10 @@ public class Clientes extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
