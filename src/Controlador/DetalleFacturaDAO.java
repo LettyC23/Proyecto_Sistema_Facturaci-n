@@ -21,5 +21,10 @@ public class DetalleFacturaDAO {
         	return conexion.ejecutarInstruccionDetalleFactura(df);
 	}
     
-    
+    public boolean eliminar(String id) {
+		Conexion_BD.Conexion conexion = new Conexion_BD.Conexion();
+		String sql = "DELETE FROM Detalle_Factura WHERE FK_IdFactura='"+id+"'";
+		
+		return conexion.ejecutarInstruccionEliminar(sql);
+	}
 }

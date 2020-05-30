@@ -20,7 +20,9 @@ import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import static proyecto_sistema_facturación.Administrar_Facturas.tablaAdministrarFacturas;
 import static proyecto_sistema_facturación.Clientes.tablaClientes;
+import static proyecto_sistema_facturación.EditarFactura.tablaAdicionarProductosEditar;
 import static proyecto_sistema_facturación.Inicio.txtContadorClientes;
 import static proyecto_sistema_facturación.Inicio.txtContadorProductos;
 import static proyecto_sistema_facturación.Inicio.txtContadorProveedores;
@@ -48,6 +50,7 @@ public class Nueva_Factura extends javax.swing.JPanel {
     }
     public Nueva_Factura() {
         initComponents();
+        txtBuscarProducto.setText("Descripción");
         DefaultTableModel modelo = c.adicionarProductos("SELECT DescripcionProducto, Precio FROM Productos"); 
         tablaAdicionarProductos.setModel(modelo);
         c.llenarComboBox(cboxClienteFactura, "NombreCliente", "Cliente","SELECT NombreCliente FROM Clientes ORDER BY NombreCliente ASC");
@@ -99,11 +102,13 @@ public class Nueva_Factura extends javax.swing.JPanel {
         cboxFormaPagoFactura = new javax.swing.JComboBox<>();
         cboxVendedorFactura = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        txtBuscarProducto = new javax.swing.JTextField();
         cboxClienteFactura = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaAdicionarProductos = new javax.swing.JTable();
         cboxEstadoFactura = new javax.swing.JComboBox<>();
+        pBuscarCliente = new javax.swing.JPanel();
+        jBuscarCliente = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jTextField4 = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -141,7 +146,20 @@ public class Nueva_Factura extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Adicionar Productos");
 
-        jTextField5.setToolTipText("Buscar productos");
+        txtBuscarProducto.setToolTipText("Buscar productos");
+        txtBuscarProducto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                txtBuscarProductoMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                txtBuscarProductoMouseReleased(evt);
+            }
+        });
+        txtBuscarProducto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarProductoKeyReleased(evt);
+            }
+        });
 
         tablaAdicionarProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -177,6 +195,33 @@ public class Nueva_Factura extends javax.swing.JPanel {
 
         cboxEstadoFactura.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Estado", "Pagado", "Por pagar" }));
 
+        pBuscarCliente.setBackground(new java.awt.Color(204, 204, 255));
+        pBuscarCliente.setPreferredSize(new java.awt.Dimension(36, 25));
+        pBuscarCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pBuscarClienteMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pBuscarClienteMouseExited(evt);
+            }
+        });
+
+        jBuscarCliente.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jBuscarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/icon.png"))); // NOI18N
+
+        javax.swing.GroupLayout pBuscarClienteLayout = new javax.swing.GroupLayout(pBuscarCliente);
+        pBuscarCliente.setLayout(pBuscarClienteLayout);
+        pBuscarClienteLayout.setHorizontalGroup(
+            pBuscarClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pBuscarClienteLayout.createSequentialGroup()
+                .addComponent(jBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
+        );
+        pBuscarClienteLayout.setVerticalGroup(
+            pBuscarClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jBuscarCliente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout pDatosFacturaLayout = new javax.swing.GroupLayout(pDatosFactura);
         pDatosFactura.setLayout(pDatosFacturaLayout);
         pDatosFacturaLayout.setHorizontalGroup(
@@ -194,7 +239,10 @@ public class Nueva_Factura extends javax.swing.JPanel {
                         .addComponent(cboxVendedorFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cboxEstadoFactura, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pDatosFacturaLayout.createSequentialGroup()
+                        .addComponent(txtBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pDatosFacturaLayout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addComponent(jLabel4))
@@ -216,7 +264,9 @@ public class Nueva_Factura extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pDatosFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 20, Short.MAX_VALUE))
@@ -499,6 +549,7 @@ public class Nueva_Factura extends javax.swing.JPanel {
 
     private void pCerrarFacturasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pCerrarFacturasMousePressed
         this.setVisible(false);
+        txtBuscarProducto.setText("Descripción");
         txtContadorClientes.setText(new ClienteDAO().ContadorCliente());
         txtContadorProveedores.setText(new ProveedorDAO().ContadorProveedor());
         txtContadorProductos.setText(new ProductoDAO().ContadorProducto());
@@ -606,6 +657,8 @@ public class Nueva_Factura extends javax.swing.JPanel {
 
                                 }
                                 JOptionPane.showMessageDialog(null, "Factura exitosa", "Factura", JOptionPane.WIDTH);
+                                DefaultTableModel modeloF = c.administrarFacturas("SELECT * FROM Facturas"); 
+                                tablaAdministrarFacturas.setModel(modeloF);
                                 DefaultTableModel modelo = c.adicionarProductos("SELECT DescripcionProducto, Precio FROM Productos"); 
             
                                      cboxClienteFactura.setSelectedIndex(0);
@@ -649,16 +702,37 @@ public class Nueva_Factura extends javax.swing.JPanel {
     }//GEN-LAST:event_pGuardarMousePressed
 
     private void pCerrarFacturasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pCerrarFacturasMouseEntered
-         pCerrarFacturas.setForeground(Color.WHITE);
-        jCerrarFacturas.setBackground(new Color(255,0,51));
-        jCerrarFacturas.setBorder(new LineBorder(new Color(255,0,51),1,true));
+         jCerrarFacturas.setForeground(Color.WHITE);
+        pCerrarFacturas.setBackground(new Color(255,0,51));
+        pCerrarFacturas.setBorder(new LineBorder(new Color(255,0,51),1,true));
     }//GEN-LAST:event_pCerrarFacturasMouseEntered
 
     private void pCerrarFacturasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pCerrarFacturasMouseExited
-        pCerrarFacturas.setForeground(Color.BLACK);
-        jCerrarFacturas.setBackground(new Color(220,220,220));
-        jCerrarFacturas.setBorder(new LineBorder(new Color(220,220,220),1,true));
+        jCerrarFacturas.setForeground(Color.BLACK);
+        pCerrarFacturas.setBackground(new Color(220,220,220));
+        pCerrarFacturas.setBorder(new LineBorder(new Color(220,220,220),1,true));
     }//GEN-LAST:event_pCerrarFacturasMouseExited
+
+    private void txtBuscarProductoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarProductoKeyReleased
+        DefaultTableModel modelo = c.adicionarProductos("SELECT DescripcionProducto, Precio FROM Productos WHERE DescripcionProducto LIKE '%" + txtBuscarProducto.getText()+"%'"); 
+        tablaAdicionarProductos.setModel(modelo);
+    }//GEN-LAST:event_txtBuscarProductoKeyReleased
+
+    private void txtBuscarProductoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarProductoMousePressed
+        txtBuscarProducto.setText("");
+    }//GEN-LAST:event_txtBuscarProductoMousePressed
+
+    private void pBuscarClienteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pBuscarClienteMouseEntered
+
+    }//GEN-LAST:event_pBuscarClienteMouseEntered
+
+    private void pBuscarClienteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pBuscarClienteMouseExited
+
+    }//GEN-LAST:event_pBuscarClienteMouseExited
+
+    private void txtBuscarProductoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarProductoMouseReleased
+        validarDatos.validarSoloLetras(txtBuscarProducto);
+    }//GEN-LAST:event_txtBuscarProductoMouseReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -666,6 +740,7 @@ public class Nueva_Factura extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cboxEstadoFactura;
     private javax.swing.JComboBox<String> cboxFormaPagoFactura;
     private javax.swing.JComboBox<String> cboxVendedorFactura;
+    private javax.swing.JLabel jBuscarCliente;
     private javax.swing.JLabel jCancelar;
     private javax.swing.JLabel jCerrarFacturas;
     private javax.swing.JLabel jGuardar;
@@ -679,7 +754,7 @@ public class Nueva_Factura extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JPanel pBuscarCliente;
     private javax.swing.JPanel pCancelar;
     private javax.swing.JPanel pCerrarFacturas;
     private javax.swing.JPanel pDatosFactura;
@@ -687,6 +762,7 @@ public class Nueva_Factura extends javax.swing.JPanel {
     private javax.swing.JPanel pNuevaFactura;
     private javax.swing.JTable tablaAdicionarProductos;
     private javax.swing.JTable tablaDetalleFactura;
+    private javax.swing.JTextField txtBuscarProducto;
     private javax.swing.JTextField txtIva;
     private javax.swing.JTextField txtSubtotal;
     private javax.swing.JTextField txtTotal;
