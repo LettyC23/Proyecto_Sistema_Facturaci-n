@@ -10,6 +10,7 @@ import Controlador.ClienteDAO;
 import Controlador.ProductoDAO;
 import Controlador.ProveedorDAO;
 import Controlador.UsuarioDAO;
+import Gráficas.Graficas;
 import Modelo.ActualizarTablas;
 import Modelo.Cliente;
 import Modelo.Proveedor;
@@ -30,11 +31,19 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
 import static proyecto_sistema_facturación.Clientes.tablaClientes;
+import static proyecto_sistema_facturación.Inicio.tablaProductoMasVendido;
+import static proyecto_sistema_facturación.Inicio.tablaSotckInicio;
+import static proyecto_sistema_facturación.Inicio.tablaUltimosRegistros;
 import static proyecto_sistema_facturación.Inicio.txtContadorClientes;
 import static proyecto_sistema_facturación.Inicio.txtContadorProductos;
 import static proyecto_sistema_facturación.Inicio.txtContadorProveedores;
 import static proyecto_sistema_facturación.Inicio.txtContadorUsuarios;
+import static proyecto_sistema_facturación.Vista.tablaVista;
 
 /**
  *
@@ -96,6 +105,8 @@ public class Proveedores extends javax.swing.JPanel {
         tablaProveedores = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
+        pVerProductos = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
 
@@ -208,7 +219,7 @@ public class Proveedores extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addContainerGap(97, Short.MAX_VALUE))
+                        .addContainerGap())
                     .addComponent(txtDireccion)))
         );
         jPanel3Layout.setVerticalGroup(
@@ -352,6 +363,9 @@ public class Proveedores extends javax.swing.JPanel {
 
         jPanel7.setBackground(new java.awt.Color(51, 102, 255));
         jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel7MouseClicked(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jPanel7MousePressed(evt);
             }
@@ -378,39 +392,75 @@ public class Proveedores extends javax.swing.JPanel {
                 .addContainerGap())
         );
 
+        pVerProductos.setBackground(new java.awt.Color(102, 102, 255));
+        pVerProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pVerProductosMousePressed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Ver Productos");
+
+        javax.swing.GroupLayout pVerProductosLayout = new javax.swing.GroupLayout(pVerProductos);
+        pVerProductos.setLayout(pVerProductosLayout);
+        pVerProductosLayout.setHorizontalGroup(
+            pVerProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pVerProductosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pVerProductosLayout.setVerticalGroup(
+            pVerProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pVerProductosLayout.createSequentialGroup()
+                .addContainerGap(13, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout pProveedoresLayout = new javax.swing.GroupLayout(pProveedores);
         pProveedores.setLayout(pProveedoresLayout);
         pProveedoresLayout.setHorizontalGroup(
             pProveedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pProveedoresLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(pCerrarProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(pProveedoresLayout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 66, Short.MAX_VALUE))
             .addGroup(pProveedoresLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
+                .addGroup(pProveedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pProveedoresLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pProveedoresLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(pCerrarProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pProveedoresLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pVerProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addGap(43, 43, 43))
         );
         pProveedoresLayout.setVerticalGroup(
             pProveedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pProveedoresLayout.createSequentialGroup()
-                .addComponent(pCerrarProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(pProveedoresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pVerProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pProveedoresLayout.createSequentialGroup()
+                        .addComponent(pCerrarProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(110, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(51, 102, 255));
@@ -445,12 +495,14 @@ public class Proveedores extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pProveedores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pProveedores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(244, 244, 244)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(244, Short.MAX_VALUE)))
+                    .addContainerGap(271, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -461,7 +513,7 @@ public class Proveedores extends javax.swing.JPanel {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(233, 233, 233)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(262, Short.MAX_VALUE)))
+                    .addContainerGap(361, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -584,10 +636,69 @@ public class Proveedores extends javax.swing.JPanel {
         txtContadorProductos.setText(new ProductoDAO().ContadorProducto());
         txtContadorUsuarios.setText(new UsuarioDAO().ContadorUsuarios());
 
+         DefaultTableModel miModelo;
+            Graficas miGrafica = new Graficas();
+       
+            miModelo = miGrafica.agruparProductos();
+            tablaProductoMasVendido.setModel(miModelo);
+            
+            
+            DefaultPieDataset dtsc = new DefaultPieDataset();
+            
+            for(int i = 0; i < tablaProductoMasVendido.getRowCount(); i++){
+                dtsc.setValue(tablaProductoMasVendido.getValueAt(i, 0).toString(), Integer.parseInt(tablaProductoMasVendido.getValueAt(i, 1).toString()));
+            }
+            JFreeChart ch = ChartFactory.createPieChart("Productos más vendidos", dtsc,true, true, false);
+            ChartPanel cp = new ChartPanel(ch);
+            add(cp);
+            cp.setBounds(0,245,390,300);
+            cp.setVisible(true);
+            
+            txtContadorClientes.setText(new ClienteDAO().ContadorCliente());
+            txtContadorProveedores.setText(new ProveedorDAO().ContadorProveedor());
+            txtContadorProductos.setText(new ProductoDAO().ContadorProducto());
+            txtContadorUsuarios.setText(new UsuarioDAO().ContadorUsuarios());
+
+            DefaultTableModel modelo = c.UltimosUsuariosRegistrados("SELECT Usuario, Correo, Fecha FROM RegistroDeUsuarios ORDER BY id_Usuario DESC FETCH FIRST 8 ROWS ONLY");
+            tablaUltimosRegistros.setModel(modelo);
+
+             DefaultTableModel modelo1 = c.StockProductos("select DescripcionProducto from Productos WHERE Stock<6");
+            tablaSotckInicio.setModel(modelo1);
     }//GEN-LAST:event_pCerrarProveedoresMousePressed
 
     private void jPanel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MousePressed
-     try {
+       try {
+            Conexion con = new Conexion();
+            Connection conn = con.conexion;
+
+            JasperReport reporte = null;
+            String path = "src\\Reporte\\report3.jasper";
+
+            Map parametro = new HashMap();
+            //parametro.put("id_cliente", 1);
+
+            reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, conn);
+
+            JasperViewer view = new JasperViewer(jprint,false);
+
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+            view.setVisible(true);
+
+        } catch (JRException ex) {
+            Logger.getLogger(Administrar_Facturas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    }//GEN-LAST:event_jPanel4MousePressed
+
+    private void jPanel7MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MousePressed
+        
+    }//GEN-LAST:event_jPanel7MousePressed
+
+    private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
+         try {
             Conexion con = new Conexion();
             Connection conn = con.conexion;
 
@@ -610,17 +721,21 @@ public class Proveedores extends javax.swing.JPanel {
         } catch (JRException ex) {
             Logger.getLogger(Administrar_Facturas.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
-    }//GEN-LAST:event_jPanel4MousePressed
+    }//GEN-LAST:event_jPanel7MouseClicked
 
-    private void jPanel7MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MousePressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel7MousePressed
+    private void pVerProductosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pVerProductosMousePressed
+        Vista v = new Vista();
+        v.setVisible(true);
+        DefaultTableModel mo = new ProveedorDAO().vista();
+        tablaVista.setModel(mo);
+        
+    }//GEN-LAST:event_pVerProductosMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jCerrarProveedores;
     private javax.swing.JLabel jGuardarProveedores;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -641,6 +756,7 @@ public class Proveedores extends javax.swing.JPanel {
     private javax.swing.JPanel pCerrarProveedores;
     private javax.swing.JPanel pGuardarProveedores;
     private javax.swing.JPanel pProveedores;
+    private javax.swing.JPanel pVerProductos;
     public static javax.swing.JTable tablaProveedores;
     private javax.swing.JTextField txtBuscarProveedor;
     private javax.swing.JTextField txtDireccion;

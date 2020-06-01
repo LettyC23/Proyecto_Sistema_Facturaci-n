@@ -8,6 +8,7 @@ package Controlador;
 import Conexion_BD.Conexion;
 import Modelo.Cliente;
 import Modelo.Proveedor;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,5 +25,23 @@ public class ProveedorDAO {
 		Conexion conexion = new Conexion();
 		
 		return conexion.ejecutarInstruccionModificarProveedor(proveedor, s);
+	}
+    public boolean EliminarProveedor( String s) {
+		Conexion conexion = new Conexion();
+		
+		return conexion.ejecutarInstruccionEliminar(s);
+	}
+    
+    public String ContadorProveedor () {
+       String sql = "SELECT count(id_Proveedor) as Contador FROM Proveedores";
+		Conexion conexion = new Conexion();
+		return conexion.contadorRegistros(sql);
+	}
+    
+    
+    public DefaultTableModel vista () {
+       String sql = "SELECT  * from ProductosRegistrados";
+		Conexion conexion = new Conexion();
+		return conexion.vistaMultitabla(sql);
 	}
 }
