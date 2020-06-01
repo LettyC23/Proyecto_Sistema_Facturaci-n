@@ -12,6 +12,7 @@ import Controlador.FacturaDAO;
 import Controlador.ProductoDAO;
 import Controlador.ProveedorDAO;
 import Controlador.UsuarioDAO;
+import Gráficas.Graficas;
 import Modelo.DetalleFactura;
 import Modelo.Factura;
 import Modelo.ValidarDatos;
@@ -20,9 +21,17 @@ import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
 import static proyecto_sistema_facturación.Administrar_Facturas.tablaAdministrarFacturas;
 import static proyecto_sistema_facturación.Clientes.tablaClientes;
 import static proyecto_sistema_facturación.EditarFactura.tablaAdicionarProductosEditar;
+import static proyecto_sistema_facturación.EditarFactura.tablaDetalleFacturaEditar;
+import static proyecto_sistema_facturación.Inicio.tablaProductoMasVendido;
+import static proyecto_sistema_facturación.Inicio.tablaSotckInicio;
+import static proyecto_sistema_facturación.Inicio.tablaUltimosRegistros;
 import static proyecto_sistema_facturación.Inicio.txtContadorClientes;
 import static proyecto_sistema_facturación.Inicio.txtContadorProductos;
 import static proyecto_sistema_facturación.Inicio.txtContadorProveedores;
@@ -173,14 +182,20 @@ public class Nueva_Factura extends javax.swing.JPanel {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, true
+                false, true, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tablaAdicionarProductos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tablaAdicionarProductos.setEditingColumn(1);
+        tablaAdicionarProductos.setRowHeight(17);
+        tablaAdicionarProductos.setRowSelectionAllowed(false);
+        tablaAdicionarProductos.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tablaAdicionarProductos.getTableHeader().setResizingAllowed(false);
+        tablaAdicionarProductos.getTableHeader().setReorderingAllowed(false);
         tablaAdicionarProductos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 tablaAdicionarProductosMousePressed(evt);
@@ -192,6 +207,15 @@ public class Nueva_Factura extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(tablaAdicionarProductos);
+        if (tablaAdicionarProductos.getColumnModel().getColumnCount() > 0) {
+            tablaAdicionarProductos.getColumnModel().getColumn(0).setPreferredWidth(200);
+            tablaAdicionarProductos.getColumnModel().getColumn(1).setResizable(false);
+            tablaAdicionarProductos.getColumnModel().getColumn(1).setPreferredWidth(10);
+            tablaAdicionarProductos.getColumnModel().getColumn(2).setResizable(false);
+            tablaAdicionarProductos.getColumnModel().getColumn(2).setPreferredWidth(10);
+            tablaAdicionarProductos.getColumnModel().getColumn(3).setResizable(false);
+            tablaAdicionarProductos.getColumnModel().getColumn(3).setPreferredWidth(20);
+        }
 
         cboxEstadoFactura.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Estado", "Pagado", "Por pagar" }));
 
@@ -227,31 +251,35 @@ public class Nueva_Factura extends javax.swing.JPanel {
         pDatosFacturaLayout.setHorizontalGroup(
             pDatosFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTextField2)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDatosFacturaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pDatosFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pDatosFacturaLayout.createSequentialGroup()
+                        .addComponent(cboxVendedorFactura, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cboxEstadoFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(131, 131, 131))
+                    .addGroup(pDatosFacturaLayout.createSequentialGroup()
+                        .addComponent(cboxClienteFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cboxFormaPagoFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(pDatosFacturaLayout.createSequentialGroup()
-                .addGroup(pDatosFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(pDatosFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pDatosFacturaLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(cboxClienteFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboxFormaPagoFactura, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(pDatosFacturaLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(cboxVendedorFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboxEstadoFactura, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(pDatosFacturaLayout.createSequentialGroup()
-                        .addComponent(txtBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pDatosFacturaLayout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(jLabel4))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(pDatosFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(pDatosFacturaLayout.createSequentialGroup()
+                                .addComponent(txtBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(pBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
         pDatosFacturaLayout.setVerticalGroup(
             pDatosFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pDatosFacturaLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pDatosFacturaLayout.createSequentialGroup()
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pDatosFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -267,9 +295,9 @@ public class Nueva_Factura extends javax.swing.JPanel {
                 .addGroup(pDatosFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtBuscarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 20, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -284,9 +312,14 @@ public class Nueva_Factura extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Código", "Cantidad", "Descripción", "Precio Unit.", "Precio Total"
+                "Código", "Cantidad", "Descripción", "Precio Unit.", "Precio Total", " "
             }
         ));
+        tablaDetalleFactura.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tablaDetalleFacturaMousePressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablaDetalleFactura);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -435,33 +468,41 @@ public class Nueva_Factura extends javax.swing.JPanel {
             .addGroup(pNuevaFacturaLayout.createSequentialGroup()
                 .addGroup(pNuevaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pNuevaFacturaLayout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 669, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pCerrarFacturas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pNuevaFacturaLayout.createSequentialGroup()
                         .addGroup(pNuevaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pNuevaFacturaLayout.createSequentialGroup()
                                 .addGap(20, 20, 20)
                                 .addComponent(pGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(pCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(pDatosFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(pDatosFactura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(pNuevaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pNuevaFacturaLayout.createSequentialGroup()
+                                .addGap(261, 261, 261)
+                                .addGroup(pNuevaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pNuevaFacturaLayout.createSequentialGroup()
+                                        .addGap(8, 8, 8)
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtIva, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pNuevaFacturaLayout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(64, 64, 64))))
                             .addGroup(pNuevaFacturaLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pNuevaFacturaLayout.createSequentialGroup()
-                                .addGap(276, 276, 276)
-                                .addGroup(pNuevaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel1))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(pNuevaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtSubtotal, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                                    .addComponent(txtIva)
-                                    .addComponent(txtTotal))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(pNuevaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pNuevaFacturaLayout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(65, 65, 65))))))
+                    .addGroup(pNuevaFacturaLayout.createSequentialGroup()
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 768, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pCerrarFacturas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         pNuevaFacturaLayout.setVerticalGroup(
             pNuevaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -481,8 +522,8 @@ public class Nueva_Factura extends javax.swing.JPanel {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(pNuevaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pNuevaFacturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -508,45 +549,6 @@ public class Nueva_Factura extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tablaAdicionarProductosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAdicionarProductosMousePressed
-       
-        if(tablaAdicionarProductos.getSelectedColumn()==3 ){
-            if(tablaAdicionarProductos.getValueAt(tablaAdicionarProductos.getSelectedRow(), 1).equals("0")){
-                JOptionPane.showMessageDialog(null, "Ingresa la cantidad de productos", "Error al registrar", JOptionPane.ERROR_MESSAGE);
-            }else{
-                int fila = tablaAdicionarProductos.getSelectedRow();
-                String id = tablaAdicionarProductos.getValueAt(fila, 0).toString();
-                int cantidad = Integer.parseInt(tablaAdicionarProductos.getValueAt(fila, 1).toString());
-                String descripcion =tablaAdicionarProductos.getValueAt(fila, 0).toString();
-                double precio = Double.parseDouble(tablaAdicionarProductos.getValueAt(fila, 2).toString());
-                double total = precio*cantidad;
-                
-                
-                DefaultTableModel modelo = (DefaultTableModel)tablaDetalleFactura.getModel();
-                int seleccionar = tablaAdicionarProductos.getSelectedRow();
-                Object registros [] = new String[6];
-                registros[0] = id;
-                registros[1] = tablaAdicionarProductos.getValueAt(fila, 1).toString();
-                registros[2] = descripcion;
-                registros[3] = tablaAdicionarProductos.getValueAt(fila, 2).toString();
-                registros[4] = total+"";
-                registros[5] = "Quitar";
-                modelo.addRow(registros);
-                tablaDetalleFactura.setModel(modelo);
-                
-                double b = Double.parseDouble(subtotal())*0.5;
-                txtSubtotal.setText(subtotal());
-                txtIva.setText(iva());
-                txtTotal.setText(total());
-                
-                
-                if(tablaDetalleFactura.getRowCount()>=1){
-                    
-                }
-            }
-        }
-    }//GEN-LAST:event_tablaAdicionarProductosMousePressed
-
     private void pCerrarFacturasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pCerrarFacturasMousePressed
         this.setVisible(false);
         txtBuscarProducto.setText("Descripción");
@@ -566,16 +568,41 @@ public class Nueva_Factura extends javax.swing.JPanel {
         tablaAdicionarProductos.setModel(modelo);
         DefaultTableModel modeloD = c.detalleFactura("");
         tablaDetalleFactura.setModel(modeloD);
+        
+         DefaultTableModel miModelo;
+            Graficas miGrafica = new Graficas();
+       
+            miModelo = miGrafica.agruparProductos();
+            tablaProductoMasVendido.setModel(miModelo);
+            
+            
+            DefaultPieDataset dtsc = new DefaultPieDataset();
+            
+            for(int i = 0; i < tablaProductoMasVendido.getRowCount(); i++){
+                dtsc.setValue(tablaProductoMasVendido.getValueAt(i, 0).toString(), Integer.parseInt(tablaProductoMasVendido.getValueAt(i, 1).toString()));
+            }
+            JFreeChart ch = ChartFactory.createPieChart("Productos más vendidos", dtsc,true, true, false);
+            ChartPanel cp = new ChartPanel(ch);
+            add(cp);
+            cp.setBounds(0,245,390,300);
+            cp.setVisible(true);
+            
+            txtContadorClientes.setText(new ClienteDAO().ContadorCliente());
+            txtContadorProveedores.setText(new ProveedorDAO().ContadorProveedor());
+            txtContadorProductos.setText(new ProductoDAO().ContadorProducto());
+            txtContadorUsuarios.setText(new UsuarioDAO().ContadorUsuarios());
+
+            DefaultTableModel modelou = c.UltimosUsuariosRegistrados("SELECT Usuario, Correo, Fecha FROM RegistroDeUsuarios ORDER BY id_Usuario DESC FETCH FIRST 8 ROWS ONLY");
+            tablaUltimosRegistros.setModel(modelou);
+
+             DefaultTableModel modelo1 = c.StockProductos("select DescripcionProducto from Productos WHERE Stock<6");
+            tablaSotckInicio.setModel(modelo1);
 
     }//GEN-LAST:event_pCerrarFacturasMousePressed
 
     private void txtTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTotalActionPerformed
-
-    private void tablaAdicionarProductosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaAdicionarProductosKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tablaAdicionarProductosKeyPressed
 
     private void cboxFormaPagoFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxFormaPagoFacturaActionPerformed
         // TODO add your handling code here:
@@ -638,6 +665,9 @@ public class Nueva_Factura extends javax.swing.JPanel {
                     if(cboxEstadoFactura.getSelectedIndex()>0){
                         
                         if(tablaDetalleFactura.getRowCount()>0){
+                            
+                            
+                                 
                             int id_FormaPago = Integer.parseInt(new FacturaDAO().buscaridTipoPago(formaPago, "id_FormaPago"));
                             Factura agregarFactura = new Factura(vendedor, estadoFactura, totalFactura,cliente,id_FormaPago);
                             new FacturaDAO().AgregarFactura(agregarFactura);
@@ -673,6 +703,9 @@ public class Nueva_Factura extends javax.swing.JPanel {
                                      tablaDetalleFactura.setModel(modeloD);
                                 
            
+                  
+                  
+                           
                         }else{
                             JOptionPane.showMessageDialog(null, "Debes Agregar productos", "Error al guardar", JOptionPane.ERROR_MESSAGE);
            
@@ -713,15 +746,6 @@ public class Nueva_Factura extends javax.swing.JPanel {
         pCerrarFacturas.setBorder(new LineBorder(new Color(220,220,220),1,true));
     }//GEN-LAST:event_pCerrarFacturasMouseExited
 
-    private void txtBuscarProductoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarProductoKeyReleased
-        DefaultTableModel modelo = c.adicionarProductos("SELECT DescripcionProducto, Precio FROM Productos WHERE DescripcionProducto LIKE '%" + txtBuscarProducto.getText()+"%'"); 
-        tablaAdicionarProductos.setModel(modelo);
-    }//GEN-LAST:event_txtBuscarProductoKeyReleased
-
-    private void txtBuscarProductoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarProductoMousePressed
-        txtBuscarProducto.setText("");
-    }//GEN-LAST:event_txtBuscarProductoMousePressed
-
     private void pBuscarClienteMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pBuscarClienteMouseEntered
 
     }//GEN-LAST:event_pBuscarClienteMouseEntered
@@ -730,9 +754,76 @@ public class Nueva_Factura extends javax.swing.JPanel {
 
     }//GEN-LAST:event_pBuscarClienteMouseExited
 
+    private void tablaDetalleFacturaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaDetalleFacturaMousePressed
+         if(tablaDetalleFactura.getSelectedColumn()==5){
+            DefaultTableModel modeloQuitar = (DefaultTableModel) tablaDetalleFactura.getModel();
+            modeloQuitar.removeRow(tablaDetalleFactura.getSelectedRow());
+            
+                txtSubtotal.setText(subtotal());
+                txtIva.setText(iva());
+                txtTotal.setText(total());
+         }
+            
+    }//GEN-LAST:event_tablaDetalleFacturaMousePressed
+
+    private void tablaAdicionarProductosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablaAdicionarProductosKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablaAdicionarProductosKeyPressed
+
+    private void tablaAdicionarProductosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAdicionarProductosMousePressed
+
+        if(tablaAdicionarProductos.getSelectedColumn()==3 ){
+            System.out.println(tablaAdicionarProductos.getValueAt(tablaAdicionarProductos.getSelectedRow(), 0));
+         if(new ProductoDAO().stockNoCero(tablaAdicionarProductos.getValueAt(tablaAdicionarProductos.getSelectedRow(), 0).toString())==true){
+              if(tablaAdicionarProductos.getValueAt(tablaAdicionarProductos.getSelectedRow(), 1).equals("0")){
+                JOptionPane.showMessageDialog(null, "Ingresa la cantidad de productos", "Error al registrar", JOptionPane.ERROR_MESSAGE);
+                }else{
+                int fila = tablaAdicionarProductos.getSelectedRow();
+                String id = tablaAdicionarProductos.getValueAt(fila, 0).toString();
+                int cantidad = Integer.parseInt(tablaAdicionarProductos.getValueAt(fila, 1).toString());
+                String descripcion =tablaAdicionarProductos.getValueAt(fila, 0).toString();
+                double precio = Double.parseDouble(tablaAdicionarProductos.getValueAt(fila, 2).toString());
+                double total = precio*cantidad;
+
+                DefaultTableModel modelo = (DefaultTableModel)tablaDetalleFactura.getModel();
+                int seleccionar = tablaAdicionarProductos.getSelectedRow();
+                Object registros [] = new String[6];
+                registros[0] = id;
+                registros[1] = tablaAdicionarProductos.getValueAt(fila, 1).toString();
+                registros[2] = descripcion;
+                registros[3] = tablaAdicionarProductos.getValueAt(fila, 2).toString();
+                registros[4] = total+"";
+                registros[5] = "Quitar";
+
+                modelo.addRow(registros);
+                tablaDetalleFactura.setModel(modelo);
+
+                txtSubtotal.setText(subtotal());
+                txtIva.setText(iva());
+                txtTotal.setText(total());
+
+                
+            }
+             }else {
+                    JOptionPane.showMessageDialog(null, "Producto sin existencias", "Error ", JOptionPane.ERROR_MESSAGE);
+           
+                }
+            
+        }
+    }//GEN-LAST:event_tablaAdicionarProductosMousePressed
+
+    private void txtBuscarProductoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarProductoKeyReleased
+        DefaultTableModel modelo = c.adicionarProductos("SELECT DescripcionProducto, Precio FROM Productos WHERE DescripcionProducto LIKE '%" + txtBuscarProducto.getText()+"%'");
+        tablaAdicionarProductos.setModel(modelo);
+    }//GEN-LAST:event_txtBuscarProductoKeyReleased
+
     private void txtBuscarProductoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarProductoMouseReleased
         validarDatos.validarSoloLetras(txtBuscarProducto);
     }//GEN-LAST:event_txtBuscarProductoMouseReleased
+
+    private void txtBuscarProductoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarProductoMousePressed
+        txtBuscarProducto.setText("");
+    }//GEN-LAST:event_txtBuscarProductoMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

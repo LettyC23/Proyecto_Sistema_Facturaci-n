@@ -39,4 +39,38 @@ public class ProductoDAO {
 		Conexion conexion = new Conexion();
         	return conexion.ejecutarInstruccionModificarProducto(p, s);
 	}
+       
+        public boolean EliminarProducto (String s) {
+		Conexion conexion = new Conexion();
+		return conexion.ejecutarInstruccionEliminar(s);
+	}
+        
+        public String ContadorProducto () {
+       String sql = "SELECT count(id_Producto) as Contador FROM Productos";
+		Conexion conexion = new Conexion();
+		return conexion.contadorRegistros(sql);
+	}
+        
+        public String buscarIdProducto(String des, String columna) {
+		Conexion_BD.Conexion conexion = new Conexion_BD.Conexion();
+		String sql = "select id_Producto from Productos WHERE DescripcionProducto='"+des+"'";
+		
+		return conexion.buscarIdExistente(sql, columna);
+	}
+        
+        
+        public String buscarStockProducto() {
+		Conexion_BD.Conexion conexion = new Conexion_BD.Conexion();
+		String sql = "select DescripcionProducto from Productos WHERE Stock<=5";
+		
+		return conexion.buscarIdExistente(sql,"Stock");
+	}
+        
+       
+         public boolean stockNoCero(String id) {
+		Conexion conexion = new Conexion();
+                String sql = "select id_producto from productos where stock>0 and  DescripcionProducto='"+id+"'";
+        	return conexion.stockNoCero(sql);
+	}
+      
 }

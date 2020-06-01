@@ -13,6 +13,7 @@ import Controlador.ClienteDAO;
 import Controlador.ProductoDAO;
 import Controlador.ProveedorDAO;
 import Controlador.UsuarioDAO;
+import Gráficas.Graficas;
 import Modelo.ActualizarTablas;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -48,6 +49,17 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
+import static proyecto_sistema_facturación.Inicio.tablaProductoMasVendido;
+import static proyecto_sistema_facturación.Inicio.tablaSotckInicio;
+import static proyecto_sistema_facturación.Inicio.tablaUltimosRegistros;
+import static proyecto_sistema_facturación.Inicio.txtContadorClientes;
+import static proyecto_sistema_facturación.Inicio.txtContadorProductos;
+import static proyecto_sistema_facturación.Inicio.txtContadorProveedores;
+import static proyecto_sistema_facturación.Inicio.txtContadorUsuarios;
 
 /**
  *
@@ -63,6 +75,7 @@ public class Clientes extends javax.swing.JPanel {
     
     Conexion_BD.Conexion c = new Conexion_BD.Conexion();
     ValidarDatos validarDatos = new ValidarDatos();
+    
     
     
     public void clientes(){
@@ -263,6 +276,11 @@ public class Clientes extends javax.swing.JPanel {
                 txtBuscarClienteMousePressed(evt);
             }
         });
+        txtBuscarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarClienteActionPerformed(evt);
+            }
+        });
         txtBuscarCliente.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBuscarClienteKeyReleased(evt);
@@ -417,9 +435,9 @@ public class Clientes extends javax.swing.JPanel {
             pClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pClientesLayout.createSequentialGroup()
                 .addComponent(jTextField1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pcerrarClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7))
+                .addGap(45, 45, 45))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pClientesLayout.createSequentialGroup()
                 .addGroup(pClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -435,7 +453,7 @@ public class Clientes extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pClientesLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(63, 63, 63))
         );
         pClientesLayout.setVerticalGroup(
             pClientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -449,9 +467,9 @@ public class Clientes extends javax.swing.JPanel {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -540,6 +558,8 @@ public class Clientes extends javax.swing.JPanel {
                 if(mather.find()==true){
                     Cliente agregarCliente = new Cliente(nombreCliente, direccion,telefono,correo);
                     new ClienteDAO().AgregarCliente(agregarCliente);
+                    DefaultTableModel modelo = c.clientes("SELECT * FROM Clientes"); 
+                    tablaClientes.setModel(modelo); 
                    
                     txtNombreCliente.setText("");
                     txtDireccion.setText("");
@@ -626,6 +646,36 @@ public class Clientes extends javax.swing.JPanel {
         txtContadorProveedores.setText(new ProveedorDAO().ContadorProveedor());
         txtContadorProductos.setText(new ProductoDAO().ContadorProducto());
         txtContadorUsuarios.setText(new UsuarioDAO().ContadorUsuarios());
+        
+        
+            DefaultTableModel miModelo;
+            Graficas miGrafica = new Graficas();
+       
+            miModelo = miGrafica.agruparProductos();
+            tablaProductoMasVendido.setModel(miModelo);
+            
+            
+            DefaultPieDataset dtsc = new DefaultPieDataset();
+            
+            for(int i = 0; i < tablaProductoMasVendido.getRowCount(); i++){
+                dtsc.setValue(tablaProductoMasVendido.getValueAt(i, 0).toString(), Integer.parseInt(tablaProductoMasVendido.getValueAt(i, 1).toString()));
+            }
+            JFreeChart ch = ChartFactory.createPieChart("Productos más vendidos", dtsc,true, true, false);
+            ChartPanel cp = new ChartPanel(ch);
+            add(cp);
+            cp.setBounds(0,245,390,300);
+            cp.setVisible(true);
+            
+            txtContadorClientes.setText(new ClienteDAO().ContadorCliente());
+            txtContadorProveedores.setText(new ProveedorDAO().ContadorProveedor());
+            txtContadorProductos.setText(new ProductoDAO().ContadorProducto());
+            txtContadorUsuarios.setText(new UsuarioDAO().ContadorUsuarios());
+
+            DefaultTableModel modelo = c.UltimosUsuariosRegistrados("SELECT Usuario, Correo, Fecha FROM RegistroDeUsuarios ORDER BY id_Usuario DESC FETCH FIRST 8 ROWS ONLY");
+            tablaUltimosRegistros.setModel(modelo);
+
+             DefaultTableModel modelo1 = c.StockProductos("select DescripcionProducto from Productos WHERE Stock<6");
+            tablaSotckInicio.setModel(modelo1);
     }//GEN-LAST:event_pcerrarClientesMousePressed
 
     private void jPanel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MousePressed
@@ -653,6 +703,10 @@ public class Clientes extends javax.swing.JPanel {
             Logger.getLogger(Administrar_Facturas.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jPanel4MousePressed
+
+    private void txtBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBuscarClienteActionPerformed
 
     public void eliminar(){
       

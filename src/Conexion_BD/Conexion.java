@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Conexion_BD;
 
 import Modelo.Cliente;
@@ -72,7 +68,7 @@ public class Conexion {
 		}
         }
         
-        
+        //================================ DefaultTableModel ========================================================
         public DefaultTableModel Productos(String sql){
             
         Object []  nombresColumnas = {"ID","Descripcion","Precio","Existencias","Editar","Eliminar"};
@@ -103,6 +99,63 @@ public class Conexion {
          return modelo;
     }
         
+        
+           
+        public DefaultTableModel StockProductos(String sql){
+            
+        Object []  nombresColumnas = {"Producto"};
+        Object [] registros = {""};
+        
+        DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);
+        
+        try {        
+            pstm = conexion.prepareStatement(sql);                         
+            rs = pstm.executeQuery();
+            
+            while(rs.next())
+            {
+                
+                registros[0] = rs.getString("DescripcionProducto");
+                 
+                modelo.addRow(registros);        
+            }   
+        }
+        catch(SQLException e){
+            JOptionPane.showMessageDialog(null,"Error al conectar");    
+        }
+        finally{   
+        }
+         return modelo;
+    }
+      
+        
+        public DefaultTableModel vistaMultitabla(String sql){
+            
+        Object []  nombresColumnas = { "Proveedor", "Producto"};
+        Object [] registros = {"",""};
+        
+        DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);
+        
+        try {        
+            pstm = conexion.prepareStatement(sql);                         
+            rs = pstm.executeQuery();
+            
+            while(rs.next())
+            {
+                
+                registros[0] = rs.getString("NombreProveedor");
+                registros[1] = rs.getString("DescripcionProducto"); 
+                modelo.addRow(registros);        
+            }   
+        }
+        catch(SQLException e){
+            JOptionPane.showMessageDialog(null,"Error al conectar");    
+        }
+        finally{   
+        }
+         return modelo;
+    }
+      
         
         
         public DefaultTableModel clientes(String sql){
@@ -175,6 +228,36 @@ public class Conexion {
     }
     
    
+     public DefaultTableModel UltimosUsuariosRegistrados(String sql){
+            
+        Object []  nombresColumnas = {"Usuario","Correo","Fecha"};
+        Object [] registros = {"","",""};
+        
+        DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);
+        
+        try {        
+            pstm = conexion.prepareStatement(sql);                         
+            rs = pstm.executeQuery();
+            
+            while(rs.next())
+            {
+                
+                registros[0] = rs.getString("Usuario");
+                registros[1] = rs.getString("Correo");
+                registros[2] = rs.getString("Fecha");
+                 
+                modelo.addRow(registros);        
+            }   
+        }
+        catch(SQLException e){
+            JOptionPane.showMessageDialog(null,"Error al conectar");    
+        }
+        finally{   
+        }
+         return modelo;
+    }
+     
+     
      
     public DefaultTableModel proveedores(String sql){
             JButton btnEditar = new JButton();
@@ -227,7 +310,7 @@ public class Conexion {
             while(rs.next())
             {
                 registros[0] = rs.getString("DescripcionProducto");
-                registros[1] ="0";
+                registros[1] ="1";
                 registros[2] = rs.getString("Precio");
                 registros[3] = " Agregar";
                 modelo.addRow(registros);        
@@ -243,8 +326,8 @@ public class Conexion {
     
     public DefaultTableModel detalleFactura(String sql){
             
-        Object []  nombresColumnas = {"id_Producto","Cantidad","Descripcion","Precio Unit.", "Precio Total"};
-        Object [] registros = {"","","","",""};
+        Object []  nombresColumnas = {"id_Producto","Cantidad","Descripcion","Precio Unit.", "Precio Total", " "};
+        Object [] registros = {"","","","","","",""};
         
         DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);
         
@@ -254,11 +337,12 @@ public class Conexion {
             
             while(rs.next())
             {
-                registros[0] = rs.getString("x");
-                registros[1] = rs.getString("x");
-                registros[2] = rs.getString("x");
-                registros[3] = rs.getString("x");
-                registros[4] = rs.getString("x");
+                registros[0] = rs.getString("id_Producto");
+                registros[1] = rs.getString("Cantidad");
+                registros[2] = rs.getString("Descripcion");
+                registros[3] = rs.getString("PrecioUnitario");
+                registros[4] = rs.getString("PrecioTotal");
+                registros[5] = rs.getString("Eliminar");
                 modelo.addRow(registros);        
                
          }   
@@ -271,9 +355,42 @@ public class Conexion {
     }
     
     
+    
+    public DefaultTableModel editarDetalle(String sql){
+            
+        Object []  nombresColumnas = {"id_Producto","Cantidad","Descripcion","Precio Unit.", "Precio Total"," "};
+        Object [] registros = {"","","","","","",""};
+        DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);
+        
+        try { 
+            pstm = conexion.prepareStatement(sql);                         
+            rs = pstm.executeQuery();
+            while(rs.next())
+            {
+                registros[0] = rs.getString("fk_idProducto");
+                registros[1] = rs.getString("Cantidad");
+                registros[2] = rs.getString("Descripcion");
+                registros[3] = rs.getString("PrecioUnitario");
+                registros[4] = rs.getString("PrecioTotal");
+                registros[5] = "Quitar";
+                
+                modelo.addRow(registros);             
+            }   
+        } catch(SQLException e){    
+            JOptionPane.showMessageDialog(null,"Error al conectar");    
+        }
+        finally{
+            
+        }
+         return modelo;
+    }
+    
+    
+    
+    
     public DefaultTableModel administrarFacturas(String sql){
             
-        Object []  nombresColumnas = {"No","Vendedor","Estado de Factura","Total","Cliente","Fecha","Editar","Imprimir","Eliminar"};
+        Object []  nombresColumnas = {"No","Vendedor","Estado de Factura","Total","Cliente","Fecha","Editar","Eliminar"};
         Object [] registros = {"","","","","","","","",""};
         DefaultTableModel modelo = new DefaultTableModel(null,nombresColumnas);
         
@@ -289,8 +406,7 @@ public class Conexion {
                 registros[4] = rs.getString("NombreCliente");
                 registros[5] = rs.getString("Fecha");
                 registros[6] = "Editar";
-                registros[7] = "Imprimir";
-                registros[8] ="Eliminar"; 
+                registros[7] ="Eliminar"; 
                 
                 modelo.addRow(registros);             
             }   
@@ -303,6 +419,13 @@ public class Conexion {
          return modelo;
     }
     
+    
+    
+    
+    
+    
+    //========================================= Validar Usuario y contraseña ======================================
+    
     public boolean ejecutarInstruccionLogin(String sql) {
 		try{
                 stm = conexion.prepareStatement(sql);
@@ -310,7 +433,29 @@ public class Conexion {
                 if( rs.next() ) { 
                     return true;      
 		}else {
-                    JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecto");
+                    //JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecto");
+            return false;        
+		}       
+    } catch (Exception e){
+        e.printStackTrace();
+        return false;
+    }	
+	}
+   
+    
+    
+    
+    
+    
+    //========================   Stock ===========================================
+     public boolean stockNoCero(String sql) {
+		try{
+                stm = conexion.prepareStatement(sql);
+		rs = stm.executeQuery(sql);
+                if( rs.next() ) { 
+                    return true;      
+		}else {
+                    
             return false;        
 		}       
     } catch (Exception e){
@@ -319,6 +464,12 @@ public class Conexion {
     }	
 	}
     
+    
+     
+     
+     //=============================================Buscar IDs ==================================
+     
+     
      public String buscarIdExistenteProveedor(String sql) {
 		try{
                 stm = conexion.prepareStatement(sql);
@@ -364,22 +515,12 @@ public class Conexion {
     }	
 	}
       
-      
-    public String contadorRegistros(String sql) {
-		try{
-                stm = conexion.prepareStatement(sql);
-		rs = stm.executeQuery(sql);
-                if( rs.next() ) { 
-                    return rs.getString("Contador");      
-		}else {
-            return "";        
-		}       
-    } catch (Exception e){
-        e.printStackTrace();
-        return "";
-    }	
-	}
     
+     
+     
+     
+     
+     
       public String buscarContraseña(String sql) {
 		try{
                 stm = conexion.prepareStatement(sql);
@@ -395,7 +536,47 @@ public class Conexion {
         return "";
     }	
 	}
-        
+      
+      
+       public boolean procedminetoAlmacenado(String sql) {
+		try {
+			 
+			PreparedStatement pstm = conexion.prepareStatement(sql);
+                    
+			int ejecucion;
+                        
+			ejecucion = pstm.executeUpdate();
+			return ejecucion==1?true:false;
+  	
+		} catch (SQLException e1) {
+                System.out.println("No se pudo ejecutar la instruccion SQL"+ e1);
+		return false;
+		}
+	}
+       
+       
+     
+       //============================================ Contador inicio ===================================
+    public String contadorRegistros(String sql) {
+		try{
+                stm = conexion.prepareStatement(sql);
+		rs = stm.executeQuery(sql);
+                if( rs.next() ) { 
+                    return rs.getString("Contador");      
+		}else {
+            return "";        
+		}       
+    } catch (Exception e){
+        e.printStackTrace();
+        return "";
+    }	
+	}
+    
+       
+       
+    
+    
+    //===============================================ALTAS ===========================================
     public boolean ejecutarInstruccionAgregarUsuario(NuevoUsuario u) {
 		try {
 			String sql =  "INSERT INTO RegistroDeUsuarios (Nombre,Usuario,Correo,Contrasenia,Fecha)VALUES(?,?,?,?,SYSDATE)";
@@ -414,7 +595,8 @@ public class Conexion {
 			return ejecucion==1?true:false;
   	
 		} catch (SQLException e1) {
-                System.out.println("No se pudo ejecutar la instruccion SQL"+ e1);
+                       JOptionPane.showMessageDialog(null, "Ya existe un usuario registrado con ese nombre o usuario", "Error al registrar", JOptionPane.ERROR_MESSAGE);
+           
 		return false;
 		}
 	}
@@ -438,7 +620,7 @@ public class Conexion {
 			return ejecucion==1?true:false;
 	
 		} catch (SQLException e1) {
-               System.out.println("No se pudo ejecutar la instruccion SQL"+ e1);
+ 
 		return false;
 		}
 	}
@@ -547,6 +729,10 @@ public class Conexion {
 	}
         
         
+        
+        
+        
+        //========================================= Llenar ComboBox =====================================
     public void llenarComboBox(JComboBox cBoxProveedor, String columna, String item, String consulta){
         
         try {
@@ -595,39 +781,15 @@ public class Conexion {
         }        
     }
         
-       
-	/*public boolean ejecutarInstruccionFactura(Factura f) {
-		try {
-			
-	
-			String sql =  "INSERT INTO Factura (Fecha,id_Pago,Id_Cliente)VALUES(?,?,?)";
-			PreparedStatement pstm = conexion.prepareStatement(sql);
-			
-                        pstm.setString(1, f.getFecha());
-			pstm.setInt(2, f.getId_Pago());
-			pstm.setInt(3, f.getId_Cliente());
-			
-	
-			String sql1= "SELECT * FROM Clientes WHERE Nombres = ?; ";
-			PreparedStatement pstm1 = conexion.prepareStatement(sql1);
-			pstm1.setString(1, f.getFecha());
-                        
-                      int ejecucion;
-                        
-			ejecucion = pstm.executeUpdate();
-			return ejecucion==1?true:false;
-                        
-			
-		} catch (SQLException e1) {
-                    JOptionPane.showConfirmDialog(null, "Recuerda que los id_Pago & id_Cliente"
-                            + "deben pertenecer a los establecidos en la tabla Clientes y modo_Pago", "Error al registrar", JOptionPane.ERROR_MESSAGE);
-		System.out.println("No se pudo ejecutar la instruccion SQL"+ e1);
-		return false;
-		}
-	}*/
-	
-     
 
+    
+    
+    
+    
+    
+    
+    
+        // ============================== BAJAS =======================================================
          public boolean ejecutarInstruccionEliminar ( String sql3) {
 		try {
 			PreparedStatement pstm1 = conexion.prepareStatement(sql3);
@@ -643,42 +805,10 @@ public class Conexion {
 	}
 	}
                 
-                public boolean ejecutarInstruccionModificaciones (Clientes e, String s) {
-		try {
-			
-			
-			String sql2="UPDATE Clientes SET Nombre=?, PrimerAp=?, SegundoAp=?, Dirección=?, FechaNac=?, Teléfono=?, "
-                                + "Email=? WHERE Nombre=? LIMIT 1"; 
-                               
-			PreparedStatement pstm = conexion.prepareStatement(sql2);
-			
-		/*	String a = e.getNombre();
-			String b = e.getPrimerAp();
-			String c = e.getSegundoAp();
-			String d = e.getDireccion();
-			String f = e.getFechaNac();
-			String g = e.getTelefono();
-			String h = e.getEmail();
-			
-			pstm.setString(1, a);
-			pstm.setString(2, b);
-			pstm.setString(3, c);
-			pstm.setString(4, d);
-			pstm.setString(5, f);
-			pstm.setString(6, g);
-			pstm.setString(7, h);
-			pstm.setString(8, s);
-                  */      
-			
-		int ejecucion;
-		ejecucion = pstm.executeUpdate();
-		return ejecucion==1?true:false;
-	} catch (SQLException e1) {
-	System.out.println("No se pudo ejecutar la instruccion SQL" + e1);
-	return false;
-	}
-	}
-                
+          
+         
+         
+         // ======================================= MODIFICAR ==============================================
     public boolean ejecutarInstruccionModificarCliente(Cliente e, String s) {
 	try {	
         	String sql2="UPDATE Clientes SET NombreCliente=?, Direccion=?, Telefono=?, Correo=? WHERE id_Cliente='"+s+"'"; 
@@ -783,22 +913,7 @@ public class Conexion {
 	return false;
 	}
 	}
-	//otro metodo para SQL (CONSULTAS)
-	
-	public ResultSet ejecutarConsultaRegistros(String sql) {
-		try {
-			stm = conexion.prepareStatement(sql);
-			stm.executeQuery(sql);
-			System.out.println("si");
-		} catch (SQLException e) {
-			System.out.println("No se pudo ejecutar la instruccion SQL");
-			e.printStackTrace();
-		}
-		return rs;
-	}
-	
-	
-        
-        
+
+     
       
 }

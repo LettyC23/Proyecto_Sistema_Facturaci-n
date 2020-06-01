@@ -275,7 +275,7 @@ public class IniciarSesion extends javax.swing.JFrame {
     }//GEN-LAST:event_pIniciarSesionMouseEntered
 
     private void pSalirMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pSalirMousePressed
-        System.exit(0);
+        this.setVisible(false);
     }//GEN-LAST:event_pSalirMousePressed
 
     private void pIniciarSesionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pIniciarSesionMouseExited
@@ -307,6 +307,7 @@ public class IniciarSesion extends javax.swing.JFrame {
          //System.exit(0);  
          
             sistm.setVisible(true);
+            this.setVisible(false);
             
         }else{
             JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecto");

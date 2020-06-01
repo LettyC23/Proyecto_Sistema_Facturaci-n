@@ -21,7 +21,7 @@ public class ValidarDatos {
 			campo.addKeyListener(new KeyAdapter() {
 				public void keyTyped(KeyEvent e) {
 					char c = e.getKeyChar();
-					if(!(Character.isLetter(c))) {
+					if(!(Character.isLetter(c)) && !Character.isWhitespace(c)) {
 						e.consume();
 					}
 				}

@@ -13,6 +13,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+import static proyecto_sistema_facturación.Inicio.tablaUltimosRegistros;
+import static proyecto_sistema_facturación.Usuarios.tablaAdministrarUsuarios;
 
 /**
  *
@@ -20,6 +23,7 @@ import javax.swing.border.LineBorder;
  */
 public class AgregarUsuario extends javax.swing.JFrame {
 
+    Conexion_BD.Conexion c = new Conexion_BD.Conexion();
     String nombre;
     String usuario;
     String correo;
@@ -382,7 +386,11 @@ public class AgregarUsuario extends javax.swing.JFrame {
                          NuevoUsuario agregarU = new NuevoUsuario(nombre, usuario, correo, contraseña, fecha);
                          new UsuarioDAO().AgregarUsuario(agregarU);
                          JOptionPane.showMessageDialog(null, "Registro exitoso", "Error al registrar", JOptionPane.WIDTH);
-                         
+                         DefaultTableModel modelo = c.UltimosUsuariosRegistrados("SELECT Usuario, Correo, Fecha FROM RegistroDeUsuarios ORDER BY id_Usuario DESC FETCH FIRST 8 ROWS ONLY");
+                         tablaUltimosRegistros.setModel(modelo);
+                         this.setVisible(false);
+                         DefaultTableModel modeloU = c.usuarios("SELECT id_Usuario, Nombre, Usuario, Correo, Fecha FROM RegistroDeUsuarios");
+                         tablaAdministrarUsuarios.setModel(modeloU); 
                          txtNombreNuevoUsuario.setText("");
                          txtNombreUsuario.setText("");
                          txtContraseña.setText("");

@@ -5,6 +5,7 @@ import Conexion_BD.Conexion;
 import Modelo.Cliente;
 import Modelo.NuevoUsuario;
 import Modelo.Usuario;
+import javax.swing.table.DefaultTableModel;
 
 
 public class UsuarioDAO {
@@ -38,5 +39,16 @@ public class UsuarioDAO {
         public boolean ActualizarUsuario (NuevoUsuario nu, String s) {
 		Conexion conexion = new Conexion();
 		return conexion.ejecutarInstruccionModificarUsuario(nu, s);
+	}
+        
+        public String ContadorUsuarios () {
+       String sql = "SELECT count(id_Usuario) as Contador FROM RegistroDeUsuarios";
+		Conexion conexion = new Conexion();
+		return conexion.contadorRegistros(sql);
+	}
+        
+        public DefaultTableModel UltimosUsuarios (String sql) {
+		Conexion conexion = new Conexion();
+		return conexion.UltimosUsuariosRegistrados(sql);
 	}
 }

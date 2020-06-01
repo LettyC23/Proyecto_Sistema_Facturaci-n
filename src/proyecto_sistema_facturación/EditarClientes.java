@@ -236,7 +236,7 @@ public class EditarClientes extends javax.swing.JFrame {
         telefono = txtEditarTelefonoCliente.getText();
         correo = txtEditarCorreoCliente.getText();
         
-        
+        if(!nombre.isEmpty() && !direccion.isEmpty() && !telefono.isEmpty() && !correo.isEmpty()){
         if(telefono.length()==10){
             
              Pattern pattern = Pattern
@@ -261,7 +261,10 @@ public class EditarClientes extends javax.swing.JFrame {
         }
         
         
-        
+        }else{
+            JOptionPane.showMessageDialog(null, "Debes llenar todos los campos", "Error al editar", JOptionPane.ERROR_MESSAGE);
+           
+        }
         
     }//GEN-LAST:event_pGuardarCambiosMousePressed
 

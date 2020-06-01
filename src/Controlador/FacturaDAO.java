@@ -33,5 +33,43 @@ public class FacturaDAO {
 		return conexion.buscarIdExistente(sql, columna);
 	}
      
+     public boolean EliminarFactura (String s) {
+		Conexion conexion = new Conexion();
+		return conexion.ejecutarInstruccionEliminar(s);
+	}
      
+     
+     public boolean llamarProcedimiento(int f){
+                Conexion_BD.Conexion conexion = new Conexion_BD.Conexion();
+                String sql = "call EstadoFactura ( "+f+" , 'Pagado')";
+		
+		return conexion.procedminetoAlmacenado(sql);
+     }
+     
+     public String buscaridFacturaProcedimiento(String nombre, String columna) {
+		Conexion_BD.Conexion conexion = new Conexion_BD.Conexion();
+		String sql = "SELECT id_Factura FROM Facturas WHERE Id_Factura='"+nombre+"'";
+		
+		return conexion.buscarIdExistente(sql, columna);
+	}
+     
+     
+      public boolean eliminar(String id) {
+		Conexion_BD.Conexion conexion = new Conexion_BD.Conexion();
+		String sql = "DELETE FROM Detalle_Factura WHERE FK_IdFactura='"+id+"'";
+		
+		return conexion.ejecutarInstruccionEliminar(sql);
+	} 
+      
+      public String ContadorPagado () {
+       String sql = "select count(*) as Contador from Facturas WHERE EstadoFactura = 'Pagado'";
+		Conexion conexion = new Conexion();
+		return conexion.contadorRegistros(sql);
+	}
+      public String ContadorPorPagar () {
+       String sql = "select count(*) as Contador from Facturas WHERE EstadoFactura = 'Por pagar'";
+		Conexion conexion = new Conexion();
+		return conexion.contadorRegistros(sql);
+	}
+      
 }

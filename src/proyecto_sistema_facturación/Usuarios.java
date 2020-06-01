@@ -5,17 +5,44 @@
  */
 package proyecto_sistema_facturación;
 
+import Conexion_BD.Conexion;
 import Controlador.ClienteDAO;
+import Controlador.ProductoDAO;
+import Controlador.ProveedorDAO;
 import Controlador.UsuarioDAO;
+import Gráficas.Graficas;
 import Modelo.ActualizarTablas;
 import Modelo.Cliente;
 import Modelo.NuevoUsuario;
 import Modelo.Usuario;
 import Modelo.ValidarDatos;
 import java.awt.Color;
+import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
+import static proyecto_sistema_facturación.Inicio.tablaProductoMasVendido;
+import static proyecto_sistema_facturación.Inicio.tablaSotckInicio;
+import static proyecto_sistema_facturación.Inicio.tablaUltimosRegistros;
+import static proyecto_sistema_facturación.Inicio.txtContadorClientes;
+import static proyecto_sistema_facturación.Inicio.txtContadorProductos;
+import static proyecto_sistema_facturación.Inicio.txtContadorProveedores;
+import static proyecto_sistema_facturación.Inicio.txtContadorUsuarios;
 import static proyecto_sistema_facturación.Productos.tablaProductos;
 
 /**
@@ -48,6 +75,7 @@ public class Usuarios extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel5 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         pUsuarios = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -62,8 +90,21 @@ public class Usuarios extends javax.swing.JPanel {
         jBuscarCliente = new javax.swing.JLabel();
         pCerrarUsuarios = new javax.swing.JPanel();
         jCerrarUsuarios = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
 
         jLabel5.setText("jLabel5");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -171,12 +212,12 @@ public class Usuarios extends javax.swing.JPanel {
                 .addComponent(txtNombreUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(71, 71, 71)
                 .addComponent(pNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -219,6 +260,9 @@ public class Usuarios extends javax.swing.JPanel {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 pCerrarUsuariosMouseExited(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pCerrarUsuariosMousePressed(evt);
+            }
         });
 
         jCerrarUsuarios.setText("x");
@@ -239,6 +283,34 @@ public class Usuarios extends javax.swing.JPanel {
                 .addGap(0, 11, Short.MAX_VALUE))
         );
 
+        jPanel4.setBackground(new java.awt.Color(51, 102, 255));
+        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel4MousePressed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Generar Reporte");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout pUsuariosLayout = new javax.swing.GroupLayout(pUsuarios);
         pUsuarios.setLayout(pUsuariosLayout);
         pUsuariosLayout.setHorizontalGroup(
@@ -248,7 +320,13 @@ public class Usuarios extends javax.swing.JPanel {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pUsuariosLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(pCerrarUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pUsuariosLayout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(75, 75, 75))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pUsuariosLayout.createSequentialGroup()
+                        .addComponent(pCerrarUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57))))
         );
         pUsuariosLayout.setVerticalGroup(
             pUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,18 +334,25 @@ public class Usuarios extends javax.swing.JPanel {
                 .addComponent(pCerrarUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(156, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -306,7 +391,7 @@ public class Usuarios extends javax.swing.JPanel {
 
     private void txtNombreUsuariosKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreUsuariosKeyReleased
         validarDatos.validarSoloLetras(txtNombreUsuarios);
-        DefaultTableModel modelo = c.usuarios("SELECT * FROM RegistroDeUsuarios WHERE Nombre LIKE '%" + txtNombreUsuarios.getText()+"%'");
+        DefaultTableModel modelo = c.usuarios("SELECT * FROM RegistroDeUsuarios WHERE Nombre LIKE ' %" + txtNombreUsuarios.getText()+"%'");
         tablaAdministrarUsuarios.setModel(modelo); 
     }//GEN-LAST:event_txtNombreUsuariosKeyReleased
 
@@ -351,16 +436,83 @@ public class Usuarios extends javax.swing.JPanel {
 
     }//GEN-LAST:event_pBuscarClienteMouseExited
 
+    private void pCerrarUsuariosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pCerrarUsuariosMousePressed
+        this.setVisible(false);
+        txtContadorClientes.setText(new ClienteDAO().ContadorCliente());
+        txtContadorProveedores.setText(new ProveedorDAO().ContadorProveedor());
+        txtContadorProductos.setText(new ProductoDAO().ContadorProducto());
+        txtContadorUsuarios.setText(new UsuarioDAO().ContadorUsuarios());
+
+         DefaultTableModel miModelo;
+            Graficas miGrafica = new Graficas();
+       
+            miModelo = miGrafica.agruparProductos();
+            tablaProductoMasVendido.setModel(miModelo);
+            
+            
+            DefaultPieDataset dtsc = new DefaultPieDataset();
+            
+            for(int i = 0; i < tablaProductoMasVendido.getRowCount(); i++){
+                dtsc.setValue(tablaProductoMasVendido.getValueAt(i, 0).toString(), Integer.parseInt(tablaProductoMasVendido.getValueAt(i, 1).toString()));
+            }
+            JFreeChart ch = ChartFactory.createPieChart("Productos más vendidos", dtsc,true, true, false);
+            ChartPanel cp = new ChartPanel(ch);
+            add(cp);
+            cp.setBounds(0,245,390,300);
+            cp.setVisible(true);
+            
+            txtContadorClientes.setText(new ClienteDAO().ContadorCliente());
+            txtContadorProveedores.setText(new ProveedorDAO().ContadorProveedor());
+            txtContadorProductos.setText(new ProductoDAO().ContadorProducto());
+            txtContadorUsuarios.setText(new UsuarioDAO().ContadorUsuarios());
+
+            DefaultTableModel modelo = c.UltimosUsuariosRegistrados("SELECT Usuario, Correo, Fecha FROM RegistroDeUsuarios ORDER BY id_Usuario DESC FETCH FIRST 8 ROWS ONLY");
+            tablaUltimosRegistros.setModel(modelo);
+
+             DefaultTableModel modelo1 = c.StockProductos("select DescripcionProducto from Productos WHERE Stock<6");
+            tablaSotckInicio.setModel(modelo1);
+    }//GEN-LAST:event_pCerrarUsuariosMousePressed
+
+    private void jPanel4MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MousePressed
+        try {
+            Conexion con = new Conexion();
+            Connection conn = con.conexion;
+            
+            JasperReport reporte = null;
+            String path = "src\\Reporte\\ReporteUsuarios.jasper";
+            
+            Map parametro = new HashMap();
+            //parametro.put("id_cliente", 1);
+            
+            reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+            
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, conn);
+            
+            JasperViewer view = new JasperViewer(jprint,false);
+            
+            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            
+            view.setVisible(true);
+            
+        } catch (JRException ex) {
+            Logger.getLogger(Administrar_Facturas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jPanel4MousePressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jBuscarCliente;
     private javax.swing.JLabel jCerrarUsuarios;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jNuevoUsuario;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pBuscarCliente;
     private javax.swing.JPanel pCerrarUsuarios;

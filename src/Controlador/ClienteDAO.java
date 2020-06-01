@@ -24,8 +24,15 @@ public class ClienteDAO {
 		return conexion.ejecutarInstruccionModificarCliente(e, s);
 	}
    
-   public boolean EliminarCliente (Cliente e, String s) {
+   public boolean EliminarCliente (String s) {
 		Conexion conexion = new Conexion();
-		return conexion.ejecutarInstruccionEliminar(e, s);
+		return conexion.ejecutarInstruccionEliminar(s);
+	}
+   
+   
+   public String ContadorCliente () {
+       String sql = "SELECT count(id_Cliente) as Contador FROM clientes";
+		Conexion conexion = new Conexion();
+		return conexion.contadorRegistros(sql);
 	}
 }

@@ -11,6 +11,7 @@ import Controlador.FacturaDAO;
 import Controlador.ProductoDAO;
 import Controlador.ProveedorDAO;
 import Controlador.UsuarioDAO;
+import Gráficas.Graficas;
 import Modelo.ActualizarTablas;
 import Modelo.ValidarDatos;
 import java.awt.Color;
@@ -31,14 +32,23 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
 import static proyecto_sistema_facturación.Clientes.tablaClientes;
 import static proyecto_sistema_facturación.EditarFactura.cboxEditarClienteFactura;
 import static proyecto_sistema_facturación.EditarFactura.tablaDetalleFacturaEditar;
 import static proyecto_sistema_facturación.EditarFactura.txtIdFactura;
+import static proyecto_sistema_facturación.Inicio.tablaProductoMasVendido;
+import static proyecto_sistema_facturación.Inicio.tablaSotckInicio;
+import static proyecto_sistema_facturación.Inicio.tablaUltimosRegistros;
 import static proyecto_sistema_facturación.Inicio.txtContadorClientes;
 import static proyecto_sistema_facturación.Inicio.txtContadorProductos;
 import static proyecto_sistema_facturación.Inicio.txtContadorProveedores;
 import static proyecto_sistema_facturación.Inicio.txtContadorUsuarios;
+import static proyecto_sistema_facturación.Inicio.txtFPagadas;
+import static proyecto_sistema_facturación.Inicio.txtFSinPagar;
 import static proyecto_sistema_facturación.Usuarios.tablaAdministrarUsuarios;
 
 /**
@@ -206,21 +216,22 @@ public class Administrar_Facturas extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jTextField2)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(50, 50, 50)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtAdministrarFacturas, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                        .addComponent(txtAdministrarFacturas, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 759, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,14 +285,13 @@ public class Administrar_Facturas extends javax.swing.JPanel {
         pAdminFacturas.setLayout(pAdminFacturasLayout);
         pAdminFacturasLayout.setHorizontalGroup(
             pAdminFacturasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pAdminFacturasLayout.createSequentialGroup()
+                .addComponent(jTextField1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pCerrarAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(pAdminFacturasLayout.createSequentialGroup()
-                .addGroup(pAdminFacturasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(pAdminFacturasLayout.createSequentialGroup()
-                        .addComponent(jTextField1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(pCerrarAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
         pAdminFacturasLayout.setVerticalGroup(
             pAdminFacturasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -297,7 +307,9 @@ public class Administrar_Facturas extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pAdminFacturas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pAdminFacturas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -323,6 +335,43 @@ public class Administrar_Facturas extends javax.swing.JPanel {
         txtContadorProveedores.setText(new ProveedorDAO().ContadorProveedor());
         txtContadorProductos.setText(new ProductoDAO().ContadorProducto());
         txtContadorUsuarios.setText(new UsuarioDAO().ContadorUsuarios());
+        
+         DefaultTableModel miModelo;
+            Graficas miGrafica = new Graficas();
+       
+            miModelo = miGrafica.agruparProductos();
+            tablaProductoMasVendido.setModel(miModelo);
+            
+            
+            DefaultPieDataset dtsc = new DefaultPieDataset();
+            
+            for(int i = 0; i < tablaProductoMasVendido.getRowCount(); i++){
+                dtsc.setValue(tablaProductoMasVendido.getValueAt(i, 0).toString(), Integer.parseInt(tablaProductoMasVendido.getValueAt(i, 1).toString()));
+            }
+            JFreeChart ch = ChartFactory.createPieChart("Productos más vendidos", dtsc,true, true, false);
+            ChartPanel cp = new ChartPanel(ch);
+            add(cp);
+            cp.setBounds(0,245,390,300);
+            cp.setVisible(true);
+            
+            txtContadorClientes.setText(new ClienteDAO().ContadorCliente());
+            txtContadorProveedores.setText(new ProveedorDAO().ContadorProveedor());
+            txtContadorProductos.setText(new ProductoDAO().ContadorProducto());
+            txtContadorUsuarios.setText(new UsuarioDAO().ContadorUsuarios());
+
+            DefaultTableModel modelo = c.UltimosUsuariosRegistrados("SELECT Usuario, Correo, Fecha FROM RegistroDeUsuarios ORDER BY id_Usuario DESC FETCH FIRST 8 ROWS ONLY");
+            tablaUltimosRegistros.setModel(modelo);
+
+             DefaultTableModel modelo1 = c.StockProductos("select DescripcionProducto from Productos WHERE Stock<6");
+            tablaSotckInicio.setModel(modelo1);
+       
+            int pagado = Integer.parseInt(new FacturaDAO().ContadorPagado());
+            int porPagar = Integer.parseInt(new FacturaDAO().ContadorPorPagar());
+            int facturas = pagado+porPagar;
+            int porcePagado = (pagado*100/facturas);
+            int porcePorPagar = (porPagar*100/facturas);
+            txtFPagadas.setText(porcePagado+"%");
+            txtFSinPagar.setText(porcePorPagar+"%");
     }//GEN-LAST:event_pCerrarAdminMousePressed
 
     private void txtAdministrarFacturasKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAdministrarFacturasKeyReleased
@@ -347,7 +396,7 @@ public class Administrar_Facturas extends javax.swing.JPanel {
             
         }
         
-        if(tablaAdministrarFacturas.getSelectedColumn()==8){
+        if(tablaAdministrarFacturas.getSelectedColumn()==7){
               String botones [] ={"Si","No"};
         int eleccion=JOptionPane.showOptionDialog(this, "¿Estas seguro de eliminar el registro "+tablaAdministrarFacturas.getValueAt(tablaAdministrarFacturas.getSelectedRow(), 0).toString()+" ?", "Eliminar Factura", 0, 0, null, botones, this);
         
@@ -389,13 +438,14 @@ public class Administrar_Facturas extends javax.swing.JPanel {
     }//GEN-LAST:event_jPanel4MousePressed
 
     private void jPanel2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MousePressed
-        
+      
         String cont = JOptionPane.showInputDialog(null, "Ingresa No. de Factura");
-        
             if(new FacturaDAO().buscaridFacturaProcedimiento(cont, "id_Factura").equals(cont)){
+                
+              new FacturaDAO().llamarProcedimiento(Integer.parseInt(cont));
               DefaultTableModel modelo = c.administrarFacturas("SELECT * FROM Facturas"); 
-            tablaAdministrarFacturas.setModel(modelo);
-            JOptionPane.showMessageDialog(null, "Pago exitoso", "Pagar factura", JOptionPane.WIDTH);  
+              tablaAdministrarFacturas.setModel(modelo);
+              JOptionPane.showMessageDialog(null, "Pago exitoso", "Pagar factura", JOptionPane.WIDTH);  
             }else{
               JOptionPane.showMessageDialog(null, "Número de factura no válido", "Error", JOptionPane.ERROR_MESSAGE);
   
